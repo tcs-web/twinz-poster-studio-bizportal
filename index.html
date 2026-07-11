@@ -3,36 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - Templates</title>
+<title>Twins Poster Studio AI PRO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.4/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Arial', sans-serif; background: #0a0a0a; color: white; }
-  header { background: linear-gradient(90deg, #ff4d00, #a855f7, #ff4d00); padding: 12px; text-align: center; }
-  header h1 { font-size: 18px; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top: 0; z-index: 10; }
-  button, input { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 13px; }
-  button:hover { background: #e63e00; }
-.ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
-.canvas-wrap { display: flex; justify-content: center; padding: 10px; }
-  canvas { background: white; box-shadow: 0 0 30px rgba(168,85,247,0.4); max-width: 100%; }
+  body { font-family: Arial; background: #0a0a0a; color: white; }
+  header { background: linear-gradient(90deg, #ff4d00, #a855f7); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; background: #111; justify-content: center; }
+  button { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; }
+ .ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
 .templates-section { background: #1a1a1a; padding: 15px; }
-.templates-title { text-align: center; font-size: 16px; margin-bottom: 10px; color: #ff4d00; }
-.templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 400px; overflow-y: auto; }
-.template-btn { background: #2a2a2a; border: 2px solid #ff4d00; font-size: 12px; padding: 12px; text-align: left; }
+.templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #ff4d00; font-weight: bold; }
+.templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.template-btn { background: #2a2a2a; border: 2px solid #ff4d00; padding: 12px; text-align: center; border-radius: 8px; color: white; font-weight: bold; }
 .template-btn:hover { background: #ff4d00; }
-.template-btn span { display: block; font-size: 10px; color: #aaa; }
+.template-btn small { display: block; font-size: 10px; color: #aaa; font-weight: normal; }
+.canvas-wrap { display: flex; justify-content: center; padding: 15px; }
+  canvas { background: white; max-width: 100%; border: 3px solid #ff4d00; }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
 .modal-content { background: #222; padding: 20px; border-radius: 10px; text-align: center; }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>🔥 Twins Poster Studio AI PRO - AI Backgrounds + QR Codes</h1>
-</header>
+<header>🔥 Twins Poster Studio AI PRO - AI Backgrounds + QR Codes</header>
 
 <div class="toolbar">
   <button onclick="addText()">Text</button>
@@ -47,18 +43,19 @@
 
 <div class="templates-section">
   <div class="templates-title">📋 CHOOSE A TEMPLATE DESIGN</div>
-  <div class="templates" id="templateGrid"></div>
+  <div class="templates" id="templateGrid">
+    <!-- TEMPLATES WILL LOAD HERE AUTOMATICALLY -->
+  </div>
 </div>
 
 <div class="canvas-wrap">
   <canvas id="canvas" width="1080" height="1350"></canvas>
 </div>
 
-<!-- QR CODE MODAL -->
 <div class="modal" id="qrModal">
   <div class="modal-content">
     <h3>Enter QR Code Link</h3>
-    <input type="text" id="qrInput" placeholder="https://yourlink.com" style="width:300px; padding:10px; margin:10px;">
+    <input type="text" id="qrInput" placeholder="https://yourlink.com" style="width:90%; padding:10px; margin:10px;">
     <br>
     <button onclick="generateQR()">Generate QR</button>
     <button onclick="closeQR()">Cancel</button>
@@ -69,60 +66,49 @@
 <script>
 const canvas = new fabric.Canvas('canvas');
 canvas.backgroundColor = '#ffffff';
-let brandColor = '#ff4d00';
 
-// 20 PRO TEMPLATE DESIGNS YOU CAN CHOOSE
+// HARDCODED 20 TEMPLATES - NO JS ERROR
 const templates = [
-  {cat:'Business', name:'Corporate Pro', bg:'#0a0a0a', texts:[['YOUR BUSINESS NAME',90,'#ff4d00',200],['Professional Services You Can Trust',45,'#fff',350],['Call: 012 345 6789',40,'#fff',1100]]},
-  {cat:'Business', name:'Real Estate', bg:'#1e3a8a', texts:[['FOR SALE',100,'#fff',180],['Beautiful 3 Bedroom House',50,'#fbbf24',320],['Contact Agent Today',40,'#fff',500]]},
-  {cat:'Sale', name:'Mega Sale 70%', bg:'#ff0000', texts:[['MEGA SALE!',120,'#ffff00',150],['UP TO 70% OFF',70,'#fff',300],['This Weekend Only',45,'#fff',450]]},
-  {cat:'Sale', name:'Black Friday', bg:'#000', texts:[['BLACK FRIDAY',100,'#ff4d00',180],['BIGGEST DEALS OF THE YEAR',55,'#fff',320],['Don\'t Miss Out!',45,'#fff',450]]},
-  {cat:'Church', name:'Sunday Service', bg:'#1e3a8a', texts:[['SUNDAY SERVICE',70,'#fff',200],['Join Us At 10:00 AM',45,'#fbbf24',340],['All Are Welcome',40,'#fff',480]]},
-  {cat:'Church', name:'Easter Special', bg:'#7c3aed', texts:[['HE IS RISEN',90,'#fff',200],['Easter Sunday Service',50,'#fbbf24',340],['Celebrate With Us',40,'#fff',480]]},
-  {cat:'Event', name:'Grand Opening', bg:'#ff9500', texts:[['GRAND OPENING',80,'#fff',200],['You Are Invited',50,'#000',340],['Free Gifts For First 100',40,'#fff',480]]},
-  {cat:'Event', name:'Live Concert', bg:'#7c3aed', texts:[['LIVE CONCERT',90,'#fff',180],['Featuring Top Artists',45,'#fbbf24',320],['Get Tickets Now',40,'#fff',460]]},
-  {cat:'Restaurant', name:'Food Special', bg:'#dc2626', texts:[['TODAY\'S SPECIAL',80,'#fff',200],['Burger + Chips + Drink',50,'#fbbf24',340],['Only R99.99',60,'#fff',480]]},
-  {cat:'Restaurant', name:'Menu Board', bg:'#111827', texts:[['OUR MENU',90,'#ff4d00',180],['Pizza | Pasta | Burgers',45,'#fff',320],['Order Now',40,'#fff',460]]},
-  {cat:'School', name:'School Enrollment', bg:'#059669', texts:[['2026 ENROLLMENT',80,'#fff',200],['Now Open',60,'#fbbf24',340],['Visit Us Today',40,'#fff',480]]},
-  {cat:'Clinic', name:'Health Check', bg:'#2563eb', texts:[['FREE HEALTH CHECK',70,'#fff',200],['Blood Pressure + Sugar Test',45,'#fbbf24',340],['This Saturday',40,'#fff',480]]},
-  {cat:'Wedding', name:'Wedding Invite', bg:'#fbbf24', texts:[['YOU ARE INVITED',70,'#000',200],['John & Sarah Wedding',50,'#7c3aed',340],['12 Dec 2026',40,'#000',480]]},
-  {cat:'Birthday', name:'Birthday Party', bg:'#ec4899', texts:[['BIRTHDAY PARTY',80,'#fff',200],['You\'re Invited!',50,'#fbbf24',340],['Let\'s Celebrate',40,'#fff',480]]},
-  {cat:'Job', name:'We Are Hiring', bg:'#0a0a0a', texts:[['WE ARE HIRING',90,'#ff4d00',200],['Sales Assistant Needed',45,'#fff',340],['Apply Today',40,'#fff',480]]},
-  {cat:'Gym', name:'Fitness Promo', bg:'#111827', texts:[['JOIN THE GYM',90,'#ff4d00',200],['First Month Free',50,'#fff',340],['Get Fit Now',40,'#fff',480]]},
-  {cat:'Car Wash', name:'Car Wash', bg:'#2563eb', texts:[['CAR WASH SPECIAL',80,'#fff',200],['Full Wash + Vacuum',50,'#fbbf24',340],['Only R80',60,'#fff',480]]},
-  {cat:'Hair Salon', name:'Hair Special', bg:'#ec4899', texts:[['HAIR SPECIAL',90,'#fff',200],['Cut + Wash + Style',50,'#fbbf24',340],['Book Now',40,'#fff',480]]},
-  {cat:'Tuckshop', name:'Spaza Special', bg:'#ff9500', texts:[['SPAZA SPECIALS',80,'#000',200],['Bread R15 | Milk R25',45,'#000',340],['Open 24 Hours',40,'#000',480]]},
-  {cat:'Funeral', name:'Memorial', bg:'#111827', texts:[['IN LOVING MEMORY',70,'#fff',200],['Celebration of Life',50,'#fbbf24',340],['All Welcome',40,'#fff',480]]},
+  {name:'Corporate Pro', cat:'Business', bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',45,'#fff',350], t3:['Call: 012 345 6789',40,'#fff',1100]},
+  {name:'Real Estate', cat:'Business', bg:'#1e3a8a', t1:['FOR SALE',100,'#fff',180], t2:['3 Bedroom House',50,'#fbbf24',320], t3:['Contact Agent',40,'#fff',500]},
+  {name:'Mega Sale 70%', cat:'Sale', bg:'#ff0000', t1:['MEGA SALE!',120,'#ffff00',150], t2:['UP TO 70% OFF',70,'#fff',300], t3:['This Weekend',45,'#fff',450]},
+  {name:'Black Friday', cat:'Sale', bg:'#000', t1:['BLACK FRIDAY',100,'#ff4d00',180], t2:['BIGGEST DEALS',55,'#fff',320], t3:['Don\'t Miss!',45,'#fff',450]},
+  {name:'Sunday Service', cat:'Church', bg:'#1e3a8a', t1:['SUNDAY SERVICE',70,'#fff',200], t2:['10:00 AM',45,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
+  {name:'Easter Special', cat:'Church', bg:'#7c3aed', t1:['HE IS RISEN',90,'#fff',200], t2:['Easter Service',50,'#fbbf24',340], t3:['Join Us',40,'#fff',480]},
+  {name:'Grand Opening', cat:'Event', bg:'#ff9500', t1:['GRAND OPENING',80,'#fff',200], t2:['You Are Invited',50,'#000',340], t3:['Free Gifts',40,'#fff',480]},
+  {name:'Live Concert', cat:'Event', bg:'#7c3aed', t1:['LIVE CONCERT',90,'#fff',180], t2:['Top Artists',45,'#fbbf24',320], t3:['Get Tickets',40,'#fff',460]},
+  {name:'Food Special', cat:'Restaurant', bg:'#dc2626', t1:['TODAY SPECIAL',80,'#fff',200], t2:['Burger + Chips',50,'#fbbf24',340], t3:['Only R99',60,'#fff',480]},
+  {name:'Menu Board', cat:'Restaurant', bg:'#111827', t1:['OUR MENU',90,'#ff4d00',180], t2:['Pizza | Pasta',45,'#fff',320], t3:['Order Now',40,'#fff',460]},
+  {name:'School Enrollment', cat:'School', bg:'#059669', t1:['2026 ENROLLMENT',80,'#fff',200], t2:['Now Open',60,'#fbbf24',340], t3:['Visit Us',40,'#fff',480]},
+  {name:'Health Check', cat:'Clinic', bg:'#2563eb', t1:['FREE HEALTH CHECK',70,'#fff',200], t2:['BP + Sugar Test',45,'#fbbf24',340], t3:['This Saturday',40,'#fff',480]},
+  {name:'Wedding Invite', cat:'Wedding', bg:'#fbbf24', t1:['YOU ARE INVITED',70,'#000',200], t2:['John & Sarah',50,'#7c3aed',340], t3:['12 Dec 2026',40,'#000',480]},
+  {name:'Birthday Party', cat:'Birthday', bg:'#ec4899', t1:['BIRTHDAY PARTY',80,'#fff',200], t2:['You\'re Invited!',50,'#fbbf24',340], t3:['Let\'s Celebrate',40,'#fff',480]},
+  {name:'We Are Hiring', cat:'Job', bg:'#0a0a0a', t1:['WE ARE HIRING',90,'#ff4d00',200], t2:['Sales Assistant',45,'#fff',340], t3:['Apply Today',40,'#fff',480]},
+  {name:'Fitness Promo', cat:'Gym', bg:'#111827', t1:['JOIN THE GYM',90,'#ff4d00',200], t2:['First Month Free',50,'#fff',340], t3:['Get Fit',40,'#fff',480]},
+  {name:'Car Wash', cat:'Car Wash', bg:'#2563eb', t1:['CAR WASH',80,'#fff',200], t2:['Full Wash',50,'#fbbf24',340], t3:['Only R80',60,'#fff',480]},
+  {name:'Hair Special', cat:'Salon', bg:'#ec4899', t1:['HAIR SPECIAL',90,'#fff',200], t2:['Cut + Wash',50,'#fbbf24',340], t3:['Book Now',40,'#fff',480]},
+  {name:'Spaza Special', cat:'Shop', bg:'#ff9500', t1:['SPAZA SPECIALS',80,'#000',200], t2:['Bread R15',45,'#000',340], t3:['Open 24hrs',40,'#000',480]},
+  {name:'Memorial', cat:'Funeral', bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
 ];
 
-// RENDER ALL 20 TEMPLATE BUTTONS
-const grid = document.getElementById('templateGrid');
-templates.forEach((t,i)=>{
-  const btn = document.createElement('button');
-  btn.className = 'template-btn';
-  btn.innerHTML = `<b>${t.name}</b><span>${t.cat} Poster</span>`;
-  btn.onclick = () => loadTemplate(i);
-  grid.appendChild(btn);
-});
-
-// CORE FUNCTIONS
-function addText() {
-  const text = new fabric.Textbox('Your Text Here', {
-    left: 100, top: 100, width: 880, fontSize: 60, 
-    fill: brandColor, fontFamily: 'Arial Black', textAlign: 'center'
+// FORCE LOAD TEMPLATES ON START
+window.onload = function() {
+  const grid = document.getElementById('templateGrid');
+  templates.forEach((t,i)=>{
+    grid.innerHTML += `<button class="template-btn" onclick="loadTemplate(${i})">${t.name}<small>${t.cat}</small></button>`;
   });
-  canvas.add(text).setActiveObject(text);
 }
 
-function addImage() { uploadFileToCanvas(false); }
-function uploadLogo() { uploadFileToCanvas(true); }
+function addText() {
+  canvas.add(new fabric.Textbox('Your Text Here', {left: 100, top: 100, width: 880, fontSize: 60, fill: '#ff4d00', fontFamily: 'Arial Black', textAlign: 'center'}));
+}
+function addImage() { uploadFile(false); }
+function uploadLogo() { uploadFile(true); }
 
-function uploadFileToCanvas(isLogo) {
+function uploadFile(isLogo) {
   const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
+  input.type = 'file'; input.accept = 'image/*';
   input.onchange = e => {
-    const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
       fabric.Image.fromURL(reader.result, img => {
@@ -131,73 +117,52 @@ function uploadFileToCanvas(isLogo) {
         canvas.add(img);
       });
     }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(e.target.files[0]);
   }
   input.click();
 }
 
 function aiBackground() {
-  const gradients = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000','#7c3aed'];
-  const bg = gradients[Math.floor(Math.random() * gradients.length)];
-  canvas.setBackgroundColor(bg, canvas.renderAll.bind(canvas));
+  const colors = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000'];
+  canvas.setBackgroundColor(colors[Math.floor(Math.random()*5)], canvas.renderAll.bind(canvas));
 }
 
-function addQR() {
-  document.getElementById('qrModal').style.display = 'flex';
-}
+function addQR() { document.getElementById('qrModal').style.display = 'flex'; }
 function generateQR() {
   const url = document.getElementById('qrInput').value;
-  if(!url) return alert('Please enter a link');
+  if(!url) return alert('Enter link');
   document.getElementById('qrcode').innerHTML = '';
-  new QRCode(document.getElementById('qrcode'), { text: url, width: 200, height: 200 });
+  new QRCode(document.getElementById('qrcode'), {text: url, width: 200, height: 200});
   setTimeout(() => {
-    const qrImg = document.getElementById('qrcode').querySelector('img');
-    fabric.Image.fromURL(qrImg.src, img => {
-      img.scaleToWidth(250);
-      canvas.add(img).centerObject(img);
-      closeQR();
+    fabric.Image.fromURL(document.getElementById('qrcode').querySelector('img').src, img => {
+      img.scaleToWidth(250); canvas.add(img).centerObject(img); closeQR();
     });
   }, 500);
 }
-function closeQR() {
-  document.getElementById('qrModal').style.display = 'none';
-  document.getElementById('qrInput').value = '';
-}
+function closeQR() { document.getElementById('qrModal').style.display = 'none'; }
 
 function exportPNG() {
-  const dataURL = canvas.toDataURL({ format: 'png', multiplier: 3 });
   const link = document.createElement('a');
   link.download = 'poster-HD.png';
-  link.href = dataURL;
+  link.href = canvas.toDataURL({format: 'png', multiplier: 3});
   link.click();
 }
-
 function exportPDF() {
-  const { jsPDF } = window.jspdf;
-  const imgData = canvas.toDataURL('image/png', 1.0);
-  const pdf = new jsPDF('p', 'mm', 'a4');
-  pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-  pdf.save('poster-print.pdf');
+  const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+  pdf.save('poster.pdf');
 }
+function clearCanvas() { canvas.clear(); canvas.backgroundColor = '#ffffff'; }
 
-function clearCanvas() {
-  canvas.clear();
-  canvas.backgroundColor = '#ffffff';
-}
-
-function loadTemplate(index) {
-  const t = templates[index];
+function loadTemplate(i) {
+  const t = templates[i];
   clearCanvas();
   canvas.backgroundColor = t.bg;
-  t.texts.forEach(([text,size,color,top])=>{
-    const txt = new fabric.Textbox(text, {
-      left: 540, top: top, width: 1000, fontSize: size, 
-      fill: color, fontFamily: 'Arial Black', textAlign: 'center', originX: 'center'
-    });
-    canvas.add(txt);
-  });
+  canvas.add(new fabric.Textbox(t.t1[0], {left:540, top:t.t1[3], width:1000, fontSize:t.t1[1], fill:t.t1[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
+  canvas.add(new fabric.Textbox(t.t2[0], {left:540, top:t.t2[3], width:1000, fontSize:t.t2[1], fill:t.t2[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
+  canvas.add(new fabric.Textbox(t.t3[0], {left:540, top:t.t3[3], width:1000, fontSize:t.t3[1], fill:t.t3[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
   canvas.renderAll();
-  window.scrollTo(0, document.body.scrollHeight); // Auto scroll to canvas
+  window.scrollTo(0, document.body.scrollHeight);
 }
 </script>
 
