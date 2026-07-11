@@ -3,71 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - FIXED</title>
+<title>Twins Poster Studio AI PRO - GOD TIER</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.4/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-  body { font-family: Arial; background: #0a0a0a; color: white; margin:0; }
-  header { background: linear-gradient(90deg, #ff4d00, #a855f7); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; background: #111; justify-content: center; position: sticky; top:0; }
-  button { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; }
-.ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
+  body { font-family: 'Arial'; background: #0a0a0a; color: white; margin:0; }
+  header { background: linear-gradient(90deg, #ff4d00, #a855f7, #00d4ff); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top:0; z-index:50; }
+  button { padding: 9px 12px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 12px; }
+  button:hover { background: #e63e00; }
+.ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
+.pro-btn { background: #00d4ff; color: #000; }
+.side-panel { display: flex; }
+.layers { width: 120px; background: #1a1a1a; padding: 8px; max-height: 400px; overflow-y: auto; font-size: 11px; }
+.layer-item { background: #2a2a2a; padding: 6px; margin: 4px 0; border-radius: 4px; cursor: pointer; }
+.layer-item.active { background: #ff4d00; }
 .templates-section { background: #1a1a1a; padding: 15px; }
-.templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #ff4d00; font-weight: bold; }
-.templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.template-btn { background: #2a2a2a; border: 2px solid #ff4d00; padding: 12px; text-align: center; border-radius: 8px; color: white; font-weight: bold; width: 100%; }
-.template-btn:active { background: #ff4d00; }
-.template-btn small { display: block; font-size: 10px; color: #aaa; font-weight: normal; }
-.canvas-wrap { display: flex; justify-content: center; padding: 15px; }
-  canvas { background: white; max-width: 100%; border: 3px solid #ff4d00; }
+.templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #00d4ff; font-weight: bold; }
+.templates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.template-btn { background: #2a2a2a; border: 2px solid #00d4ff; padding: 10px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 11px; }
+.canvas-wrap { display: flex; justify-content: center; padding: 15px; flex: 1; }
+  canvas { background: white; max-width: 100%; border: 3px solid #00d4ff; box-shadow: 0 0 20px #00d4ff44; }
+.brand-colors { display: flex; gap: 5px; justify-content: center; padding: 8px; background: #111; }
+.color { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
 .modal-content { background: #222; padding: 20px; border-radius: 10px; text-align: center; }
 </style>
 </head>
 <body>
 
-<header>🔥 Twins Poster Studio AI PRO - TEMPLATES FIXED</header>
+<header>🔥 TWINS POSTER STUDIO AI PRO - GOD TIER EDITION</header>
 
 <div class="toolbar">
-  <button onclick="addText()">Text</button>
-  <button onclick="addImage()">Image</button>
+  <button onclick="undo()">↩️ Undo</button>
+  <button onclick="redo()">↪️ Redo</button>
+  <button onclick="addText()">T Text</button>
+  <button onclick="addImage()">🖼️ Image</button>
   <button onclick="uploadLogo()">Logo</button>
-  <button onclick="addQR()">QR Code</button>
-  <button class="ai-btn" onclick="aiBackground()">AI Background</button>
+  <button onclick="addQR()">QR</button>
+  <button class="ai-btn" onclick="aiBackground()">AI BG</button>
+  <button class="pro-btn" onclick="addShadow()">Shadow</button>
   <button onclick="exportPNG()">HD PNG</button>
   <button onclick="exportPDF()">Print PDF</button>
   <button onclick="clearCanvas()">Clear</button>
 </div>
 
-<div class="templates-section">
-  <div class="templates-title">📋 CHOOSE A TEMPLATE DESIGN - TAP ANY</div>
-  <div class="templates">
-    <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro<small>Business</small></button>
-    <button class="template-btn" onclick="loadTemplate(1)">Real Estate<small>Business</small></button>
-    <button class="template-btn" onclick="loadTemplate(2)">Mega Sale 70%<small>Sale</small></button>
-    <button class="template-btn" onclick="loadTemplate(3)">Black Friday<small>Sale</small></button>
-    <button class="template-btn" onclick="loadTemplate(4)">Sunday Service<small>Church</small></button>
-    <button class="template-btn" onclick="loadTemplate(5)">Easter Special<small>Church</small></button>
-    <button class="template-btn" onclick="loadTemplate(6)">Grand Opening<small>Event</small></button>
-    <button class="template-btn" onclick="loadTemplate(7)">Live Concert<small>Event</small></button>
-    <button class="template-btn" onclick="loadTemplate(8)">Food Special<small>Restaurant</small></button>
-    <button class="template-btn" onclick="loadTemplate(9)">Menu Board<small>Restaurant</small></button>
-    <button class="template-btn" onclick="loadTemplate(10)">School Enrollment<small>School</small></button>
-    <button class="template-btn" onclick="loadTemplate(11)">Health Check<small>Clinic</small></button>
-    <button class="template-btn" onclick="loadTemplate(12)">Wedding Invite<small>Wedding</small></button>
-    <button class="template-btn" onclick="loadTemplate(13)">Birthday Party<small>Birthday</small></button>
-    <button class="template-btn" onclick="loadTemplate(14)">We Are Hiring<small>Job</small></button>
-    <button class="template-btn" onclick="loadTemplate(15)">Fitness Promo<small>Gym</small></button>
-    <button class="template-btn" onclick="loadTemplate(16)">Car Wash<small>Car Wash</small></button>
-    <button class="template-btn" onclick="loadTemplate(17)">Hair Special<small>Salon</small></button>
-    <button class="template-btn" onclick="loadTemplate(18)">Spaza Special<small>Shop</small></button>
-    <button class="template-btn" onclick="loadTemplate(19)">Memorial<small>Funeral</small></button>
+<div class="brand-colors">
+  <div class="color" style="background:#ff4d00" onclick="setBrand('#ff4d00')"></div>
+  <div class="color" style="background:#00d4ff" onclick="setBrand('#00d4ff')"></div>
+  <div class="color" style="background:#a855f7" onclick="setBrand('#a855f7')"></div>
+  <div class="color" style="background:#ffff00" onclick="setBrand('#ffff00')"></div>
+  <div class="color" style="background:#000" onclick="setBrand('#000')"></div>
+  <div class="color" style="background:#fff" onclick="setBrand('#fff')"></div>
+</div>
+
+<div class="side-panel">
+  <div class="layers" id="layers">
+    <b style="color:#00d4ff">LAYERS</b>
+  </div>
+  <div class="canvas-wrap">
+    <canvas id="canvas" width="1080" height="1350"></canvas>
   </div>
 </div>
 
-<div class="canvas-wrap">
-  <canvas id="canvas" width="1080" height="1350"></canvas>
+<div class="templates-section">
+  <div class="templates-title">📋 20 GOD TIER TEMPLATES - TAP TO LOAD</div>
+  <div class="templates">
+    <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro</button>
+    <button class="template-btn" onclick="loadTemplate(1)">Real Estate</button>
+    <button class="template-btn" onclick="loadTemplate(2)">Mega Sale 70%</button>
+    <button class="template-btn" onclick="loadTemplate(3)">Black Friday</button>
+    <button class="template-btn" onclick="loadTemplate(4)">Sunday Service</button>
+    <button class="template-btn" onclick="loadTemplate(5)">Easter Special</button>
+    <button class="template-btn" onclick="loadTemplate(6)">Grand Opening</button>
+    <button class="template-btn" onclick="loadTemplate(7)">Live Concert</button>
+    <button class="template-btn" onclick="loadTemplate(8)">Food Special</button>
+    <button class="template-btn" onclick="loadTemplate(9)">Menu Board</button>
+    <button class="template-btn" onclick="loadTemplate(10)">School Enroll</button>
+    <button class="template-btn" onclick="loadTemplate(11)">Health Check</button>
+    <button class="template-btn" onclick="loadTemplate(12)">Wedding Invite</button>
+    <button class="template-btn" onclick="loadTemplate(13)">Birthday Party</button>
+    <button class="template-btn" onclick="loadTemplate(14)">We Are Hiring</button>
+    <button class="template-btn" onclick="loadTemplate(15)">Fitness Promo</button>
+    <button class="template-btn" onclick="loadTemplate(16)">Car Wash</button>
+    <button class="template-btn" onclick="loadTemplate(17)">Hair Special</button>
+    <button class="template-btn" onclick="loadTemplate(18)">Spaza Special</button>
+    <button class="template-btn" onclick="loadTemplate(19)">Memorial</button>
+  </div>
 </div>
 
 <div class="modal" id="qrModal">
@@ -82,8 +105,11 @@
 </div>
 
 <script>
-const canvas = new fabric.Canvas('canvas');
+const canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
 canvas.backgroundColor = '#ffffff';
+let brandColor = '#ff4d00';
+let history = [];
+let historyStep = -1;
 
 const templates = [
   {bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',45,'#fff',350], t3:['Call: 012 345 6789',40,'#fff',1100]},
@@ -108,7 +134,40 @@ const templates = [
   {bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration of Life',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
 ];
 
-function addText() { canvas.add(new fabric.Textbox('Your Text Here', {left: 100, top: 100, width: 880, fontSize: 60, fill: '#ff4d00', fontFamily: 'Arial Black', textAlign: 'center'})); }
+// GOD TIER FEATURES
+function saveState() {
+  history = history.slice(0, historyStep + 1);
+  history.push(JSON.stringify(canvas));
+  historyStep++;
+  updateLayers();
+}
+function undo() { if(historyStep > 0) { historyStep--; canvas.loadFromJSON(history[historyStep], canvas.renderAll.bind(canvas)); updateLayers(); } }
+function redo() { if(historyStep < history.length - 1) { historyStep++; canvas.loadFromJSON(history[historyStep], canvas.renderAll.bind(canvas)); updateLayers(); } }
+function setBrand(color) { brandColor = color; }
+
+function updateLayers() {
+  const layersDiv = document.getElementById('layers');
+  layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS</b>';
+  canvas.getObjects().forEach((obj, i) => {
+    const div = document.createElement('div');
+    div.className = 'layer-item';
+    div.innerText = obj.type + ' + (i+1);
+    div.onclick = () => canvas.setActiveObject(obj);
+    layersDiv.appendChild(div);
+  });
+}
+
+function addText() {
+  const text = new fabric.Textbox('Edit Me', {left: 100, top: 100, width: 880, fontSize: 60, fill: brandColor, fontFamily: 'Arial Black', textAlign: 'center'});
+  canvas.add(text).setActiveObject(text);
+  saveState();
+}
+
+function addShadow() {
+  const obj = canvas.getActiveObject();
+  if(obj) { obj.set('shadow', 'rgba(0,0,0,0.5) 10px 10px 15px'); canvas.requestRenderAll(); saveState(); }
+}
+
 function addImage() { uploadFile(false); }
 function uploadLogo() { uploadFile(true); }
 
@@ -121,7 +180,7 @@ function uploadFile(isLogo) {
       fabric.Image.fromURL(reader.result, img => {
         if(isLogo){ img.scaleToWidth(200); img.set({left: 50, top: 50}); } 
         else { img.scaleToWidth(500); canvas.centerObject(img); }
-        canvas.add(img);
+        canvas.add(img); saveState();
       });
     }
     reader.readAsDataURL(e.target.files[0]);
@@ -130,8 +189,10 @@ function uploadFile(isLogo) {
 }
 
 function aiBackground() {
-  const colors = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000'];
-  canvas.setBackgroundColor(colors[Math.floor(Math.random()*5)], canvas.requestRenderAll.bind(canvas));
+  const gradients = ['linear-gradient(45deg,#ff4d00,#a855f7)', 'linear-gradient(45deg,#00d4ff,#1e3a8a)', 'linear-gradient(45deg,#ff0000,#ffff00)'];
+  const bg = gradients[Math.floor(Math.random()*3)];
+  canvas.setBackgroundColor(bg, canvas.requestRenderAll.bind(canvas));
+  saveState();
 }
 
 function addQR() { document.getElementById('qrModal').style.display = 'flex'; }
@@ -142,7 +203,7 @@ function generateQR() {
   new QRCode(document.getElementById('qrcode'), {text: url, width: 200, height: 200});
   setTimeout(() => {
     fabric.Image.fromURL(document.getElementById('qrcode').querySelector('img').src, img => {
-      img.scaleToWidth(250); canvas.add(img).centerObject(img); closeQR();
+      img.scaleToWidth(250); canvas.add(img).centerObject(img); saveState(); closeQR();
     });
   }, 500);
 }
@@ -150,18 +211,18 @@ function closeQR() { document.getElementById('qrModal').style.display = 'none'; 
 
 function exportPNG() {
   const link = document.createElement('a');
-  link.download = 'poster-HD.png';
-  link.href = canvas.toDataURL({format: 'png', multiplier: 3});
+  link.download = 'GOD-TIER-poster.png';
+  link.href = canvas.toDataURL({format: 'png', multiplier: 4}); // 4K EXPORT
   link.click();
 }
 function exportPDF() {
   const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
   pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
-  pdf.save('poster.pdf');
+  pdf.save('GOD-TIER-poster.pdf');
 }
-function clearCanvas() { canvas.clear(); canvas.backgroundColor = '#ffffff'; }
+function clearCanvas() { canvas.clear(); canvas.backgroundColor = '#ffffff'; saveState(); }
 
-// FIXED FUNCTION - THIS IS THE KEY
+// FIXED TEMPLATE LOADER
 function loadTemplate(i) {
   const t = templates[i];
   canvas.clear();
@@ -169,10 +230,15 @@ function loadTemplate(i) {
     canvas.add(new fabric.Textbox(t.t1[0], {left:540, top:t.t1[3], width:1000, fontSize:t.t1[1], fill:t.t1[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
     canvas.add(new fabric.Textbox(t.t2[0], {left:540, top:t.t2[3], width:1000, fontSize:t.t2[1], fill:t.t2[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
     canvas.add(new fabric.Textbox(t.t3[0], {left:540, top:t.t3[3], width:1000, fontSize:t.t3[1], fill:t.t3[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
-    canvas.requestRenderAll(); // FORCE DRAW
+    canvas.requestRenderAll();
+    saveState();
     document.querySelector('.canvas-wrap').scrollIntoView({behavior: 'smooth'});
   });
 }
+
+canvas.on('object:modified', saveState);
+canvas.on('object:added', saveState);
+saveState(); // initial state
 </script>
 
 </body>
