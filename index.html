@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - PREMIUM</title>
+<title>Twins Poster Studio AI PRO - TAIL EDITION</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
@@ -12,6 +12,7 @@
 .toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top:0; z-index:50; }
   button { padding: 10px 12px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 11px; }
 .ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
+.shape-btn { background: #7c3aed; }
 .danger-btn { background: #ff0000; }
 .brand-colors { display: flex; gap: 8px; justify-content: center; padding: 10px; background: #111; }
 .color { width: 35px; height: 35px; border-radius: 50%; border: 3px solid white; cursor: pointer; }
@@ -35,21 +36,21 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 </head>
 <body>
 
-<header>🔥 TWINS POSTER STUDIO AI PRO - PREMIUM THEMES</header>
+<header>🔥 TWINS POSTER STUDIO AI PRO - TAIL EDITION</header>
 
 <div class="toolbar">
   <button onclick="undo()">↩️ Undo</button>
   <button onclick="redo()">↪️ Redo</button>
   <button onclick="addText()">T Text</button>
   <button onclick="uploadImage()">🖼️ Image</button>
-  <button onclick="uploadLogo()">Logo</button>
+  <button class="shape-btn" onclick="addShape('curve')">~ Curve</button>
+  <button class="shape-btn" onclick="addShape('circle')">○ Circle</button>
+  <button class="shape-btn" onclick="addShape('tail')">▶ Tail</button>
+  <button class="shape-btn" onclick="addShape('ribbon')">🏷️ Ribbon</button>
   <button onclick="duplicateLayer()">📋 Dup</button>
   <button onclick="bringForward()">⬆️ Front</button>
   <button onclick="sendBack()">⬇️ Back</button>
-  <button onclick="addQR()">QR</button>
-  <button class="ai-btn" onclick="aiBackground()">AI BG</button>
   <button onclick="exportPNG()">HD PNG</button>
-  <button onclick="exportPDF()">Print PDF</button>
   <button class="danger-btn" onclick="clearCanvas()">Clear</button>
 </div>
 
@@ -64,7 +65,7 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 
 <div class="side-panel">
   <div class="layers" id="layers">
-    <b style="color:#00d4ff">LAYERS - TAP TO EDIT</b>
+    <b style="color:#00d4ff">LAYERS - TAP TO DRAG</b>
   </div>
   <div class="canvas-wrap">
     <canvas id="canvas" width="1080" height="1350"></canvas>
@@ -72,41 +73,13 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 </div>
 
 <div class="templates-section">
-  <div class="templates-title">📋 30 PREMIUM THEMES - FLAT + CORPORATE + MARKETING</div>
+  <div class="templates-title">📋 30 PREMIUM THEMES</div>
   <div class="templates-wrapper">
     <div class="templates">
       <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro</button>
-      <button class="template-btn" onclick="loadTemplate(1)">Real Estate</button>
-      <button class="template-btn" onclick="loadTemplate(2)">Mega Sale 70%</button>
-      <button class="template-btn" onclick="loadTemplate(3)">Black Friday</button>
-      <button class="template-btn" onclick="loadTemplate(4)">Sunday Service</button>
-      <button class="template-btn" onclick="loadTemplate(5)">Easter Special</button>
-      <button class="template-btn" onclick="loadTemplate(6)">Grand Opening</button>
-      <button class="template-btn" onclick="loadTemplate(7)">Live Concert</button>
-      <button class="template-btn" onclick="loadTemplate(8)">Food Special</button>
-      <button class="template-btn" onclick="loadTemplate(9)">Menu Board</button>
-      <button class="template-btn" onclick="loadTemplate(10)">School Enroll</button>
-      <button class="template-btn" onclick="loadTemplate(11)">Health Check</button>
-      <button class="template-btn" onclick="loadTemplate(12)">Wedding Invite</button>
-      <button class="template-btn" onclick="loadTemplate(13)">Birthday Party</button>
-      <button class="template-btn" onclick="loadTemplate(14)">We Are Hiring</button>
-      <button class="template-btn" onclick="loadTemplate(15)">Fitness Promo</button>
-      <button class="template-btn" onclick="loadTemplate(16)">Car Wash</button>
-      <button class="template-btn" onclick="loadTemplate(17)">Hair Special</button>
-      <button class="template-btn" onclick="loadTemplate(18)">Spaza Special</button>
-      <button class="template-btn" onclick="loadTemplate(19)">Memorial</button>
-      
-      <!-- NEW PREMIUM THEMES FROM YOUR SCREENSHOT -->
       <button class="template-btn" onclick="loadTemplate(20)">Best Marketing</button>
-      <button class="template-btn" onclick="loadTemplate(21)">Modern Corporate</button>
       <button class="template-btn" onclick="loadTemplate(22)">Business Idea</button>
-      <button class="template-btn" onclick="loadTemplate(23)">Annual Report</button>
-      <button class="template-btn" onclick="loadTemplate(24)">Creative Cover</button>
       <button class="template-btn" onclick="loadTemplate(25)">Fashion Sale</button>
-      <button class="template-btn" onclick="loadTemplate(26)">Support Services</button>
-      <button class="template-btn" onclick="loadTemplate(27)">Management Pro</button>
-      <button class="template-btn" onclick="loadTemplate(28)">10% OFF Business</button>
-      <button class="template-btn" onclick="loadTemplate(29)">Agency Pro</button>
     </div>
   </div>
 </div>
@@ -117,16 +90,6 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
     <input type="text" id="textInput" placeholder="Type your text here">
     <button onclick="confirmText()">Save</button>
     <button onclick="closeText()">Cancel</button>
-  </div>
-</div>
-
-<div class="modal" id="qrModal">
-  <div class="modal-content">
-    <h3>Enter QR Code Link</h3>
-    <input type="text" id="qrInput" placeholder="https://yourlink.com">
-    <button onclick="generateQR()">Generate QR</button>
-    <button onclick="closeQR()">Cancel</button>
-    <div id="qrcode" style="margin-top:15px; background:white; padding:10px; display:inline-block;"></div>
   </div>
 </div>
 
@@ -141,7 +104,6 @@ let selectedIndex = -1;
 let isDragging = false;
 
 const templates = [
-  // OLD 20
   {bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',50,'#fff',350], t3:['Call: 012 345 6789',45,'#fff',1100]},
   {bg:'#1e3a8a', t1:['FOR SALE',110,'#fff',180], t2:['3 Bedroom House',55,'#fbbf24',320], t3:['Contact Agent',45,'#fff',500]},
   {bg:'#ff0000', t1:['MEGA SALE!',130,'#ffff00',150], t2:['UP TO 70% OFF',75,'#fff',300], t3:['This Weekend',50,'#fff',450]},
@@ -162,18 +124,16 @@ const templates = [
   {bg:'#ec4899', t1:['HAIR SPECIAL',100,'#fff',200], t2:['Cut + Wash',55,'#fbbf24',340], t3:['Book Now',45,'#fff',480]},
   {bg:'#ff9500', t1:['SPAZA SPECIALS',90,'#000',200], t2:['Bread R15',50,'#000',340], t3:['Open 24hrs',45,'#000',480]},
   {bg:'#111827', t1:['IN LOVING MEMORY',80,'#fff',200], t2:['Celebration of Life',55,'#fbbf24',340], t3:['All Welcome',45,'#fff',480]},
-  
-  // NEW 10 PREMIUM THEMES LIKE YOUR SCREENSHOT
-  {bg:'#ff6a00', t1:['BEST',70,'#fff',180], t2:['MARKETING',70,'#00d4ff',270], t3:['AGENCY',70,'#fff',360]}, // Best Marketing
-  {bg:'#4c1d95', t1:['MODERN',80,'#fff',200], t2:['TEMPLATE',80,'#a855f7',300], t3:['CORPORATE',50,'#fff',400]}, // Modern Corporate
-  {bg:'#0ea5e9', t1:['NEXT LEVEL',60,'#fff',200], t2:['BUSINESS',70,'#ffff00',290], t3:['IDEA',60,'#fff',380]}, // Business Idea
-  {bg:'#fff', t1:['ANNUAL',80,'#ff6a00',200], t2:['REPORT',80,'#000',300], t3:['2026',60,'#ff6a00',400]}, // Annual Report
-  {bg:'#fff', t1:['CREATIVE',60,'#ff6a00',200], t2:['COVER',60,'#000',280], t3:['DESIGN',60,'#ff6a00',360]}, // Creative Cover
-  {bg:'#be185d', t1:['FASHION',80,'#fff',200], t2:['SALE',100,'#ffff00',320], t3:['UP TO 35% OFF',45,'#fff',420]}, // Fashion Sale
-  {bg:'#1e40af', t1:['SUPPORT',80,'#fff',200], t2:['SERVICES',60,'#60a5fa',300], t3:['24/7 HELP',50,'#fff',400]}, // Support
-  {bg:'#581c87', t1:['MANAGEMENT',70,'#fff',200], t2:['PRO',80,'#c084fc',300], t3:['LEADERSHIP',50,'#fff',400]}, // Management
-  {bg:'#2563eb', t1:['10% OFF',90,'#ffff00',200], t2:['BUSINESS',70,'#fff',320], t3:['SPECIAL DEAL',45,'#fff',420]}, // 10% OFF
-  {bg:'#0f172a', t1:['AGENCY',90,'#00d4ff',200], t2:['PRO',90,'#fff',320], t3:['MARKETING SOLUTIONS',40,'#00d4ff',420]}, // Agency Pro
+  {bg:'#ff6a00', t1:['BEST',70,'#fff',180], t2:['MARKETING',70,'#00d4ff',270], t3:['AGENCY',70,'#fff',360]},
+  {bg:'#4c1d95', t1:['MODERN',80,'#fff',200], t2:['TEMPLATE',80,'#a855f7',300], t3:['CORPORATE',50,'#fff',400]},
+  {bg:'#0ea5e9', t1:['NEXT LEVEL',60,'#fff',200], t2:['BUSINESS',70,'#ffff00',290], t3:['IDEA',60,'#fff',380]},
+  {bg:'#fff', t1:['ANNUAL',80,'#ff6a00',200], t2:['REPORT',80,'#000',300], t3:['2026',60,'#ff6a00',400]},
+  {bg:'#fff', t1:['CREATIVE',60,'#ff6a00',200], t2:['COVER',60,'#000',280], t3:['DESIGN',60,'#ff6a00',360]},
+  {bg:'#be185d', t1:['FASHION',80,'#fff',200], t2:['SALE',100,'#ffff00',320], t3:['UP TO 35% OFF',45,'#fff',420]},
+  {bg:'#1e40af', t1:['SUPPORT',80,'#fff',200], t2:['SERVICES',60,'#60a5fa',300], t3:['24/7 HELP',50,'#fff',400]},
+  {bg:'#581c87', t1:['MANAGEMENT',70,'#fff',200], t2:['PRO',80,'#c084fc',300], t3:['LEADERSHIP',50,'#fff',400]},
+  {bg:'#2563eb', t1:['10% OFF',90,'#ffff00',200], t2:['BUSINESS',70,'#fff',320], t3:['SPECIAL DEAL',45,'#fff',420]},
+  {bg:'#0f172a', t1:['AGENCY',90,'#00d4ff',200], t2:['PRO',90,'#fff',320], t3:['MARKETING SOLUTIONS',40,'#00d4ff',420]},
 ];
 
 function saveState() {
@@ -203,7 +163,7 @@ function setBrand(color, el) {
   brandColor = color;
   document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  if(selectedIndex >= 0 && elements[selectedIndex].type === 'text') {
+  if(selectedIndex >= 0) {
     elements[selectedIndex].color = color;
     saveState();
     redraw();
@@ -212,7 +172,7 @@ function setBrand(color, el) {
 
 function updateLayers() {
   const layersDiv = document.getElementById('layers');
-  layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS - TAP TO EDIT</b>';
+  layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS - TAP TO DRAG</b>';
   elements.forEach((el, i) => {
     if(el.type === 'bg') return;
     const name = el.type === 'text'? el.text.substring(0,8) : el.type;
@@ -271,6 +231,24 @@ function sendBack() {
   }
 }
 
+function addShape(type) {
+  if(type === 'curve') {
+    elements.push({type:'shape', shape:'curve', x:0, y:800, w:1080, h:400, color:brandColor});
+  }
+  if(type === 'circle') {
+    elements.push({type:'shape', shape:'circle', x:540, y:300, r:150, color:brandColor});
+  }
+  if(type === 'tail') {
+    elements.push({type:'shape', shape:'tail', x:100, y:500, w:400, h:150, color:brandColor});
+  }
+  if(type === 'ribbon') {
+    elements.push({type:'shape', shape:'ribbon', x:50, y:100, w:300, h:80, color:brandColor});
+  }
+  selectedIndex = elements.length - 1;
+  saveState();
+  redraw();
+}
+
 function redraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if(elements.length > 0 && elements[0].type === 'bg') {
@@ -283,6 +261,7 @@ function redraw() {
   
   elements.forEach((el, i) => {
     if(el.type === 'bg') return;
+    
     if(el.type === 'text') {
       ctx.fillStyle = el.color;
       ctx.font = `bold ${el.size}px Arial Black`;
@@ -292,15 +271,50 @@ function redraw() {
       ctx.fillText(el.text, el.x, el.y);
       ctx.shadowBlur = 0;
     }
-    if(el.type === 'image') {
-      const img = new Image();
-      img.src = el.src;
-      img.onload = () => ctx.drawImage(img, el.x, el.y, el.w, el.h);
+    
+    if(el.type === 'shape') {
+      ctx.fillStyle = el.color;
+      if(el.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(el.x, el.y, el.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      if(el.shape === 'curve') {
+        ctx.beginPath();
+        ctx.moveTo(el.x, el.y + el.h);
+        ctx.quadraticCurveTo(el.x + el.w/2, el.y, el.x + el.w, el.y + el.h);
+        ctx.lineTo(el.x + el.w, canvas.height);
+        ctx.lineTo(el.x, canvas.height);
+        ctx.closePath();
+        ctx.fill();
+      }
+      if(el.shape === 'tail') {
+        // Speech bubble tail
+        ctx.beginPath();
+        ctx.roundRect(el.x, el.y, el.w, el.h, 20);
+        ctx.lineTo(el.x + el.w/2 - 20, el.y + el.h);
+        ctx.lineTo(el.x + el.w/2, el.y + el.h + 40);
+        ctx.lineTo(el.x + el.w/2 + 20, el.y + el.h);
+        ctx.closePath();
+        ctx.fill();
+      }
+      if(el.shape === 'ribbon') {
+        // Sale ribbon with tail
+        ctx.beginPath();
+        ctx.moveTo(el.x, el.y);
+        ctx.lineTo(el.x + el.w, el.y);
+        ctx.lineTo(el.x + el.w + 30, el.y + el.h/2);
+        ctx.lineTo(el.x + el.w, el.y + el.h);
+        ctx.lineTo(el.x, el.y + el.h);
+        ctx.lineTo(el.x + 30, el.y + el.h/2);
+        ctx.closePath();
+        ctx.fill();
+      }
     }
   });
 }
 
-// DRAG TO MOVE + DOUBLE TAP EDIT
+// DRAG TO MOVE
 canvas.addEventListener('touchstart', handleStart);
 canvas.addEventListener('mousedown', handleStart);
 canvas.addEventListener('touchmove', handleMove);
@@ -318,9 +332,9 @@ function getPos(e) {
 function handleStart(e) {
   const pos = getPos(e);
   for(let i=elements.length-1; i>=0; i--) {
-    if(elements[i].type!== 'text') continue;
+    if(elements[i].type === 'bg') continue;
     const dist = Math.abs(pos.x - elements[i].x) + Math.abs(pos.y - elements[i].y);
-    if(dist < 100) {
+    if(dist < 150) {
       selectedIndex = i;
       isDragging = true;
       updateLayers();
@@ -364,7 +378,6 @@ function closeText() {
 }
 
 function uploadImage() { uploadFile(false); }
-function uploadLogo() { uploadFile(true); }
 
 function uploadFile(isLogo) {
   const input = document.createElement('input');
@@ -390,45 +403,11 @@ function uploadFile(isLogo) {
   input.click();
 }
 
-function aiBackground() {
-  const colors = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000'];
-  const bg = colors[Math.floor(Math.random()*5)];
-  elements = elements.filter(el => el.type!== 'bg');
-  elements.unshift({type:'bg', color:bg});
-  saveState();
-  redraw();
-}
-
-function addQR() { document.getElementById('qrModal').style.display = 'flex'; }
-
-function generateQR() {
-  const url = document.getElementById('qrInput').value;
-  if(!url) return alert('Enter link');
-  document.getElementById('qrcode').innerHTML = '';
-  new QRCode(document.getElementById('qrcode'), {text: url, width: 200, height: 200});
-  setTimeout(() => {
-    const src = document.getElementById('qrcode').querySelector('img').src;
-    elements.push({type:'image', src:src, x:415, y:550, w:250, h:250});
-    selectedIndex = elements.length - 1;
-    saveState();
-    redraw();
-    closeQR();
-  }, 500);
-}
-
-function closeQR() { document.getElementById('qrModal').style.display = 'none'; }
-
 function exportPNG() {
   const link = document.createElement('a');
-  link.download = 'PREMIUM-poster.png';
+  link.download = 'TAIL-poster.png';
   link.href = canvas.toDataURL('image/png');
   link.click();
-}
-
-function exportPDF() {
-  const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
-  pdf.save('PREMIUM-poster.pdf');
 }
 
 function clearCanvas() {
@@ -446,13 +425,15 @@ function loadTemplate(i) {
     {type:'text', text:t.t2[0], x:540, y:t.t2[3], size:t.t2[1], color:t.t2[2]},
     {type:'text', text:t.t3[0], x:540, y:t.t3[3], size:t.t3[1], color:t.t3[2]},
   ];
+  if(i >= 20) {
+    elements.push({type:'shape', shape:'curve', x:0, y:900, w:1080, h:300, color:'#ffffff22'});
+  }
   selectedIndex = -1;
   saveState();
   redraw();
   document.querySelector('.canvas-wrap').scrollIntoView({behavior: 'smooth'});
 }
 
-// AUTO LOAD FIRST TEMPLATE
 loadTemplate(0);
 </script>
 
