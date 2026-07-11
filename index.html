@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO</title>
+<title>Twins Poster Studio AI PRO - Templates</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.4/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -11,16 +11,20 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Arial', sans-serif; background: #0a0a0a; color: white; }
   header { background: linear-gradient(90deg, #ff4d00, #a855f7, #ff4d00); padding: 12px; text-align: center; }
-  header h1 { font-size: 20px; }
+  header h1 { font-size: 18px; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top: 0; z-index: 10; }
-  button, input { padding: 8px 12px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 12px; }
+  button, input { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 13px; }
   button:hover { background: #e63e00; }
- .ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
+.ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
 .canvas-wrap { display: flex; justify-content: center; padding: 10px; }
-  canvas { background: white; box-shadow: 0 0 30px rgba(168,85,247,0.4); }
-.templates { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; padding: 10px; max-height: 180px; overflow-y: auto; background: #1a1a1a; }
-.template-btn { background: #333; font-size: 11px; padding: 8px; }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100; }
+  canvas { background: white; box-shadow: 0 0 30px rgba(168,85,247,0.4); max-width: 100%; }
+.templates-section { background: #1a1a1a; padding: 15px; }
+.templates-title { text-align: center; font-size: 16px; margin-bottom: 10px; color: #ff4d00; }
+.templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; max-height: 400px; overflow-y: auto; }
+.template-btn { background: #2a2a2a; border: 2px solid #ff4d00; font-size: 12px; padding: 12px; text-align: left; }
+.template-btn:hover { background: #ff4d00; }
+.template-btn span { display: block; font-size: 10px; color: #aaa; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
 .modal-content { background: #222; padding: 20px; border-radius: 10px; text-align: center; }
 </style>
 </head>
@@ -39,10 +43,12 @@
   <button onclick="exportPNG()">HD PNG</button>
   <button onclick="exportPDF()">Print PDF</button>
   <button onclick="clearCanvas()">Clear</button>
-  <input type="color" id="colorPicker" value="#ff4d00" onchange="setColor()">
 </div>
 
-<div class="templates" id="templateGrid"></div>
+<div class="templates-section">
+  <div class="templates-title">📋 CHOOSE A TEMPLATE DESIGN</div>
+  <div class="templates" id="templateGrid"></div>
+</div>
 
 <div class="canvas-wrap">
   <canvas id="canvas" width="1080" height="1350"></canvas>
@@ -65,23 +71,36 @@ const canvas = new fabric.Canvas('canvas');
 canvas.backgroundColor = '#ffffff';
 let brandColor = '#ff4d00';
 
-// 100 TEMPLATES - SAME AS BEFORE
-const templates = [];
-const cats = ['Business','Sale','Church','Event','Restaurant','School','Clinic','Real Estate'];
-const bgs = ['#ff4d00','#1e3a8a','#7c3aed','#ff0000','#059669','#dc2626','#111827','#0a0a0a'];
-for(let i=0; i<100; i++){
-  templates.push({
-    cat: cats[i%8], 
-    name: `${cats[i%8]} ${i+1}`, 
-    bg: bgs[i%8],
-    texts:[['HEADLINE',80,'#fff',150],['Subheading Here',45,bgs[i%8],350],['Call To Action',40,'#fff',1100]]
-  });
-}
+// 20 PRO TEMPLATE DESIGNS YOU CAN CHOOSE
+const templates = [
+  {cat:'Business', name:'Corporate Pro', bg:'#0a0a0a', texts:[['YOUR BUSINESS NAME',90,'#ff4d00',200],['Professional Services You Can Trust',45,'#fff',350],['Call: 012 345 6789',40,'#fff',1100]]},
+  {cat:'Business', name:'Real Estate', bg:'#1e3a8a', texts:[['FOR SALE',100,'#fff',180],['Beautiful 3 Bedroom House',50,'#fbbf24',320],['Contact Agent Today',40,'#fff',500]]},
+  {cat:'Sale', name:'Mega Sale 70%', bg:'#ff0000', texts:[['MEGA SALE!',120,'#ffff00',150],['UP TO 70% OFF',70,'#fff',300],['This Weekend Only',45,'#fff',450]]},
+  {cat:'Sale', name:'Black Friday', bg:'#000', texts:[['BLACK FRIDAY',100,'#ff4d00',180],['BIGGEST DEALS OF THE YEAR',55,'#fff',320],['Don\'t Miss Out!',45,'#fff',450]]},
+  {cat:'Church', name:'Sunday Service', bg:'#1e3a8a', texts:[['SUNDAY SERVICE',70,'#fff',200],['Join Us At 10:00 AM',45,'#fbbf24',340],['All Are Welcome',40,'#fff',480]]},
+  {cat:'Church', name:'Easter Special', bg:'#7c3aed', texts:[['HE IS RISEN',90,'#fff',200],['Easter Sunday Service',50,'#fbbf24',340],['Celebrate With Us',40,'#fff',480]]},
+  {cat:'Event', name:'Grand Opening', bg:'#ff9500', texts:[['GRAND OPENING',80,'#fff',200],['You Are Invited',50,'#000',340],['Free Gifts For First 100',40,'#fff',480]]},
+  {cat:'Event', name:'Live Concert', bg:'#7c3aed', texts:[['LIVE CONCERT',90,'#fff',180],['Featuring Top Artists',45,'#fbbf24',320],['Get Tickets Now',40,'#fff',460]]},
+  {cat:'Restaurant', name:'Food Special', bg:'#dc2626', texts:[['TODAY\'S SPECIAL',80,'#fff',200],['Burger + Chips + Drink',50,'#fbbf24',340],['Only R99.99',60,'#fff',480]]},
+  {cat:'Restaurant', name:'Menu Board', bg:'#111827', texts:[['OUR MENU',90,'#ff4d00',180],['Pizza | Pasta | Burgers',45,'#fff',320],['Order Now',40,'#fff',460]]},
+  {cat:'School', name:'School Enrollment', bg:'#059669', texts:[['2026 ENROLLMENT',80,'#fff',200],['Now Open',60,'#fbbf24',340],['Visit Us Today',40,'#fff',480]]},
+  {cat:'Clinic', name:'Health Check', bg:'#2563eb', texts:[['FREE HEALTH CHECK',70,'#fff',200],['Blood Pressure + Sugar Test',45,'#fbbf24',340],['This Saturday',40,'#fff',480]]},
+  {cat:'Wedding', name:'Wedding Invite', bg:'#fbbf24', texts:[['YOU ARE INVITED',70,'#000',200],['John & Sarah Wedding',50,'#7c3aed',340],['12 Dec 2026',40,'#000',480]]},
+  {cat:'Birthday', name:'Birthday Party', bg:'#ec4899', texts:[['BIRTHDAY PARTY',80,'#fff',200],['You\'re Invited!',50,'#fbbf24',340],['Let\'s Celebrate',40,'#fff',480]]},
+  {cat:'Job', name:'We Are Hiring', bg:'#0a0a0a', texts:[['WE ARE HIRING',90,'#ff4d00',200],['Sales Assistant Needed',45,'#fff',340],['Apply Today',40,'#fff',480]]},
+  {cat:'Gym', name:'Fitness Promo', bg:'#111827', texts:[['JOIN THE GYM',90,'#ff4d00',200],['First Month Free',50,'#fff',340],['Get Fit Now',40,'#fff',480]]},
+  {cat:'Car Wash', name:'Car Wash', bg:'#2563eb', texts:[['CAR WASH SPECIAL',80,'#fff',200],['Full Wash + Vacuum',50,'#fbbf24',340],['Only R80',60,'#fff',480]]},
+  {cat:'Hair Salon', name:'Hair Special', bg:'#ec4899', texts:[['HAIR SPECIAL',90,'#fff',200],['Cut + Wash + Style',50,'#fbbf24',340],['Book Now',40,'#fff',480]]},
+  {cat:'Tuckshop', name:'Spaza Special', bg:'#ff9500', texts:[['SPAZA SPECIALS',80,'#000',200],['Bread R15 | Milk R25',45,'#000',340],['Open 24 Hours',40,'#000',480]]},
+  {cat:'Funeral', name:'Memorial', bg:'#111827', texts:[['IN LOVING MEMORY',70,'#fff',200],['Celebration of Life',50,'#fbbf24',340],['All Welcome',40,'#fff',480]]},
+];
+
+// RENDER ALL 20 TEMPLATE BUTTONS
 const grid = document.getElementById('templateGrid');
 templates.forEach((t,i)=>{
   const btn = document.createElement('button');
   btn.className = 'template-btn';
-  btn.innerText = `${t.cat}\n${t.name}`;
+  btn.innerHTML = `<b>${t.name}</b><span>${t.cat} Poster</span>`;
   btn.onclick = () => loadTemplate(i);
   grid.appendChild(btn);
 });
@@ -117,60 +136,20 @@ function uploadFileToCanvas(isLogo) {
   input.click();
 }
 
-// AI BACKGROUND GENERATOR
 function aiBackground() {
-  const prompts = [
-    'abstract gradient orange and purple',
-    'business corporate blue gradient',
-    'sale red confetti background',
-    'church elegant gold light rays',
-    'event party neon lights',
-    'minimal white studio background'
-  ];
-  const prompt = prompts[Math.floor(Math.random() * prompts.length)];
-  
-  // Using CSS gradient as "AI" background - instant, no API needed
-  const gradients = [
-    'linear-gradient(135deg, #ff4d00 0%, #a855f7 100%)',
-    'linear-gradient(135deg, #1e3a8a 0%, #059669 100%)',
-    'linear-gradient(135deg, #ff0000 0%, #fbbf24 100%)',
-    'radial-gradient(circle, #7c3aed 0%, #111827 100%)'
-  ];
+  const gradients = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000','#7c3aed'];
   const bg = gradients[Math.floor(Math.random() * gradients.length)];
-  
-  const rect = new fabric.Rect({
-    width: 1080, height: 1350, fill: new fabric.Pattern({
-      source: createGradientCanvas(bg),
-      repeat: 'no-repeat'
-    })
-  });
-  canvas.setBackgroundColor(rect.fill, canvas.renderAll.bind(canvas));
-  alert(`AI Background Applied: ${prompt}`);
+  canvas.setBackgroundColor(bg, canvas.renderAll.bind(canvas));
 }
 
-function createGradientCanvas(css) {
-  const el = document.createElement('canvas');
-  el.width = 1080; el.height = 1350;
-  const ctx = el.getContext('2d');
-  const gradient = ctx.createLinearGradient(0,0,1080,1350);
-  gradient.addColorStop(0, '#ff4d00'); gradient.addColorStop(1, '#a855f7');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0,0,1080,1350);
-  return el;
-}
-
-// QR CODE GENERATOR
 function addQR() {
   document.getElementById('qrModal').style.display = 'flex';
 }
-
 function generateQR() {
   const url = document.getElementById('qrInput').value;
   if(!url) return alert('Please enter a link');
   document.getElementById('qrcode').innerHTML = '';
-  new QRCode(document.getElementById('qrcode'), {
-    text: url, width: 200, height: 200
-  });
+  new QRCode(document.getElementById('qrcode'), { text: url, width: 200, height: 200 });
   setTimeout(() => {
     const qrImg = document.getElementById('qrcode').querySelector('img');
     fabric.Image.fromURL(qrImg.src, img => {
@@ -180,23 +159,15 @@ function generateQR() {
     });
   }, 500);
 }
-
 function closeQR() {
   document.getElementById('qrModal').style.display = 'none';
   document.getElementById('qrInput').value = '';
 }
 
-function setColor() {
-  brandColor = document.getElementById('colorPicker').value;
-  const obj = canvas.getActiveObject();
-  if (obj) obj.set('fill', brandColor);
-  canvas.renderAll();
-}
-
 function exportPNG() {
   const dataURL = canvas.toDataURL({ format: 'png', multiplier: 3 });
   const link = document.createElement('a');
-  link.download = 'poster-AI-HD.png';
+  link.download = 'poster-HD.png';
   link.href = dataURL;
   link.click();
 }
@@ -206,7 +177,7 @@ function exportPDF() {
   const imgData = canvas.toDataURL('image/png', 1.0);
   const pdf = new jsPDF('p', 'mm', 'a4');
   pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-  pdf.save('poster-print-AI.pdf');
+  pdf.save('poster-print.pdf');
 }
 
 function clearCanvas() {
@@ -226,8 +197,9 @@ function loadTemplate(index) {
     canvas.add(txt);
   });
   canvas.renderAll();
+  window.scrollTo(0, document.body.scrollHeight); // Auto scroll to canvas
 }
 </script>
 
 </body>
-  </html>
+</html>
