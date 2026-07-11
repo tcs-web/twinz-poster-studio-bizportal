@@ -8,16 +8,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial; background: #0a0a0a; color: white; }
+  body { font-family: Arial; background: #0a0a0a; color: white; margin:0; }
   header { background: linear-gradient(90deg, #ff4d00, #a855f7); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; background: #111; justify-content: center; }
   button { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; }
- .ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
+.ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
 .templates-section { background: #1a1a1a; padding: 15px; }
 .templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #ff4d00; font-weight: bold; }
 .templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.template-btn { background: #2a2a2a; border: 2px solid #ff4d00; padding: 12px; text-align: center; border-radius: 8px; color: white; font-weight: bold; }
+.template-btn { background: #2a2a2a; border: 2px solid #ff4d00; padding: 12px; text-align: center; border-radius: 8px; color: white; font-weight: bold; width: 100%; }
 .template-btn:hover { background: #ff4d00; }
 .template-btn small { display: block; font-size: 10px; color: #aaa; font-weight: normal; }
 .canvas-wrap { display: flex; justify-content: center; padding: 15px; }
@@ -43,8 +42,28 @@
 
 <div class="templates-section">
   <div class="templates-title">📋 CHOOSE A TEMPLATE DESIGN</div>
-  <div class="templates" id="templateGrid">
-    <!-- TEMPLATES WILL LOAD HERE AUTOMATICALLY -->
+  <div class="templates">
+    <!-- 20 HARDCODED TEMPLATES - WILL ALWAYS SHOW -->
+    <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro<small>Business</small></button>
+    <button class="template-btn" onclick="loadTemplate(1)">Real Estate<small>Business</small></button>
+    <button class="template-btn" onclick="loadTemplate(2)">Mega Sale 70%<small>Sale</small></button>
+    <button class="template-btn" onclick="loadTemplate(3)">Black Friday<small>Sale</small></button>
+    <button class="template-btn" onclick="loadTemplate(4)">Sunday Service<small>Church</small></button>
+    <button class="template-btn" onclick="loadTemplate(5)">Easter Special<small>Church</small></button>
+    <button class="template-btn" onclick="loadTemplate(6)">Grand Opening<small>Event</small></button>
+    <button class="template-btn" onclick="loadTemplate(7)">Live Concert<small>Event</small></button>
+    <button class="template-btn" onclick="loadTemplate(8)">Food Special<small>Restaurant</small></button>
+    <button class="template-btn" onclick="loadTemplate(9)">Menu Board<small>Restaurant</small></button>
+    <button class="template-btn" onclick="loadTemplate(10)">School Enrollment<small>School</small></button>
+    <button class="template-btn" onclick="loadTemplate(11)">Health Check<small>Clinic</small></button>
+    <button class="template-btn" onclick="loadTemplate(12)">Wedding Invite<small>Wedding</small></button>
+    <button class="template-btn" onclick="loadTemplate(13)">Birthday Party<small>Birthday</small></button>
+    <button class="template-btn" onclick="loadTemplate(14)">We Are Hiring<small>Job</small></button>
+    <button class="template-btn" onclick="loadTemplate(15)">Fitness Promo<small>Gym</small></button>
+    <button class="template-btn" onclick="loadTemplate(16)">Car Wash<small>Car Wash</small></button>
+    <button class="template-btn" onclick="loadTemplate(17)">Hair Special<small>Salon</small></button>
+    <button class="template-btn" onclick="loadTemplate(18)">Spaza Special<small>Shop</small></button>
+    <button class="template-btn" onclick="loadTemplate(19)">Memorial<small>Funeral</small></button>
   </div>
 </div>
 
@@ -67,41 +86,30 @@
 const canvas = new fabric.Canvas('canvas');
 canvas.backgroundColor = '#ffffff';
 
-// HARDCODED 20 TEMPLATES - NO JS ERROR
 const templates = [
-  {name:'Corporate Pro', cat:'Business', bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',45,'#fff',350], t3:['Call: 012 345 6789',40,'#fff',1100]},
-  {name:'Real Estate', cat:'Business', bg:'#1e3a8a', t1:['FOR SALE',100,'#fff',180], t2:['3 Bedroom House',50,'#fbbf24',320], t3:['Contact Agent',40,'#fff',500]},
-  {name:'Mega Sale 70%', cat:'Sale', bg:'#ff0000', t1:['MEGA SALE!',120,'#ffff00',150], t2:['UP TO 70% OFF',70,'#fff',300], t3:['This Weekend',45,'#fff',450]},
-  {name:'Black Friday', cat:'Sale', bg:'#000', t1:['BLACK FRIDAY',100,'#ff4d00',180], t2:['BIGGEST DEALS',55,'#fff',320], t3:['Don\'t Miss!',45,'#fff',450]},
-  {name:'Sunday Service', cat:'Church', bg:'#1e3a8a', t1:['SUNDAY SERVICE',70,'#fff',200], t2:['10:00 AM',45,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
-  {name:'Easter Special', cat:'Church', bg:'#7c3aed', t1:['HE IS RISEN',90,'#fff',200], t2:['Easter Service',50,'#fbbf24',340], t3:['Join Us',40,'#fff',480]},
-  {name:'Grand Opening', cat:'Event', bg:'#ff9500', t1:['GRAND OPENING',80,'#fff',200], t2:['You Are Invited',50,'#000',340], t3:['Free Gifts',40,'#fff',480]},
-  {name:'Live Concert', cat:'Event', bg:'#7c3aed', t1:['LIVE CONCERT',90,'#fff',180], t2:['Top Artists',45,'#fbbf24',320], t3:['Get Tickets',40,'#fff',460]},
-  {name:'Food Special', cat:'Restaurant', bg:'#dc2626', t1:['TODAY SPECIAL',80,'#fff',200], t2:['Burger + Chips',50,'#fbbf24',340], t3:['Only R99',60,'#fff',480]},
-  {name:'Menu Board', cat:'Restaurant', bg:'#111827', t1:['OUR MENU',90,'#ff4d00',180], t2:['Pizza | Pasta',45,'#fff',320], t3:['Order Now',40,'#fff',460]},
-  {name:'School Enrollment', cat:'School', bg:'#059669', t1:['2026 ENROLLMENT',80,'#fff',200], t2:['Now Open',60,'#fbbf24',340], t3:['Visit Us',40,'#fff',480]},
-  {name:'Health Check', cat:'Clinic', bg:'#2563eb', t1:['FREE HEALTH CHECK',70,'#fff',200], t2:['BP + Sugar Test',45,'#fbbf24',340], t3:['This Saturday',40,'#fff',480]},
-  {name:'Wedding Invite', cat:'Wedding', bg:'#fbbf24', t1:['YOU ARE INVITED',70,'#000',200], t2:['John & Sarah',50,'#7c3aed',340], t3:['12 Dec 2026',40,'#000',480]},
-  {name:'Birthday Party', cat:'Birthday', bg:'#ec4899', t1:['BIRTHDAY PARTY',80,'#fff',200], t2:['You\'re Invited!',50,'#fbbf24',340], t3:['Let\'s Celebrate',40,'#fff',480]},
-  {name:'We Are Hiring', cat:'Job', bg:'#0a0a0a', t1:['WE ARE HIRING',90,'#ff4d00',200], t2:['Sales Assistant',45,'#fff',340], t3:['Apply Today',40,'#fff',480]},
-  {name:'Fitness Promo', cat:'Gym', bg:'#111827', t1:['JOIN THE GYM',90,'#ff4d00',200], t2:['First Month Free',50,'#fff',340], t3:['Get Fit',40,'#fff',480]},
-  {name:'Car Wash', cat:'Car Wash', bg:'#2563eb', t1:['CAR WASH',80,'#fff',200], t2:['Full Wash',50,'#fbbf24',340], t3:['Only R80',60,'#fff',480]},
-  {name:'Hair Special', cat:'Salon', bg:'#ec4899', t1:['HAIR SPECIAL',90,'#fff',200], t2:['Cut + Wash',50,'#fbbf24',340], t3:['Book Now',40,'#fff',480]},
-  {name:'Spaza Special', cat:'Shop', bg:'#ff9500', t1:['SPAZA SPECIALS',80,'#000',200], t2:['Bread R15',45,'#000',340], t3:['Open 24hrs',40,'#000',480]},
-  {name:'Memorial', cat:'Funeral', bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
+  {bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',45,'#fff',350], t3:['Call: 012 345 6789',40,'#fff',1100]},
+  {bg:'#1e3a8a', t1:['FOR SALE',100,'#fff',180], t2:['3 Bedroom House',50,'#fbbf24',320], t3:['Contact Agent',40,'#fff',500]},
+  {bg:'#ff0000', t1:['MEGA SALE!',120,'#ffff00',150], t2:['UP TO 70% OFF',70,'#fff',300], t3:['This Weekend',45,'#fff',450]},
+  {bg:'#000', t1:['BLACK FRIDAY',100,'#ff4d00',180], t2:['BIGGEST DEALS',55,'#fff',320], t3:['Don\'t Miss!',45,'#fff',450]},
+  {bg:'#1e3a8a', t1:['SUNDAY SERVICE',70,'#fff',200], t2:['10:00 AM',45,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
+  {bg:'#7c3aed', t1:['HE IS RISEN',90,'#fff',200], t2:['Easter Service',50,'#fbbf24',340], t3:['Join Us',40,'#fff',480]},
+  {bg:'#ff9500', t1:['GRAND OPENING',80,'#fff',200], t2:['You Are Invited',50,'#000',340], t3:['Free Gifts',40,'#fff',480]},
+  {bg:'#7c3aed', t1:['LIVE CONCERT',90,'#fff',180], t2:['Top Artists',45,'#fbbf24',320], t3:['Get Tickets',40,'#fff',460]},
+  {bg:'#dc2626', t1:['TODAY SPECIAL',80,'#fff',200], t2:['Burger + Chips',50,'#fbbf24',340], t3:['Only R99',60,'#fff',480]},
+  {bg:'#111827', t1:['OUR MENU',90,'#ff4d00',180], t2:['Pizza | Pasta',45,'#fff',320], t3:['Order Now',40,'#fff',460]},
+  {bg:'#059669', t1:['2026 ENROLLMENT',80,'#fff',200], t2:['Now Open',60,'#fbbf24',340], t3:['Visit Us',40,'#fff',480]},
+  {bg:'#2563eb', t1:['FREE HEALTH CHECK',70,'#fff',200], t2:['BP + Sugar Test',45,'#fbbf24',340], t3:['This Saturday',40,'#fff',480]},
+  {bg:'#fbbf24', t1:['YOU ARE INVITED',70,'#000',200], t2:['John & Sarah',50,'#7c3aed',340], t3:['12 Dec 2026',40,'#000',480]},
+  {bg:'#ec4899', t1:['BIRTHDAY PARTY',80,'#fff',200], t2:['You\'re Invited!',50,'#fbbf24',340], t3:['Let\'s Celebrate',40,'#fff',480]},
+  {bg:'#0a0a0a', t1:['WE ARE HIRING',90,'#ff4d00',200], t2:['Sales Assistant',45,'#fff',340], t3:['Apply Today',40,'#fff',480]},
+  {bg:'#111827', t1:['JOIN THE GYM',90,'#ff4d00',200], t2:['First Month Free',50,'#fff',340], t3:['Get Fit',40,'#fff',480]},
+  {bg:'#2563eb', t1:['CAR WASH',80,'#fff',200], t2:['Full Wash',50,'#fbbf24',340], t3:['Only R80',60,'#fff',480]},
+  {bg:'#ec4899', t1:['HAIR SPECIAL',90,'#fff',200], t2:['Cut + Wash',50,'#fbbf24',340], t3:['Book Now',40,'#fff',480]},
+  {bg:'#ff9500', t1:['SPAZA SPECIALS',80,'#000',200], t2:['Bread R15',45,'#000',340], t3:['Open 24hrs',40,'#000',480]},
+  {bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
 ];
 
-// FORCE LOAD TEMPLATES ON START
-window.onload = function() {
-  const grid = document.getElementById('templateGrid');
-  templates.forEach((t,i)=>{
-    grid.innerHTML += `<button class="template-btn" onclick="loadTemplate(${i})">${t.name}<small>${t.cat}</small></button>`;
-  });
-}
-
-function addText() {
-  canvas.add(new fabric.Textbox('Your Text Here', {left: 100, top: 100, width: 880, fontSize: 60, fill: '#ff4d00', fontFamily: 'Arial Black', textAlign: 'center'}));
-}
+function addText() { canvas.add(new fabric.Textbox('Your Text Here', {left: 100, top: 100, width: 880, fontSize: 60, fill: '#ff4d00', fontFamily: 'Arial Black', textAlign: 'center'})); }
 function addImage() { uploadFile(false); }
 function uploadLogo() { uploadFile(true); }
 
