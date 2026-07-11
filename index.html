@@ -3,69 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - TAIL EDITION</title>
+<title>Twins Poster Studio AI PRO - CORPORATE EDITION</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   body { font-family: 'Arial Black', Arial; background: #0a0a0a; color: white; margin:0; }
-  header { background: linear-gradient(90deg, #ff4d00, #a855f7, #00d4ff); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
+  header { background: linear-gradient(90deg, #d90479, #001f4d, #2dd4bf); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top:0; z-index:50; }
-  button { padding: 10px 12px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 11px; }
-.ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
+  button { padding: 10px 12px; border: none; background: #d90479; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 11px; }
 .shape-btn { background: #7c3aed; }
+.ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
 .danger-btn { background: #ff0000; }
 .brand-colors { display: flex; gap: 8px; justify-content: center; padding: 10px; background: #111; }
 .color { width: 35px; height: 35px; border-radius: 50%; border: 3px solid white; cursor: pointer; }
-.color.active { border: 3px solid #00d4ff; }
+.color.active { border: 3px solid #2dd4bf; }
+.controls { background: #1a1a1a; padding: 10px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.controls input[type=range] { width: 100px; }
 .side-panel { display: flex; }
-.layers { width: 120px; background: #1a1a1a; padding: 8px; max-height: 400px; overflow-y: auto; font-size: 10px; }
+.layers { width: 130px; background: #1a1a1a; padding: 8px; max-height: 500px; overflow-y: auto; font-size: 10px; }
 .layer-item { background: #2a2a2a; padding: 6px; margin: 3px 0; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; }
-.layer-item.active { background: #00d4ff; color: #000; }
+.layer-item.active { background: #2dd4bf; color: #000; }
 .layer-item button { padding: 2px 6px; font-size: 10px; background: #ff0000; border:none; color:white; }
 .templates-section { background: #1a1a1a; padding: 15px; }
-.templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #00d4ff; font-weight: bold; }
-.templates-wrapper { max-height: 280px; overflow-y: auto; }
+.templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #2dd4bf; font-weight: bold; }
 .templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.template-btn { background: #2a2a2a; border: 2px solid #00d4ff; padding: 14px 8px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 12px; width: 100%; }
+.template-btn { background: #2a2a2a; border: 2px solid #2dd4bf; padding: 14px 8px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 12px; width: 100%; }
 .canvas-wrap { display: flex; justify-content: center; padding: 15px; flex: 1; }
-  canvas { background: white; max-width: 100%; border: 3px solid #00d4ff; touch-action: none; }
+  canvas { background: white; max-width: 100%; border: 3px solid #d90479; touch-action: none; }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
 .modal-content { background: #222; padding: 20px; border-radius: 10px; text-align: center; width: 90%; }
-input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+input, textarea { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
 </style>
 </head>
 <body>
 
-<header>🔥 TWINS POSTER STUDIO AI PRO - TAIL EDITION</header>
+<header>🔥 TWINS POSTER STUDIO AI PRO - CORPORATE EDITION</header>
 
 <div class="toolbar">
   <button onclick="undo()">↩️ Undo</button>
   <button onclick="redo()">↪️ Redo</button>
   <button onclick="addText()">T Text</button>
-  <button onclick="uploadImage()">🖼️ Image</button>
-  <button class="shape-btn" onclick="addShape('curve')">~ Curve</button>
-  <button class="shape-btn" onclick="addShape('circle')">○ Circle</button>
-  <button class="shape-btn" onclick="addShape('tail')">▶ Tail</button>
-  <button class="shape-btn" onclick="addShape('ribbon')">🏷️ Ribbon</button>
+  <button onclick="uploadImage()">🖼️ Photo</button>
+  <button class="shape-btn" onclick="addShape('tri1')">▲ Tri1</button>
+  <button class="shape-btn" onclick="addShape('tri2')">▼ Tri2</button>
+  <button class="shape-btn" onclick="addShape('tri3')">◀ Tri3</button>
+  <button class="shape-btn" onclick="addShape('tri4')">▶ Tri4</button>
+  <button class="shape-btn" onclick="addShape('tri5')">◆ Tri5</button>
+  <button class="shape-btn" onclick="addShape('rect')">▭ Rect</button>
+  <button class="shape-btn" onclick="addShape('square')">⬜ Square</button>
+  <button onclick="addPhotoSection()">📸 Photo Box</button>
+  <button onclick="addAboutSection()">🏢 About</button>
+  <button onclick="addServicesSection()">✅ Services</button>
   <button onclick="duplicateLayer()">📋 Dup</button>
-  <button onclick="bringForward()">⬆️ Front</button>
-  <button onclick="sendBack()">⬇️ Back</button>
   <button onclick="exportPNG()">HD PNG</button>
   <button class="danger-btn" onclick="clearCanvas()">Clear</button>
 </div>
 
+<div class="controls" id="textControls" style="display:none;">
+  <label>Size: <input type="range" id="sizeSlider" min="20" max="200" value="60" oninput="changeSize(this.value)"></label>
+  <label>Rotate: <input type="range" id="rotateSlider" min="-180" max="180" value="0" oninput="changeRotate(this.value)"></label>
+  <button onclick="toggleStroke()">Stroke</button>
+  <button onclick="toggleShadow()">Shadow</button>
+</div>
+
 <div class="brand-colors">
-  <div class="color active" style="background:#ff4d00" onclick="setBrand('#ff4d00', this)"></div>
-  <div class="color" style="background:#00d4ff" onclick="setBrand('#00d4ff', this)"></div>
-  <div class="color" style="background:#a855f7" onclick="setBrand('#a855f7', this)"></div>
-  <div class="color" style="background:#ffff00" onclick="setBrand('#ffff00', this)"></div>
+  <div class="color active" style="background:#d90479" onclick="setBrand('#d90479', this)"></div>
+  <div class="color" style="background:#001f4d" onclick="setBrand('#001f4d', this)"></div>
+  <div class="color" style="background:#2dd4bf" onclick="setBrand('#2dd4bf', this)"></div>
+  <div class="color" style="background:#ff4d00" onclick="setBrand('#ff4d00', this)"></div>
   <div class="color" style="background:#000" onclick="setBrand('#000', this)"></div>
   <div class="color" style="background:#fff" onclick="setBrand('#fff', this)"></div>
 </div>
 
 <div class="side-panel">
   <div class="layers" id="layers">
-    <b style="color:#00d4ff">LAYERS - TAP TO DRAG</b>
+    <b style="color:#2dd4bf">LAYERS - TAP TO EDIT</b>
   </div>
   <div class="canvas-wrap">
     <canvas id="canvas" width="1080" height="1350"></canvas>
@@ -73,14 +85,10 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 </div>
 
 <div class="templates-section">
-  <div class="templates-title">📋 30 PREMIUM THEMES</div>
-  <div class="templates-wrapper">
-    <div class="templates">
-      <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro</button>
-      <button class="template-btn" onclick="loadTemplate(20)">Best Marketing</button>
-      <button class="template-btn" onclick="loadTemplate(22)">Business Idea</button>
-      <button class="template-btn" onclick="loadTemplate(25)">Fashion Sale</button>
-    </div>
+  <div class="templates-title">📋 CORPORATE TEMPLATES</div>
+  <div class="templates">
+    <button class="template-btn" onclick="loadDiagonalTemplate()">Diagonal Layout</button>
+    <button class="template-btn" onclick="loadCorporateTemplate()">Corporate Pro</button>
   </div>
 </div>
 
@@ -88,6 +96,7 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
   <div class="modal-content">
     <h3 id="textModalTitle">Add/Edit Text</h3>
     <input type="text" id="textInput" placeholder="Type your text here">
+    <textarea id="multiInput" placeholder="For lists: put each item on new line" style="display:none;"></textarea>
     <button onclick="confirmText()">Save</button>
     <button onclick="closeText()">Cancel</button>
   </div>
@@ -96,45 +105,18 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 <script>
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-let brandColor = '#ff4d00';
+let brandColor = '#d90479';
 let history = [];
 let historyStep = -1;
 let elements = [];
 let selectedIndex = -1;
 let isDragging = false;
 
-const templates = [
-  {bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',50,'#fff',350], t3:['Call: 012 345 6789',45,'#fff',1100]},
-  {bg:'#1e3a8a', t1:['FOR SALE',110,'#fff',180], t2:['3 Bedroom House',55,'#fbbf24',320], t3:['Contact Agent',45,'#fff',500]},
-  {bg:'#ff0000', t1:['MEGA SALE!',130,'#ffff00',150], t2:['UP TO 70% OFF',75,'#fff',300], t3:['This Weekend',50,'#fff',450]},
-  {bg:'#000', t1:['BLACK FRIDAY',110,'#ff4d00',180], t2:['BIGGEST DEALS',60,'#fff',320], t3:['Don\'t Miss!',50,'#fff',450]},
-  {bg:'#1e3a8a', t1:['SUNDAY SERVICE',80,'#fff',200], t2:['10:00 AM',50,'#fbbf24',340], t3:['All Welcome',45,'#fff',480]},
-  {bg:'#7c3aed', t1:['HE IS RISEN',100,'#fff',200], t2:['Easter Service',55,'#fbbf24',340], t3:['Join Us',45,'#fff',480]},
-  {bg:'#ff9500', t1:['GRAND OPENING',90,'#fff',200], t2:['You Are Invited',55,'#000',340], t3:['Free Gifts',45,'#fff',480]},
-  {bg:'#7c3aed', t1:['LIVE CONCERT',100,'#fff',180], t2:['Top Artists',50,'#fbbf24',320], t3:['Get Tickets',45,'#fff',460]},
-  {bg:'#dc2626', t1:['TODAY SPECIAL',90,'#fff',200], t2:['Burger + Chips',55,'#fbbf24',340], t3:['Only R99',65,'#fff',480]},
-  {bg:'#111827', t1:['OUR MENU',100,'#ff4d00',180], t2:['Pizza | Pasta',50,'#fff',320], t3:['Order Now',45,'#fff',460]},
-  {bg:'#059669', t1:['2026 ENROLLMENT',90,'#fff',200], t2:['Now Open',65,'#fbbf24',340], t3:['Visit Us',45,'#fff',480]},
-  {bg:'#2563eb', t1:['FREE HEALTH CHECK',80,'#fff',200], t2:['BP + Sugar Test',50,'#fbbf24',340], t3:['This Saturday',45,'#fff',480]},
-  {bg:'#fbbf24', t1:['YOU ARE INVITED',80,'#000',200], t2:['John & Sarah',55,'#7c3aed',340], t3:['12 Dec 2026',45,'#000',480]},
-  {bg:'#ec4899', t1:['BIRTHDAY PARTY',90,'#fff',200], t2:['You\'re Invited!',55,'#fbbf24',340], t3:['Let\'s Celebrate',45,'#fff',480]},
-  {bg:'#0a0a0a', t1:['WE ARE HIRING',100,'#ff4d00',200], t2:['Sales Assistant',50,'#fff',340], t3:['Apply Today',45,'#fff',480]},
-  {bg:'#111827', t1:['JOIN THE GYM',100,'#ff4d00',200], t2:['First Month Free',55,'#fff',340], t3:['Get Fit',45,'#fff',480]},
-  {bg:'#2563eb', t1:['CAR WASH',90,'#fff',200], t2:['Full Wash',55,'#fbbf24',340], t3:['Only R80',65,'#fff',480]},
-  {bg:'#ec4899', t1:['HAIR SPECIAL',100,'#fff',200], t2:['Cut + Wash',55,'#fbbf24',340], t3:['Book Now',45,'#fff',480]},
-  {bg:'#ff9500', t1:['SPAZA SPECIALS',90,'#000',200], t2:['Bread R15',50,'#000',340], t3:['Open 24hrs',45,'#000',480]},
-  {bg:'#111827', t1:['IN LOVING MEMORY',80,'#fff',200], t2:['Celebration of Life',55,'#fbbf24',340], t3:['All Welcome',45,'#fff',480]},
-  {bg:'#ff6a00', t1:['BEST',70,'#fff',180], t2:['MARKETING',70,'#00d4ff',270], t3:['AGENCY',70,'#fff',360]},
-  {bg:'#4c1d95', t1:['MODERN',80,'#fff',200], t2:['TEMPLATE',80,'#a855f7',300], t3:['CORPORATE',50,'#fff',400]},
-  {bg:'#0ea5e9', t1:['NEXT LEVEL',60,'#fff',200], t2:['BUSINESS',70,'#ffff00',290], t3:['IDEA',60,'#fff',380]},
-  {bg:'#fff', t1:['ANNUAL',80,'#ff6a00',200], t2:['REPORT',80,'#000',300], t3:['2026',60,'#ff6a00',400]},
-  {bg:'#fff', t1:['CREATIVE',60,'#ff6a00',200], t2:['COVER',60,'#000',280], t3:['DESIGN',60,'#ff6a00',360]},
-  {bg:'#be185d', t1:['FASHION',80,'#fff',200], t2:['SALE',100,'#ffff00',320], t3:['UP TO 35% OFF',45,'#fff',420]},
-  {bg:'#1e40af', t1:['SUPPORT',80,'#fff',200], t2:['SERVICES',60,'#60a5fa',300], t3:['24/7 HELP',50,'#fff',400]},
-  {bg:'#581c87', t1:['MANAGEMENT',70,'#fff',200], t2:['PRO',80,'#c084fc',300], t3:['LEADERSHIP',50,'#fff',400]},
-  {bg:'#2563eb', t1:['10% OFF',90,'#ffff00',200], t2:['BUSINESS',70,'#fff',320], t3:['SPECIAL DEAL',45,'#fff',420]},
-  {bg:'#0f172a', t1:['AGENCY',90,'#00d4ff',200], t2:['PRO',90,'#fff',320], t3:['MARKETING SOLUTIONS',40,'#00d4ff',420]},
-];
+// CORPORATE COLORS
+const MAGENTA = '#d90479';
+const NAVY = '#001f4d';
+const MINT = '#2dd4bf';
+const WHITE = '#ffffff';
 
 function saveState() {
   history = history.slice(0, historyStep + 1);
@@ -172,7 +154,7 @@ function setBrand(color, el) {
 
 function updateLayers() {
   const layersDiv = document.getElementById('layers');
-  layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS - TAP TO DRAG</b>';
+  layersDiv.innerHTML = '<b style="color:#2dd4bf">LAYERS - TAP TO EDIT</b>';
   elements.forEach((el, i) => {
     if(el.type === 'bg') return;
     const name = el.type === 'text'? el.text.substring(0,8) : el.type;
@@ -188,10 +170,21 @@ function updateLayers() {
 function selectLayer(i) {
   selectedIndex = i;
   updateLayers();
-  if(elements[i].type === 'text') {
+  if(elements[i].type === 'text' || elements[i].type === 'list') {
+    document.getElementById('textControls').style.display = 'flex';
+    document.getElementById('sizeSlider').value = elements[i].size;
+    document.getElementById('rotateSlider').value = elements[i].rotate || 0;
     document.getElementById('textModalTitle').innerText = 'Edit Text';
-    document.getElementById('textInput').value = elements[i].text;
+    document.getElementById('textInput').value = elements[i].text || '';
+    if(elements[i].type === 'list') {
+      document.getElementById('multiInput').style.display = 'block';
+      document.getElementById('multiInput').value = elements[i].items.join('\n');
+    } else {
+      document.getElementById('multiInput').style.display = 'none';
+    }
     document.getElementById('textModal').style.display = 'flex';
+  } else {
+    document.getElementById('textControls').style.display = 'none';
   }
 }
 
@@ -213,40 +206,86 @@ function duplicateLayer() {
   }
 }
 
-function bringForward() {
-  if(selectedIndex >= 0 && selectedIndex < elements.length - 1) {
-    [elements[selectedIndex], elements[selectedIndex+1]] = [elements[selectedIndex+1], elements[selectedIndex]];
-    selectedIndex++;
-    saveState();
+function changeSize(val) {
+  if(selectedIndex >= 0) {
+    elements[selectedIndex].size = parseInt(val);
     redraw();
   }
 }
 
-function sendBack() {
-  if(selectedIndex > 0) {
-    [elements[selectedIndex], elements[selectedIndex-1]] = [elements[selectedIndex-1], elements[selectedIndex]];
-    selectedIndex--;
-    saveState();
+function changeRotate(val) {
+  if(selectedIndex >= 0) {
+    elements[selectedIndex].rotate = parseInt(val);
     redraw();
   }
 }
 
+function toggleStroke() {
+  if(selectedIndex >= 0) elements[selectedIndex].stroke =!elements[selectedIndex].stroke;
+  redraw();
+}
+
+function toggleShadow() {
+  if(selectedIndex >= 0) elements[selectedIndex].shadow =!elements[selectedIndex].shadow;
+  redraw();
+}
+
+// 5 TYPES OF TRIANGLES + RECT + SQUARE
 function addShape(type) {
-  if(type === 'curve') {
-    elements.push({type:'shape', shape:'curve', x:0, y:800, w:1080, h:400, color:brandColor});
-  }
-  if(type === 'circle') {
-    elements.push({type:'shape', shape:'circle', x:540, y:300, r:150, color:brandColor});
-  }
-  if(type === 'tail') {
-    elements.push({type:'shape', shape:'tail', x:100, y:500, w:400, h:150, color:brandColor});
-  }
-  if(type === 'ribbon') {
-    elements.push({type:'shape', shape:'ribbon', x:50, y:100, w:300, h:80, color:brandColor});
-  }
+  if(type === 'tri1') elements.push({type:'shape', shape:'tri1', x:0, y:0, w:540, h:675, color:brandColor}); // Top Left
+  if(type === 'tri2') elements.push({type:'shape', shape:'tri2', x:540, y:0, w:540, h:675, color:brandColor}); // Top Right
+  if(type === 'tri3') elements.push({type:'shape', shape:'tri3', x:0, y:675, w:540, h:675, color:brandColor}); // Bottom Left
+  if(type === 'tri4') elements.push({type:'shape', shape:'tri4', x:540, y:675, w:540, h:675, color:brandColor}); // Bottom Right
+  if(type === 'tri5') elements.push({type:'shape', shape:'tri5', x:270, y:337, w:540, h:675, color:brandColor}); // Center Diamond
+  if(type === 'rect') elements.push({type:'shape', shape:'rect', x:100, y:100, w:400, h:200, color:brandColor});
+  if(type === 'square') elements.push({type:'shape', shape:'square', x:300, y:300, w:200, h:200, color:brandColor});
   selectedIndex = elements.length - 1;
   saveState();
   redraw();
+}
+
+function addPhotoSection() {
+  elements.push({type:'photo', x:50, y:180, w:450, h:600, color:NAVY, src:null});
+  elements.push({type:'text', text:'UPLOAD PHOTO', x:275, y:480, size:30, color:WHITE, align:'center'});
+  selectedIndex = elements.length - 1;
+  saveState();
+  redraw();
+}
+
+function addAboutSection() {
+  elements.push({type:'shape', shape:'rect', x:40, y:900, w:500, h:350, color:MAGENTA});
+  elements.push({type:'text', text:'ABOUT', x:60, y:950, size:50, color:WHITE, align:'left', font:'Arial Black'});
+  elements.push({type:'text', text:'COMPANY', x:60, y:1000, size:50, color:WHITE, align:'left', font:'Arial Black'});
+  elements.push({type:'text', text:'Your company description here\nLine 2\nLine 3', x:60, y:1050, size:20, color:WHITE, align:'left'});
+  saveState();
+  redraw();
+}
+
+function addServicesSection() {
+  elements.push({type:'text', text:'BEST', x:600, y:750, size:45, color:WHITE, align:'left'});
+  elements.push({type:'text', text:'SERVICES', x:600, y:800, size:45, color:MAGENTA, align:'left'});
+  elements.push({type:'list', listType:'bullet', items:['Service 1', 'Service 2', 'Service 3', 'Service 4'], x:600, y:860, size:30, color:WHITE});
+  elements.push({type:'text', text:'WWW.YOURWEB.COM', x:1000, y:1290, size:35, color:NAVY, align:'right'});
+  saveState();
+  redraw();
+}
+
+function loadDiagonalTemplate() {
+  elements = [
+    {type:'bg', color:NAVY},
+    {type:'shape', shape:'tri2', x:400, y:0, w:680, h:500, color:MAGENTA},
+    {type:'shape', shape:'tri3', x:0, y:600, w:500, h:750, color:MAGENTA},
+    {type:'shape', shape:'rect', x:0, y:1250, w:1080, h:100, color:MINT},
+  ];
+  saveState();
+  redraw();
+}
+
+function loadCorporateTemplate() {
+  loadDiagonalTemplate();
+  addPhotoSection();
+  addAboutSection();
+  addServicesSection();
 }
 
 function redraw() {
@@ -258,63 +297,111 @@ function redraw() {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
-  
+
   elements.forEach((el, i) => {
     if(el.type === 'bg') return;
-    
+
+    ctx.save();
+    ctx.translate(el.x, el.y);
+    ctx.rotate((el.rotate || 0) * Math.PI / 180);
+
     if(el.type === 'text') {
       ctx.fillStyle = el.color;
-      ctx.font = `bold ${el.size}px Arial Black`;
-      ctx.textAlign = 'center';
-      ctx.shadowColor = 'rgba(0,0,0,0.5)';
-      ctx.shadowBlur = i===selectedIndex?20:10;
-      ctx.fillText(el.text, el.x, el.y);
-      ctx.shadowBlur = 0;
+      ctx.font = `bold ${el.size}px ${el.font || 'Arial Black'}`;
+      ctx.textAlign = el.align || 'center';
+      if(el.shadow) {
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 10;
+      }
+      if(el.stroke) {
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 4;
+        ctx.strokeText(el.text, 0, 0);
+      }
+      ctx.fillText(el.text, 0, 0);
     }
-    
+
+    if(el.type === 'list') {
+      ctx.fillStyle = el.color;
+      ctx.font = `bold ${el.size}px Arial`;
+      ctx.textAlign = 'left';
+      el.items.forEach((item, j) => {
+        if(el.listType === 'bullet') {
+          ctx.beginPath();
+          ctx.arc(-20, j*40, 6, 0, Math.PI*2);
+          ctx.fill();
+        } else {
+          ctx.fillText('•', -20, j*40);
+        }
+        ctx.fillText(item, 0, j*40);
+      });
+    }
+
+    if(el.type === 'photo') {
+      ctx.fillStyle = el.color;
+      ctx.fillRect(0, 0, el.w, el.h);
+      if(el.src) {
+        const img = new Image();
+        img.src = el.src;
+        ctx.drawImage(img, 0, 0, el.w, el.h);
+      }
+    }
+
     if(el.type === 'shape') {
       ctx.fillStyle = el.color;
-      if(el.shape === 'circle') {
+      if(el.shape === 'tri1') { // Top Left
         ctx.beginPath();
-        ctx.arc(el.x, el.y, el.r, 0, Math.PI*2);
-        ctx.fill();
-      }
-      if(el.shape === 'curve') {
-        ctx.beginPath();
-        ctx.moveTo(el.x, el.y + el.h);
-        ctx.quadraticCurveTo(el.x + el.w/2, el.y, el.x + el.w, el.y + el.h);
-        ctx.lineTo(el.x + el.w, canvas.height);
-        ctx.lineTo(el.x, canvas.height);
+        ctx.moveTo(0,0);
+        ctx.lineTo(el.w,0);
+        ctx.lineTo(0,el.h);
         ctx.closePath();
         ctx.fill();
       }
-      if(el.shape === 'tail') {
-        // Speech bubble tail
+      if(el.shape === 'tri2') { // Top Right
         ctx.beginPath();
-        ctx.roundRect(el.x, el.y, el.w, el.h, 20);
-        ctx.lineTo(el.x + el.w/2 - 20, el.y + el.h);
-        ctx.lineTo(el.x + el.w/2, el.y + el.h + 40);
-        ctx.lineTo(el.x + el.w/2 + 20, el.y + el.h);
+        ctx.moveTo(el.w,0);
+        ctx.lineTo(el.w,el.h);
+        ctx.lineTo(0,0);
         ctx.closePath();
         ctx.fill();
       }
-      if(el.shape === 'ribbon') {
-        // Sale ribbon with tail
+      if(el.shape === 'tri3') { // Bottom Left
         ctx.beginPath();
-        ctx.moveTo(el.x, el.y);
-        ctx.lineTo(el.x + el.w, el.y);
-        ctx.lineTo(el.x + el.w + 30, el.y + el.h/2);
-        ctx.lineTo(el.x + el.w, el.y + el.h);
-        ctx.lineTo(el.x, el.y + el.h);
-        ctx.lineTo(el.x + 30, el.y + el.h/2);
+        ctx.moveTo(0,el.h);
+        ctx.lineTo(el.w,el.h);
+        ctx.lineTo(0,0);
         ctx.closePath();
         ctx.fill();
+      }
+      if(el.shape === 'tri4') { // Bottom Right
+        ctx.beginPath();
+        ctx.moveTo(el.w,el.h);
+        ctx.lineTo(0,el.h);
+        ctx.lineTo(el.w,0);
+        ctx.closePath();
+        ctx.fill();
+      }
+      if(el.shape === 'tri5') { // Diamond
+        ctx.beginPath();
+        ctx.moveTo(el.w/2,0);
+        ctx.lineTo(el.w,el.h/2);
+        ctx.lineTo(el.w/2,el.h);
+        ctx.lineTo(0,el.h/2);
+        ctx.closePath();
+        ctx.fill();
+      }
+      if(el.shape === 'rect') {
+        ctx.fillRect(0, 0, el.w, el.h);
+      }
+      if(el.shape === 'square') {
+        ctx.fillRect(0, 0, el.w, el.h);
       }
     }
+    ctx.restore();
   });
 }
 
-// DRAG TO MOVE
+// DRAG TO MOVE + RESIZE
 canvas.addEventListener('touchstart', handleStart);
 canvas.addEventListener('mousedown', handleStart);
 canvas.addEventListener('touchmove', handleMove);
@@ -337,7 +424,7 @@ function handleStart(e) {
     if(dist < 150) {
       selectedIndex = i;
       isDragging = true;
-      updateLayers();
+      selectLayer(i);
       return;
     }
   }
@@ -354,49 +441,52 @@ function handleMove(e) {
 function addText() {
   document.getElementById('textModalTitle').innerText = 'Add Text';
   document.getElementById('textInput').value = '';
+  document.getElementById('multiInput').style.display = 'none';
   document.getElementById('textModal').style.display = 'flex';
 }
 
 function confirmText() {
   const text = document.getElementById('textInput').value;
-  if(text) {
-    if(selectedIndex >= 0 && elements[selectedIndex].type === 'text') {
-      elements[selectedIndex].text = text;
+  const multi = document.getElementById('multiInput').value;
+  if(selectedIndex >= 0) {
+    if(elements[selectedIndex].type === 'list') {
+      elements[selectedIndex].items = multi.split('\n');
     } else {
-      elements.push({type:'text', text:text, x:540, y:400, size:60, color:brandColor});
-      selectedIndex = elements.length - 1;
+      elements[selectedIndex].text = text;
     }
-    saveState();
-    redraw();
+  } else {
+    if(multi) {
+      elements.push({type:'list', listType:'bullet', items:multi.split('\n'), x:540, y:400, size:30, color:brandColor});
+    } else {
+      elements.push({type:'text', text:text, x:540, y:400, size:60, color:brandColor, rotate:0, shadow:true});
+    }
+    selectedIndex = elements.length - 1;
   }
+  saveState();
+  redraw();
   closeText();
 }
 
 function closeText() {
   document.getElementById('textModal').style.display = 'none';
   document.getElementById('textInput').value = '';
+  document.getElementById('multiInput').value = '';
 }
 
-function uploadImage() { uploadFile(false); }
-
-function uploadFile(isLogo) {
+function uploadImage() {
   const input = document.createElement('input');
   input.type = 'file'; input.accept = 'image/*';
   input.onchange = e => {
     const reader = new FileReader();
     reader.onload = () => {
-      const img = new Image();
-      img.src = reader.result;
-      img.onload = () => {
-        let w = isLogo? 200 : 500;
-        let h = img.height * (w / img.width);
-        let x = isLogo? 50 : 540 - w/2;
-        let y = isLogo? 50 : 600;
-        elements.push({type:'image', src:reader.result, x:x, y:y, w:w, h:h});
+      if(selectedIndex >= 0 && elements[selectedIndex].type === 'photo') {
+        elements[selectedIndex].src = reader.result;
+      } else {
+        elements.push({type:'image', src:reader.result, x:540, y:600, w:500, h:300});
         selectedIndex = elements.length - 1;
-        saveState();
-        redraw();
       }
+      saveState();
+      redraw();
     }
     reader.readAsDataURL(e.target.files[0]);
   }
@@ -405,7 +495,7 @@ function uploadFile(isLogo) {
 
 function exportPNG() {
   const link = document.createElement('a');
-  link.download = 'TAIL-poster.png';
+  link.download = 'CORPORATE-poster.png';
   link.href = canvas.toDataURL('image/png');
   link.click();
 }
@@ -417,24 +507,7 @@ function clearCanvas() {
   redraw();
 }
 
-function loadTemplate(i) {
-  const t = templates[i];
-  elements = [
-    {type:'bg', color:t.bg},
-    {type:'text', text:t.t1[0], x:540, y:t.t1[3], size:t.t1[1], color:t.t1[2]},
-    {type:'text', text:t.t2[0], x:540, y:t.t2[3], size:t.t2[1], color:t.t2[2]},
-    {type:'text', text:t.t3[0], x:540, y:t.t3[3], size:t.t3[1], color:t.t3[2]},
-  ];
-  if(i >= 20) {
-    elements.push({type:'shape', shape:'curve', x:0, y:900, w:1080, h:300, color:'#ffffff22'});
-  }
-  selectedIndex = -1;
-  saveState();
-  redraw();
-  document.querySelector('.canvas-wrap').scrollIntoView({behavior: 'smooth'});
-}
-
-loadTemplate(0);
+loadDiagonalTemplate();
 </script>
 
 </body>
