@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - GOD TIER</title>
+<title>Twins Poster Studio AI PRO - GOD TIER V3</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.4/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -12,19 +12,18 @@
   header { background: linear-gradient(90deg, #ff4d00, #a855f7, #00d4ff); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top:0; z-index:50; }
   button { padding: 9px 12px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 12px; }
-  button:hover { background: #e63e00; }
 .ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
 .pro-btn { background: #00d4ff; color: #000; }
 .side-panel { display: flex; }
-.layers { width: 120px; background: #1a1a1a; padding: 8px; max-height: 400px; overflow-y: auto; font-size: 11px; }
-.layer-item { background: #2a2a2a; padding: 6px; margin: 4px 0; border-radius: 4px; cursor: pointer; }
-.layer-item.active { background: #ff4d00; }
+.layers { width: 100px; background: #1a1a1a; padding: 8px; max-height: 400px; overflow-y: auto; font-size: 10px; }
 .templates-section { background: #1a1a1a; padding: 15px; }
 .templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #00d4ff; font-weight: bold; }
-.templates { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.template-btn { background: #2a2a2a; border: 2px solid #00d4ff; padding: 10px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 11px; }
+.templates-wrapper { max-height: 280px; overflow-y: auto; }
+.templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.template-btn { background: #2a2a2a; border: 2px solid #00d4ff; padding: 14px 8px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; width: 100%; }
+.template-btn:active { background: #00d4ff; color: #000; transform: scale(0.95); }
 .canvas-wrap { display: flex; justify-content: center; padding: 15px; flex: 1; }
-  canvas { background: white; max-width: 100%; border: 3px solid #00d4ff; box-shadow: 0 0 20px #00d4ff44; }
+  canvas { background: white; max-width: 100%; border: 3px solid #00d4ff; }
 .brand-colors { display: flex; gap: 5px; justify-content: center; padding: 8px; background: #111; }
 .color { width: 30px; height: 30px; border-radius: 50%; border: 2px solid white; cursor: pointer; }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
@@ -33,35 +32,33 @@
 </head>
 <body>
 
-<header>🔥 TWINS POSTER STUDIO AI PRO - GOD TIER EDITION</header>
+<header>🔥 TWINS POSTER STUDIO AI PRO - GOD TIER V3</header>
 
 <div class="toolbar">
-  <button onclick="undo()">↩️ Undo</button>
-  <button onclick="redo()">↪️ Redo</button>
-  <button onclick="addText()">T Text</button>
-  <button onclick="addImage()">🖼️ Image</button>
-  <button onclick="uploadLogo()">Logo</button>
-  <button onclick="addQR()">QR</button>
-  <button class="ai-btn" onclick="aiBackground()">AI BG</button>
-  <button class="pro-btn" onclick="addShadow()">Shadow</button>
-  <button onclick="exportPNG()">HD PNG</button>
-  <button onclick="exportPDF()">Print PDF</button>
-  <button onclick="clearCanvas()">Clear</button>
+  <button id="undoBtn">↩️ Undo</button>
+  <button id="redoBtn">↪️ Redo</button>
+  <button id="textBtn">T Text</button>
+  <button id="imageBtn">🖼️ Image</button>
+  <button id="logoBtn">Logo</button>
+  <button id="qrBtn">QR</button>
+  <button id="aiBtn" class="ai-btn">AI BG</button>
+  <button id="shadowBtn" class="pro-btn">Shadow</button>
+  <button id="pngBtn">HD PNG</button>
+  <button id="pdfBtn">Print PDF</button>
+  <button id="clearBtn">Clear</button>
 </div>
 
 <div class="brand-colors">
-  <div class="color" style="background:#ff4d00" onclick="setBrand('#ff4d00')"></div>
-  <div class="color" style="background:#00d4ff" onclick="setBrand('#00d4ff')"></div>
-  <div class="color" style="background:#a855f7" onclick="setBrand('#a855f7')"></div>
-  <div class="color" style="background:#ffff00" onclick="setBrand('#ffff00')"></div>
-  <div class="color" style="background:#000" onclick="setBrand('#000')"></div>
-  <div class="color" style="background:#fff" onclick="setBrand('#fff')"></div>
+  <div class="color" data-color="#ff4d00" style="background:#ff4d00"></div>
+  <div class="color" data-color="#00d4ff" style="background:#00d4ff"></div>
+  <div class="color" data-color="#a855f7" style="background:#a855f7"></div>
+  <div class="color" data-color="#ffff00" style="background:#ffff00"></div>
+  <div class="color" data-color="#000" style="background:#000"></div>
+  <div class="color" data-color="#fff" style="background:#fff"></div>
 </div>
 
 <div class="side-panel">
-  <div class="layers" id="layers">
-    <b style="color:#00d4ff">LAYERS</b>
-  </div>
+  <div class="layers" id="layers"><b style="color:#00d4ff">LAYERS</b></div>
   <div class="canvas-wrap">
     <canvas id="canvas" width="1080" height="1350"></canvas>
   </div>
@@ -69,27 +66,8 @@
 
 <div class="templates-section">
   <div class="templates-title">📋 20 GOD TIER TEMPLATES - TAP TO LOAD</div>
-  <div class="templates">
-    <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro</button>
-    <button class="template-btn" onclick="loadTemplate(1)">Real Estate</button>
-    <button class="template-btn" onclick="loadTemplate(2)">Mega Sale 70%</button>
-    <button class="template-btn" onclick="loadTemplate(3)">Black Friday</button>
-    <button class="template-btn" onclick="loadTemplate(4)">Sunday Service</button>
-    <button class="template-btn" onclick="loadTemplate(5)">Easter Special</button>
-    <button class="template-btn" onclick="loadTemplate(6)">Grand Opening</button>
-    <button class="template-btn" onclick="loadTemplate(7)">Live Concert</button>
-    <button class="template-btn" onclick="loadTemplate(8)">Food Special</button>
-    <button class="template-btn" onclick="loadTemplate(9)">Menu Board</button>
-    <button class="template-btn" onclick="loadTemplate(10)">School Enroll</button>
-    <button class="template-btn" onclick="loadTemplate(11)">Health Check</button>
-    <button class="template-btn" onclick="loadTemplate(12)">Wedding Invite</button>
-    <button class="template-btn" onclick="loadTemplate(13)">Birthday Party</button>
-    <button class="template-btn" onclick="loadTemplate(14)">We Are Hiring</button>
-    <button class="template-btn" onclick="loadTemplate(15)">Fitness Promo</button>
-    <button class="template-btn" onclick="loadTemplate(16)">Car Wash</button>
-    <button class="template-btn" onclick="loadTemplate(17)">Hair Special</button>
-    <button class="template-btn" onclick="loadTemplate(18)">Spaza Special</button>
-    <button class="template-btn" onclick="loadTemplate(19)">Memorial</button>
+  <div class="templates-wrapper">
+    <div class="templates" id="templateGrid"></div>
   </div>
 </div>
 
@@ -98,18 +76,26 @@
     <h3>Enter QR Code Link</h3>
     <input type="text" id="qrInput" placeholder="https://yourlink.com" style="width:90%; padding:10px; margin:10px;">
     <br>
-    <button onclick="generateQR()">Generate QR</button>
-    <button onclick="closeQR()">Cancel</button>
+    <button id="genQRBtn">Generate QR</button>
+    <button id="closeQRBtn">Cancel</button>
     <div id="qrcode" style="margin-top:15px; background:white; padding:10px; display:inline-block;"></div>
   </div>
 </div>
 
 <script>
+window.onload = function() { // KEY FIX: WAIT FOR PAGE TO LOAD
 const canvas = new fabric.Canvas('canvas', { preserveObjectStacking: true });
 canvas.backgroundColor = '#ffffff';
 let brandColor = '#ff4d00';
 let history = [];
 let historyStep = -1;
+
+const templateNames = [
+'Corporate Pro','Real Estate','Mega Sale 70%','Black Friday','Sunday Service',
+'Easter Special','Grand Opening','Live Concert','Food Special','Menu Board',
+'School Enroll','Health Check','Wedding Invite','Birthday Party','We Are Hiring',
+'Fitness Promo','Car Wash','Hair Special','Spaza Special','Memorial'
+];
 
 const templates = [
   {bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',45,'#fff',350], t3:['Call: 012 345 6789',40,'#fff',1100]},
@@ -134,42 +120,59 @@ const templates = [
   {bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration of Life',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
 ];
 
-// GOD TIER FEATURES
+// AUTO BUILD ALL 20 BUTTONS
+const grid = document.getElementById('templateGrid');
+templateNames.forEach((name,i)=>{
+  grid.innerHTML += `<button class="template-btn" data-i="${i}">${name}</button>`;
+});
+
+// ADD CLICK EVENTS TO ALL BUTTONS
+document.querySelectorAll('.template-btn').forEach(btn=>{
+  btn.onclick = () => loadTemplate(btn.dataset.i);
+});
+
+// BUTTON EVENTS
+document.getElementById('textBtn').onclick = addText;
+document.getElementById('imageBtn').onclick = () => uploadFile(false);
+document.getElementById('logoBtn').onclick = () => uploadFile(true);
+document.getElementById('qrBtn').onclick = () => document.getElementById('qrModal').style.display = 'flex';
+document.getElementById('aiBtn').onclick = aiBackground;
+document.getElementById('shadowBtn').onclick = addShadow;
+document.getElementById('pngBtn').onclick = exportPNG;
+document.getElementById('pdfBtn').onclick = exportPDF;
+document.getElementById('clearBtn').onclick = clearCanvas;
+document.getElementById('undoBtn').onclick = undo;
+document.getElementById('redoBtn').onclick = redo;
+document.getElementById('genQRBtn').onclick = generateQR;
+document.getElementById('closeQRBtn').onclick = closeQR;
+document.querySelectorAll('.color').forEach(c=>{ c.onclick = () => brandColor = c.dataset.color; });
+
 function saveState() {
   history = history.slice(0, historyStep + 1);
   history.push(JSON.stringify(canvas));
   historyStep++;
   updateLayers();
 }
-function undo() { if(historyStep > 0) { historyStep--; canvas.loadFromJSON(history[historyStep], canvas.renderAll.bind(canvas)); updateLayers(); } }
-function redo() { if(historyStep < history.length - 1) { historyStep++; canvas.loadFromJSON(history[historyStep], canvas.renderAll.bind(canvas)); updateLayers(); } }
-function setBrand(color) { brandColor = color; }
+function undo() { if(historyStep > 0) { historyStep--; canvas.loadFromJSON(history[historyStep], ()=>{canvas.renderAll(); updateLayers();}); }
+function redo() { if(historyStep < history.length - 1) { historyStep++; canvas.loadFromJSON(history[historyStep], ()=>{canvas.renderAll(); updateLayers();}); } }
 
 function updateLayers() {
   const layersDiv = document.getElementById('layers');
   layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS</b>';
   canvas.getObjects().forEach((obj, i) => {
-    const div = document.createElement('div');
-    div.className = 'layer-item';
-    div.innerText = obj.type + ' + (i+1);
-    div.onclick = () => canvas.setActiveObject(obj);
-    layersDiv.appendChild(div);
+    layersDiv.innerHTML += `<div class="layer-item">${obj.type} ${i+1}</div>`;
   });
 }
 
 function addText() {
-  const text = new fabric.Textbox('Edit Me', {left: 100, top: 100, width: 880, fontSize: 60, fill: brandColor, fontFamily: 'Arial Black', textAlign: 'center'});
-  canvas.add(text).setActiveObject(text);
+  canvas.add(new fabric.Textbox('Edit Me', {left: 100, top: 100, width: 880, fontSize: 60, fill: brandColor, fontFamily: 'Arial Black', textAlign: 'center'}));
   saveState();
 }
 
 function addShadow() {
   const obj = canvas.getActiveObject();
-  if(obj) { obj.set('shadow', 'rgba(0,0,0,0.5) 10px 10px 15px'); canvas.requestRenderAll(); saveState(); }
+  if(obj) { obj.set('shadow', new fabric.Shadow('rgba(0,0,0,0.5) 10px 10px 15px')); canvas.requestRenderAll(); saveState(); }
 }
-
-function addImage() { uploadFile(false); }
-function uploadLogo() { uploadFile(true); }
 
 function uploadFile(isLogo) {
   const input = document.createElement('input');
@@ -189,13 +192,10 @@ function uploadFile(isLogo) {
 }
 
 function aiBackground() {
-  const gradients = ['linear-gradient(45deg,#ff4d00,#a855f7)', 'linear-gradient(45deg,#00d4ff,#1e3a8a)', 'linear-gradient(45deg,#ff0000,#ffff00)'];
-  const bg = gradients[Math.floor(Math.random()*3)];
-  canvas.setBackgroundColor(bg, canvas.requestRenderAll.bind(canvas));
-  saveState();
+  const colors = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000'];
+  canvas.setBackgroundColor(colors[Math.floor(Math.random()*5)], ()=>{canvas.requestRenderAll(); saveState();});
 }
 
-function addQR() { document.getElementById('qrModal').style.display = 'flex'; }
 function generateQR() {
   const url = document.getElementById('qrInput').value;
   if(!url) return alert('Enter link');
@@ -212,7 +212,7 @@ function closeQR() { document.getElementById('qrModal').style.display = 'none'; 
 function exportPNG() {
   const link = document.createElement('a');
   link.download = 'GOD-TIER-poster.png';
-  link.href = canvas.toDataURL({format: 'png', multiplier: 4}); // 4K EXPORT
+  link.href = canvas.toDataURL({format: 'png', multiplier: 4});
   link.click();
 }
 function exportPDF() {
@@ -222,8 +222,8 @@ function exportPDF() {
 }
 function clearCanvas() { canvas.clear(); canvas.backgroundColor = '#ffffff'; saveState(); }
 
-// FIXED TEMPLATE LOADER
 function loadTemplate(i) {
+  i = parseInt(i);
   const t = templates[i];
   canvas.clear();
   canvas.setBackgroundColor(t.bg, function() {
@@ -238,7 +238,8 @@ function loadTemplate(i) {
 
 canvas.on('object:modified', saveState);
 canvas.on('object:added', saveState);
-saveState(); // initial state
+saveState();
+} // END WINDOW.ONLOAD
 </script>
 
 </body>
