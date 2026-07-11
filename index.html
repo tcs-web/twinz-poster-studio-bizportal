@@ -3,28 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - WORLD CLASS</title>
+<title>Twins Poster Studio AI PRO - PRO STUDIO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   body { font-family: 'Arial Black', Arial; background: #0a0a0a; color: white; margin:0; }
   header { background: linear-gradient(90deg, #ff4d00, #a855f7, #00d4ff); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top:0; z-index:50; }
-  button { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 12px; }
+  button { padding: 10px 12px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 11px; }
 .ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
+.danger-btn { background: #ff0000; }
 .pro-btn { background: #00d4ff; color: #000; }
 .brand-colors { display: flex; gap: 8px; justify-content: center; padding: 10px; background: #111; }
 .color { width: 35px; height: 35px; border-radius: 50%; border: 3px solid white; cursor: pointer; }
 .color.active { border: 3px solid #00d4ff; }
 .side-panel { display: flex; }
-.layers { width: 110px; background: #1a1a1a; padding: 8px; max-height: 400px; overflow-y: auto; font-size: 10px; }
-.layer-item { background: #2a2a2a; padding: 5px; margin: 3px 0; border-radius: 4px; font-size: 9px; }
+.layers { width: 120px; background: #1a1a1a; padding: 8px; max-height: 400px; overflow-y: auto; font-size: 10px; }
+.layer-item { background: #2a2a2a; padding: 6px; margin: 3px 0; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; }
+.layer-item.active { background: #00d4ff; color: #000; }
+.layer-item button { padding: 2px 6px; font-size: 10px; background: #ff0000; }
 .templates-section { background: #1a1a1a; padding: 15px; }
 .templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #00d4ff; font-weight: bold; }
 .templates-wrapper { max-height: 280px; overflow-y: auto; }
 .templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .template-btn { background: #2a2a2a; border: 2px solid #00d4ff; padding: 14px 8px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 13px; width: 100%; }
-.template-btn:active { background: #00d4ff; color: #000; }
 .canvas-wrap { display: flex; justify-content: center; padding: 15px; flex: 1; }
   canvas { background: white; max-width: 100%; border: 3px solid #00d4ff; touch-action: none; }
 .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
@@ -34,7 +36,7 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 </head>
 <body>
 
-<header>🔥 TWINS POSTER STUDIO AI PRO - WORLD CLASS</header>
+<header>🔥 TWINS POSTER STUDIO AI PRO - PRO STUDIO</header>
 
 <div class="toolbar">
   <button onclick="undo()">↩️ Undo</button>
@@ -42,11 +44,14 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
   <button onclick="addText()">T Text</button>
   <button onclick="uploadImage()">🖼️ Image</button>
   <button onclick="uploadLogo()">Logo</button>
+  <button onclick="duplicateLayer()">📋 Dup</button>
+  <button onclick="bringForward()">⬆️ Front</button>
+  <button onclick="sendBack()">⬇️ Back</button>
   <button onclick="addQR()">QR</button>
   <button class="ai-btn" onclick="aiBackground()">AI BG</button>
   <button onclick="exportPNG()">HD PNG</button>
   <button onclick="exportPDF()">Print PDF</button>
-  <button onclick="clearCanvas()">Clear</button>
+  <button class="danger-btn" onclick="clearCanvas()">Clear</button>
 </div>
 
 <div class="brand-colors">
@@ -60,7 +65,7 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 
 <div class="side-panel">
   <div class="layers" id="layers">
-    <b style="color:#00d4ff">LAYERS</b>
+    <b style="color:#00d4ff">LAYERS - TAP TO SELECT</b>
   </div>
   <div class="canvas-wrap">
     <canvas id="canvas" width="1080" height="1350"></canvas>
@@ -97,9 +102,9 @@ input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: n
 
 <div class="modal" id="textModal">
   <div class="modal-content">
-    <h3>Add Text</h3>
+    <h3 id="textModalTitle">Add Text</h3>
     <input type="text" id="textInput" placeholder="Type your text here">
-    <button onclick="confirmText()">Add Text</button>
+    <button onclick="confirmText()">Save</button>
     <button onclick="closeText()">Cancel</button>
   </div>
 </div>
@@ -120,7 +125,9 @@ const ctx = canvas.getContext('2d');
 let brandColor = '#ff4d00';
 let history = [];
 let historyStep = -1;
-let elements = []; // This is our "layers"
+let elements = [];
+let selectedIndex = -1;
+let isDragging = false;
 
 const templates = [
   {bg:'#0a0a0a', t1:['YOUR BUSINESS',90,'#ff4d00',200], t2:['Professional Services',50,'#fff',350], t3:['Call: 012 345 6789',45,'#fff',1100]},
@@ -172,14 +179,67 @@ function setBrand(color, el) {
   brandColor = color;
   document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
+  if(selectedIndex >= 0 && elements[selectedIndex].type === 'text') {
+    elements[selectedIndex].color = color;
+    saveState();
+    redraw();
+  }
 }
 
 function updateLayers() {
   const layersDiv = document.getElementById('layers');
-  layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS</b>';
+  layersDiv.innerHTML = '<b style="color:#00d4ff">LAYERS - TAP TO SELECT</b>';
   elements.forEach((el, i) => {
-    layersDiv.innerHTML += `<div class="layer-item">${el.type} ${i+1}</div>`;
+    if(el.type === 'bg') return;
+    const name = el.type === 'text'? el.text.substring(0,8) : el.type;
+    layersDiv.innerHTML += `
+      <div class="layer-item ${i===selectedIndex?'active':''}" onclick="selectLayer(${i})">
+        <span>${el.type} ${i+1}: ${name}</span>
+        <button onclick="deleteLayer(${i});event.stopPropagation()">X</button>
+      </div>
+    `;
   });
+}
+
+function selectLayer(i) {
+  selectedIndex = i;
+  updateLayers();
+}
+
+function deleteLayer(i) {
+  elements.splice(i, 1);
+  selectedIndex = -1;
+  saveState();
+  redraw();
+}
+
+function duplicateLayer() {
+  if(selectedIndex >= 0) {
+    const dup = JSON.parse(JSON.stringify(elements[selectedIndex]));
+    dup.y += 30; dup.x += 30;
+    elements.push(dup);
+    selectedIndex = elements.length - 1;
+    saveState();
+    redraw();
+  }
+}
+
+function bringForward() {
+  if(selectedIndex >= 0 && selectedIndex < elements.length - 1) {
+    [elements[selectedIndex], elements[selectedIndex+1]] = [elements[selectedIndex+1], elements[selectedIndex]];
+    selectedIndex++;
+    saveState();
+    redraw();
+  }
+}
+
+function sendBack() {
+  if(selectedIndex > 0) {
+    [elements[selectedIndex], elements[selectedIndex-1]] = [elements[selectedIndex-1], elements[selectedIndex]];
+    selectedIndex--;
+    saveState();
+    redraw();
+  }
 }
 
 function redraw() {
@@ -192,13 +252,14 @@ function redraw() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
   
-  elements.forEach(el => {
+  elements.forEach((el, i) => {
+    if(el.type === 'bg') return;
     if(el.type === 'text') {
       ctx.fillStyle = el.color;
       ctx.font = `bold ${el.size}px Arial Black`;
       ctx.textAlign = 'center';
       ctx.shadowColor = 'rgba(0,0,0,0.5)';
-      ctx.shadowBlur = 10;
+      ctx.shadowBlur = i===selectedIndex?20:10;
       ctx.fillText(el.text, el.x, el.y);
       ctx.shadowBlur = 0;
     }
@@ -210,14 +271,57 @@ function redraw() {
   });
 }
 
+// DRAG TO MOVE
+canvas.addEventListener('touchstart', handleStart);
+canvas.addEventListener('mousedown', handleStart);
+canvas.addEventListener('touchmove', handleMove);
+canvas.addEventListener('mousemove', handleMove);
+canvas.addEventListener('touchend', ()=>isDragging=false);
+canvas.addEventListener('mouseup', ()=>isDragging=false);
+
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const x = (e.touches?e.touches[0].clientX:e.clientX) - rect.left;
+  const y = (e.touches?e.touches[0].clientY:e.clientY) - rect.top;
+  return {x: x * (canvas.width/rect.width), y: y * (canvas.height/rect.height)};
+}
+
+function handleStart(e) {
+  const pos = getPos(e);
+  for(let i=elements.length-1; i>=0; i--) {
+    if(elements[i].type!== 'text') continue;
+    const dist = Math.abs(pos.x - elements[i].x) + Math.abs(pos.y - elements[i].y);
+    if(dist < 100) {
+      selectedIndex = i;
+      isDragging = true;
+      updateLayers();
+      return;
+    }
+  }
+}
+
+function handleMove(e) {
+  if(!isDragging || selectedIndex < 0) return;
+  const pos = getPos(e);
+  elements[selectedIndex].x = pos.x;
+  elements[selectedIndex].y = pos.y;
+  redraw();
+}
+
 function addText() {
+  document.getElementById('textModalTitle').innerText = 'Add Text';
   document.getElementById('textModal').style.display = 'flex';
 }
 
 function confirmText() {
   const text = document.getElementById('textInput').value;
   if(text) {
-    elements.push({type:'text', text:text, x:540, y:400, size:60, color:brandColor});
+    if(selectedIndex >= 0 && elements[selectedIndex].type === 'text') {
+      elements[selectedIndex].text = text;
+    } else {
+      elements.push({type:'text', text:text, x:540, y:400, size:60, color:brandColor});
+      selectedIndex = elements.length - 1;
+    }
     saveState();
     redraw();
   }
@@ -246,6 +350,7 @@ function uploadFile(isLogo) {
         let x = isLogo? 50 : 540 - w/2;
         let y = isLogo? 50 : 600;
         elements.push({type:'image', src:reader.result, x:x, y:y, w:w, h:h});
+        selectedIndex = elements.length - 1;
         saveState();
         redraw();
       }
@@ -274,6 +379,7 @@ function generateQR() {
   setTimeout(() => {
     const src = document.getElementById('qrcode').querySelector('img').src;
     elements.push({type:'image', src:src, x:415, y:550, w:250, h:250});
+    selectedIndex = elements.length - 1;
     saveState();
     redraw();
     closeQR();
@@ -284,7 +390,7 @@ function closeQR() { document.getElementById('qrModal').style.display = 'none'; 
 
 function exportPNG() {
   const link = document.createElement('a');
-  link.download = 'WORLD-CLASS-poster.png';
+  link.download = 'PRO-STUDIO-poster.png';
   link.href = canvas.toDataURL('image/png');
   link.click();
 }
@@ -292,11 +398,12 @@ function exportPNG() {
 function exportPDF() {
   const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
   pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
-  pdf.save('WORLD-CLASS-poster.pdf');
+  pdf.save('PRO-STUDIO-poster.pdf');
 }
 
 function clearCanvas() {
   elements = [];
+  selectedIndex = -1;
   saveState();
   redraw();
 }
@@ -309,6 +416,7 @@ function loadTemplate(i) {
     {type:'text', text:t.t2[0], x:540, y:t.t2[3], size:t.t2[1], color:t.t2[2]},
     {type:'text', text:t.t3[0], x:540, y:t.t3[3], size:t.t3[1], color:t.t3[2]},
   ];
+  selectedIndex = -1;
   saveState();
   redraw();
   document.querySelector('.canvas-wrap').scrollIntoView({behavior: 'smooth'});
