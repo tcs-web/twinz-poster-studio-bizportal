@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO</title>
+<title>Twins Poster Studio AI PRO - FIXED</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.4/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   body { font-family: Arial; background: #0a0a0a; color: white; margin:0; }
   header { background: linear-gradient(90deg, #ff4d00, #a855f7); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; background: #111; justify-content: center; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; background: #111; justify-content: center; position: sticky; top:0; }
   button { padding: 10px 14px; border: none; background: #ff4d00; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; }
 .ai-btn { background: linear-gradient(90deg, #a855f7, #ff4d00); }
 .templates-section { background: #1a1a1a; padding: 15px; }
 .templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #ff4d00; font-weight: bold; }
 .templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .template-btn { background: #2a2a2a; border: 2px solid #ff4d00; padding: 12px; text-align: center; border-radius: 8px; color: white; font-weight: bold; width: 100%; }
-.template-btn:hover { background: #ff4d00; }
+.template-btn:active { background: #ff4d00; }
 .template-btn small { display: block; font-size: 10px; color: #aaa; font-weight: normal; }
 .canvas-wrap { display: flex; justify-content: center; padding: 15px; }
   canvas { background: white; max-width: 100%; border: 3px solid #ff4d00; }
@@ -27,7 +27,7 @@
 </head>
 <body>
 
-<header>🔥 Twins Poster Studio AI PRO - AI Backgrounds + QR Codes</header>
+<header>🔥 Twins Poster Studio AI PRO - TEMPLATES FIXED</header>
 
 <div class="toolbar">
   <button onclick="addText()">Text</button>
@@ -41,9 +41,8 @@
 </div>
 
 <div class="templates-section">
-  <div class="templates-title">📋 CHOOSE A TEMPLATE DESIGN</div>
+  <div class="templates-title">📋 CHOOSE A TEMPLATE DESIGN - TAP ANY</div>
   <div class="templates">
-    <!-- 20 HARDCODED TEMPLATES - WILL ALWAYS SHOW -->
     <button class="template-btn" onclick="loadTemplate(0)">Corporate Pro<small>Business</small></button>
     <button class="template-btn" onclick="loadTemplate(1)">Real Estate<small>Business</small></button>
     <button class="template-btn" onclick="loadTemplate(2)">Mega Sale 70%<small>Sale</small></button>
@@ -106,7 +105,7 @@ const templates = [
   {bg:'#2563eb', t1:['CAR WASH',80,'#fff',200], t2:['Full Wash',50,'#fbbf24',340], t3:['Only R80',60,'#fff',480]},
   {bg:'#ec4899', t1:['HAIR SPECIAL',90,'#fff',200], t2:['Cut + Wash',50,'#fbbf24',340], t3:['Book Now',40,'#fff',480]},
   {bg:'#ff9500', t1:['SPAZA SPECIALS',80,'#000',200], t2:['Bread R15',45,'#000',340], t3:['Open 24hrs',40,'#000',480]},
-  {bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
+  {bg:'#111827', t1:['IN LOVING MEMORY',70,'#fff',200], t2:['Celebration of Life',50,'#fbbf24',340], t3:['All Welcome',40,'#fff',480]},
 ];
 
 function addText() { canvas.add(new fabric.Textbox('Your Text Here', {left: 100, top: 100, width: 880, fontSize: 60, fill: '#ff4d00', fontFamily: 'Arial Black', textAlign: 'center'})); }
@@ -132,7 +131,7 @@ function uploadFile(isLogo) {
 
 function aiBackground() {
   const colors = ['#ff4d00','#a855f7','#1e3a8a','#059669','#ff0000'];
-  canvas.setBackgroundColor(colors[Math.floor(Math.random()*5)], canvas.renderAll.bind(canvas));
+  canvas.setBackgroundColor(colors[Math.floor(Math.random()*5)], canvas.requestRenderAll.bind(canvas));
 }
 
 function addQR() { document.getElementById('qrModal').style.display = 'flex'; }
@@ -162,15 +161,17 @@ function exportPDF() {
 }
 function clearCanvas() { canvas.clear(); canvas.backgroundColor = '#ffffff'; }
 
+// FIXED FUNCTION - THIS IS THE KEY
 function loadTemplate(i) {
   const t = templates[i];
-  clearCanvas();
-  canvas.backgroundColor = t.bg;
-  canvas.add(new fabric.Textbox(t.t1[0], {left:540, top:t.t1[3], width:1000, fontSize:t.t1[1], fill:t.t1[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
-  canvas.add(new fabric.Textbox(t.t2[0], {left:540, top:t.t2[3], width:1000, fontSize:t.t2[1], fill:t.t2[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
-  canvas.add(new fabric.Textbox(t.t3[0], {left:540, top:t.t3[3], width:1000, fontSize:t.t3[1], fill:t.t3[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
-  canvas.renderAll();
-  window.scrollTo(0, document.body.scrollHeight);
+  canvas.clear();
+  canvas.setBackgroundColor(t.bg, function() {
+    canvas.add(new fabric.Textbox(t.t1[0], {left:540, top:t.t1[3], width:1000, fontSize:t.t1[1], fill:t.t1[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
+    canvas.add(new fabric.Textbox(t.t2[0], {left:540, top:t.t2[3], width:1000, fontSize:t.t2[1], fill:t.t2[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
+    canvas.add(new fabric.Textbox(t.t3[0], {left:540, top:t.t3[3], width:1000, fontSize:t.t3[1], fill:t.t3[2], fontFamily:'Arial Black', textAlign:'center', originX:'center'}));
+    canvas.requestRenderAll(); // FORCE DRAW
+    document.querySelector('.canvas-wrap').scrollIntoView({behavior: 'smooth'});
+  });
 }
 </script>
 
