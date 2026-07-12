@@ -3,123 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TWINS POSTER STUDIO AI PRO - WORLD CLASS</title>
+<title>Twins Poster Studio Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-:root{--bg:#050508; --panel:#0F1117; --magenta:#d90479; --navy:#001f4d; --mint:#2dd4bf; --orange:#ff4d00}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Arial Black', Arial}
-body{background:var(--bg);color:#E5E7EB;overflow-x:hidden}
+:root{
+  --bg:#0B0D14; --panel:#11141C; --border:#1E2433; 
+  --primary:#6366F1; --accent:#22D3EE; --text:#E5E7EB; --muted:#9CA3AF;
+  --success:#10B981; --danger:#EF4444;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui}
+body{background:var(--bg);color:var(--text);overflow-x:hidden}
 
-.header{background:linear-gradient(90deg,#ff4d00,#a855f7,#00d4ff);padding:14px;text-align:center;font-size:14px;font-weight:bold;color:#fff}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;padding:12px;background:var(--panel);justify-content:center}
-.btn{padding:10px 14px;border:none;background:#ff4d00;color:white;font-weight:bold;border-radius:8px;cursor:pointer;font-size:12px}
-.btn.ai{background:linear-gradient(90deg,#a855f7,#00d4ff)}
-.btn.danger{background:#ff0000}
-.brand-colors{display:flex;gap:10px;justify-content:center;padding:12px;background:var(--panel)}
-.color{width:45px;height:45px;border-radius:50%;border:4px solid #333;cursor:pointer}
-.color.active{border:4px solid var(--mint)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--panel);border-bottom:1px solid var(--border)}
+.brand{font-size:18px;font-weight:900;letter-spacing:-0.5px}
+.brand span{color:var(--accent)}
+.badge{background:var(--primary);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}
 
-.main{display:flex}
-.layers{width:140px;background:var(--panel);padding:10px;max-height:400px;overflow-y:auto}
-.layers h3{color:var(--mint);font-size:12px;margin-bottom:8px}
-.layer-item{background:#1F2937;padding:8px;margin:4px 0;border-radius:6px;font-size:11px;cursor:pointer}
-.layer-item.active{background:var(--mint);color:#000}
-.canvas-wrap{flex:1;display:flex;justify-content:center;padding:15px}
-#canvas{background:#fff;border:3px solid var(--mint)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;padding:16px 24px;background:var(--panel);border-bottom:1px solid var(--border)}
+.btn-group{display:flex;gap:6px}
+.btn{padding:9px 14px;background:#1A1F2E;border:1px solid var(--border);color:var(--text);font-weight:600;border-radius:8px;cursor:pointer;font-size:13px;transition:all 0.2s}
+.btn:hover{background:#232A3D;border-color:var(--primary)}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:#000}
+.btn.danger{background:var(--danger);border-color:var(--danger)}
+.btn svg{vertical-align:middle;margin-right:4px}
 
-.templates{padding:15px;background:var(--panel)}
-.templates h3{color:var(--mint);text-align:center;margin-bottom:12px}
-.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.template-btn{padding:14px;background:#1F2937;border:2px solid var(--mint);border-radius:8px;color:var(--mint);font-weight:bold;cursor:pointer}
+.colors{display:flex;gap:10px;padding:14px 24px;background:var(--panel);border-bottom:1px solid var(--border)}
+.color{width:32px;height:32px;border-radius:8px;border:2px solid var(--border);cursor:pointer;transition:all 0.2s}
+.color.active{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,0.2)}
 
-.fps{position:fixed;bottom:10px;right:10px;background:#000;padding:6px 12px;border-radius:6px;font-size:12px;color:var(--mint)}
+.main{display:flex;height:calc(100vh - 180px)}
+.sidebar{width:260px;background:var(--panel);border-right:1px solid var(--border);padding:16px;overflow-y:auto}
+.sidebar h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;font-weight:700}
+.layer-item{background:#1A1F2E;padding:10px;border-radius:6px;margin-bottom:6px;font-size:12px;cursor:pointer;border:1px solid transparent}
+.layer-item:hover{border-color:var(--primary)}
+.layer-item.active{background:rgba(99,102,241,0.2);border-color:var(--primary)}
+
+.canvas-area{flex:1;display:flex;align-items:center;justify-content:center;background:#0A0C11;padding:24px}
+#canvas{background:#fff;box-shadow:0 20px 60px rgba(0,0,0,0.5);border-radius:4px}
+
+.templates{padding:20px 24px;background:var(--panel);border-top:1px solid var(--border)}
+.templates-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.template-card{background:#1A1F2E;padding:14px;border-radius:8px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s}
+.template-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.template-card h4{font-size:13px;margin-bottom:4px}
+.template-card p{font-size:11px;color:var(--muted)}
 </style>
 </head>
 <body>
 
-<div class="header">🔥 TWINS POSTER STUDIO AI PRO - WORLD CLASS</div>
-
-<div class="toolbar">
-  <button class="btn" onclick="undo()">↩️ Undo</button>
-  <button class="btn" onclick="redo()">↪️ Redo</button>
-  <button class="btn" onclick="addText()">T Text</button>
-  <button class="btn" onclick="uploadImage()">🖼️ Image</button>
-  <button class="btn" onclick="addLogo()">Logo</button>
-  <button class="btn" onclick="addQR()">QR</button>
-  <button class="btn ai" onclick="aiBackground()">AI BG</button>
-  <button class="btn" onclick="addShape('tri1')">▲ Tri</button>
-  <button class="btn" onclick="addShape('rect')">▭ Rect</button>
-  <button class="btn" onclick="add100()">100x</button>
-  <button class="btn" onclick="addPhotoSection()">📸 Photo</button>
-  <button class="btn" onclick="addAboutSection()">🏢 About</button>
-  <button class="btn" onclick="addServicesSection()">✅ Services</button>
-  <button class="btn" onclick="exportPNG()">HD PNG</button>
-  <button class="btn" onclick="exportPDF()">Print PDF</button>
-  <button class="btn danger" onclick="clearCanvas()">Clear</button>
+<div class="topbar">
+  <div class="brand">TWINS<span>STUDIO</span> PRO</div>
+  <div class="badge">CORPORATE EDITION</div>
 </div>
 
-<div class="brand-colors">
-  <div class="color active" style="background:#d90479" onclick="setBrand('#d90479', this)"></div>
-  <div class="color" style="background:#001f4d" onclick="setBrand('#001f4d', this)"></div>
-  <div class="color" style="background:#2dd4bf" onclick="setBrand('#2dd4bf', this)"></div>
-  <div class="color" style="background:#ff4d00" onclick="setBrand('#ff4d00', this)"></div>
-  <div class="color" style="background:#000" onclick="setBrand('#000', this)"></div>
-  <div class="color" style="background:#fff" onclick="setBrand('#fff', this)"></div>
+<div class="toolbar">
+  <div class="btn-group">
+    <button class="btn" onclick="undo()">↶ Undo</button>
+    <button class="btn" onclick="redo()">↷ Redo</button>
+  </div>
+  <div class="btn-group">
+    <button class="btn" onclick="addText()">T Text</button>
+    <button class="btn" onclick="uploadImage()">Image</button>
+    <button class="btn" onclick="addShape('rect')">Rectangle</button>
+    <button class="btn" onclick="addShape('triangle')">Triangle</button>
+  </div>
+  <div class="btn-group">
+    <button class="btn" onclick="addLogo()">Logo</button>
+    <button class="btn" onclick="addQR()">QR Code</button>
+    <button class="btn accent" onclick="aiBackground()">AI Background</button>
+  </div>
+  <div class="btn-group">
+    <button class="btn" onclick="addPhotoSection()">Photo Block</button>
+    <button class="btn" onclick="addAboutSection()">About</button>
+    <button class="btn" onclick="addServicesSection()">Services</button>
+  </div>
+  <div class="btn-group">
+    <button class="btn primary" onclick="exportPNG()">Export 4K PNG</button>
+    <button class="btn" onclick="exportPDF()">Export PDF</button>
+    <button class="btn danger" onclick="clearCanvas()">Clear</button>
+  </div>
+</div>
+
+<div class="colors">
+  <div class="color active" style="background:#6366F1" onclick="setBrand('#6366F1', this)"></div>
+  <div class="color" style="background:#22D3EE" onclick="setBrand('#22D3EE', this)"></div>
+  <div class="color" style="background:#10B981" onclick="setBrand('#10B981', this)"></div>
+  <div class="color" style="background:#F59E0B" onclick="setBrand('#F59E0B', this)"></div>
+  <div class="color" style="background:#EF4444" onclick="setBrand('#EF4444', this)"></div>
+  <div class="color" style="background:#111827" onclick="setBrand('#111827', this)"></div>
+  <div class="color" style="background:#FFFFFF" onclick="setBrand('#FFFFFF', this)"></div>
 </div>
 
 <div class="main">
-  <div class="layers">
-    <h3>LAYERS</h3>
+  <div class="sidebar">
+    <h3>Layers</h3>
     <div id="layerList"></div>
   </div>
-  <div class="canvas-wrap">
+  <div class="canvas-area">
     <canvas id="canvas" width="1080" height="1350"></canvas>
   </div>
 </div>
 
 <div class="templates">
-  <h3>📋 20 GOD TIER TEMPLATES - TAP TO LOAD</h3>
-  <div class="template-grid">
-    <button class="template-btn" onclick="loadCorporateTemplate()">Corporate Pro</button>
-    <button class="template-btn" onclick="loadRealEstateTemplate()">Real Estate</button>
-    <button class="template-btn" onclick="loadMegaSaleTemplate()">Mega Sale 70%</button>
-    <button class="template-btn" onclick="loadBlackFridayTemplate()">Black Friday</button>
+  <h3 style="margin-bottom:12px;font-size:14px">Professional Templates</h3>
+  <div class="templates-grid">
+    <div class="template-card" onclick="loadCorporateTemplate()">
+      <h4>Corporate Pro</h4>
+      <p>Business & Services</p>
+    </div>
+    <div class="template-card" onclick="loadRealEstateTemplate()">
+      <h4>Real Estate</h4>
+      <p>Property Listings</p>
+    </div>
+    <div class="template-card" onclick="loadMegaSaleTemplate()">
+      <h4>Mega Sale</h4>
+      <p>Promotions 70%</p>
+    </div>
+    <div class="template-card" onclick="loadEventTemplate()">
+      <h4>Event</h4>
+      <p>Conference & Launch</p>
+    </div>
   </div>
 </div>
 
-<div class="fps" id="fps">FPS: 60</div>
 <input type="file" id="imgInput" style="display:none" onchange="addImage(event)">
 
 <script>
-// === TITAN 60FPS ENGINE ===
 fabric.Object.prototype.objectCaching = true;
 fabric.perfLimitSizeInPx = 4096;
 
 const canvas = new fabric.Canvas('canvas', {
   width: 1080, height: 1350,
-  backgroundColor: '#ffffff',
+  backgroundColor: '#0B0D14',
   renderOnAddRemove: false,
-  enableRetinaScaling: false
+  enableRetinaScaling: true
 });
 
 let history = [], historyIndex = -1, saveTimeout;
-let lastRender = 0, frameCount = 0;
-let brandColor = '#d90479';
+let brandColor = '#6366F1';
 
 function queueSave(){ clearTimeout(saveTimeout); saveTimeout = setTimeout(saveState, 500); }
 function saveState(){ history = history.slice(0, historyIndex + 1); history.push(canvas.toDatalessJSON()); historyIndex++; updateLayers(); }
 function undo(){ if(historyIndex > 0){ historyIndex--; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateLayers();}); }}
 function redo(){ if(historyIndex < history.length - 1){ historyIndex++; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateLayers();}); }}
-
-function renderLoop(timestamp){
-  frameCount++;
-  if(timestamp - lastRender > 1000){ document.getElementById('fps').innerText = 'FPS: ' + frameCount; frameCount = 0; lastRender = timestamp; }
-  canvas.requestRenderAll();
-  requestAnimationFrame(renderLoop);
-}
-requestAnimationFrame(renderLoop);
 
 canvas.on('object:added', ()=>{queueSave();});
 canvas.on('object:removed', ()=>{queueSave();});
@@ -135,56 +165,47 @@ function updateLayers() {
   const list = document.getElementById('layerList');
   list.innerHTML = '';
   canvas.getObjects().forEach((obj, i)=>{
-    const name = obj.type === 'text'? obj.text.substring(0,10) : obj.type;
-    list.innerHTML += `<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${obj.type} ${i+1}: ${name}</div>`;
+    const name = obj.type === 'text'? obj.text.substring(0,20) : obj.type;
+    list.innerHTML += `<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}. ${name}</div>`;
   });
 }
 
 function addText(){
-  canvas.add(new fabric.Textbox('Edit Me', {left:300,top:300,fontSize:60,fill:brandColor,width:500,fontFamily:'Arial Black'}));
+  canvas.add(new fabric.Textbox('Your Headline Here', {
+    left:540,top:200,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center'
+  }));
 }
 
 function addShape(type) {
-  if(type === 'tri1') canvas.add(new fabric.Triangle({left:200,top:200,width:300,height:300,fill:brandColor}));
-  if(type === 'rect') canvas.add(new fabric.Rect({left:200,top:200,width:400,height:200,fill:brandColor,rx:12}));
-}
-
-function add100(){
-  for(let i=0; i<100; i++){
-    canvas.add(new fabric.Rect({
-      left: Math.random()*800, top: Math.random()*800,
-      width: 40, height: 40, fill: `hsl(${Math.random()*360},70%,50%)`
-    }));
-  }
+  if(type === 'rect') canvas.add(new fabric.Rect({left:200,top:400,width:680,height:400,fill:brandColor,rx:12}));
+  if(type === 'triangle') canvas.add(new fabric.Triangle({left:400,top:400,width:280,height:280,fill:brandColor}));
 }
 
 function addPhotoSection() {
-  canvas.add(new fabric.Rect({left:50,top:180,width:450,height:600,fill:'#001f4d',rx:8}));
-  canvas.add(new fabric.Text('UPLOAD PHOTO', {left:275,top:480,fontSize:30,fill:'#fff',originX:'center'}));
+  const group = new fabric.Group([
+    new fabric.Rect({width:400,height:500,fill:'#1E2433',rx:12}),
+    new fabric.Text('Upload Photo', {top:200,fontSize:24,fill:'#9CA3AF',originX:'center'})
+  ], {left:80,top:350});
+  canvas.add(group);
 }
 
 function addAboutSection() {
-  canvas.add(new fabric.Rect({left:40,top:900,width:500,height:350,fill:'#d90479',rx:8}));
-  canvas.add(new fabric.Text('ABOUT', {left:60,top:950,fontSize:50,fill:'#fff',fontFamily:'Arial Black'}));
-  canvas.add(new fabric.Text('COMPANY', {left:60,top:1000,fontSize:50,fill:'#fff',fontFamily:'Arial Black'}));
-  canvas.add(new fabric.Textbox('Your company description here', {left:60,top:1050,fontSize:20,fill:'#fff',width:460}));
+  canvas.add(new fabric.Text('ABOUT', {left:600,top:400,fontSize:48,fill:'#FFFFFF',fontWeight:900}));
+  canvas.add(new fabric.Textbox('Professional description of your company and what makes you different.', {left:600,top:460,fontSize:18,fill:'#9CA3AF',width:400}));
 }
 
 function addServicesSection() {
-  canvas.add(new fabric.Text('BEST', {left:600,top:750,fontSize:45,fill:'#fff'}));
-  canvas.add(new fabric.Text('SERVICES', {left:600,top:800,fontSize:45,fill:'#d90479'}));
-  ['• Service 1','• Service 2','• Service 3'].forEach((s,i)=>{
-    canvas.add(new fabric.Text(s, {left:600,top:860+i*40,fontSize:30,fill:'#fff'}));
+  canvas.add(new fabric.Text('SERVICES', {left:600,top:650,fontSize:36,fill:brandColor,fontWeight:700}));
+  ['Strategy','Design','Development','Marketing'].forEach((s,i)=>{
+    canvas.add(new fabric.Text('✓ ' + s, {left:600,top:710+i*35,fontSize:20,fill:'#E5E7EB'}));
   });
-  canvas.add(new fabric.Text('WWW.YOURWEB.COM', {left:1000,top:1290,fontSize:35,fill:'#001f4d',originX:'right'}));
 }
 
 function aiBackground() {
-  const colors = ['#d90479','#001f4d','#2dd4bf','#ff4d00'];
   const gradient = new fabric.Gradient({
     type: 'linear',
     coords: {x1:0,y1:0,x2:1080,y2:1350},
-    colorStops: [{offset:0,color:colors[Math.floor(Math.random()*4)]},{offset:1,color:colors[Math.floor(Math.random()*4)]}]
+    colorStops: [{offset:0,color:'#6366F1'},{offset:1,color:'#0B0D14'}]
   });
   canvas.backgroundColor = gradient;
   canvas.requestRenderAll();
@@ -192,16 +213,19 @@ function aiBackground() {
 }
 
 function addLogo(){
-  canvas.add(new fabric.Rect({left:50,top:50,width:120,height:120,fill:brandColor,rx:15}));
-  canvas.add(new fabric.Text('TC', {left:110,top:90,fontSize:40,fill:'#fff',originX:'center'}));
+  const logo = new fabric.Group([
+    new fabric.Rect({width:80,height:80,fill:brandColor,rx:12}),
+    new fabric.Text('T', {fontSize:40,fill:'#fff',originX:'center',originY:'center'})
+  ], {left:60,top:60});
+  canvas.add(logo);
 }
 
 function addQR(){
   const qrDiv = document.createElement('div');
-  new QRCode(qrDiv, {text: "https://tcs-web.github.io", width: 100, height: 100});
+  new QRCode(qrDiv, {text: "https://twinstudio.pro", width: 120, height: 120});
   setTimeout(()=>{
     fabric.Image.fromURL(qrDiv.querySelector('img').src, img=>{
-      img.set({left:900,top:1200,scaleX:0.8,scaleY:0.8});
+      img.set({left:900,top:1200});
       canvas.add(img);
     });
   },100);
@@ -211,53 +235,53 @@ function uploadImage(){ document.getElementById('imgInput').click(); }
 function addImage(e){
   const file = e.target.files[0];
   fabric.Image.fromURL(URL.createObjectURL(file), img=>{
-    img.set({left:300,top:300,scaleX:0.5,scaleY:0.5});
+    img.set({left:540,top:600,scaleX:0.4,scaleY:0.4,originX:'center'});
     canvas.add(img);
   });
 }
 
 function loadCorporateTemplate() {
   canvas.clear();
-  canvas.backgroundColor = '#001f4d';
-  canvas.add(new fabric.Triangle({left:400,top:0,width:680,height:500,fill:'#d90479',angle:180}));
-  canvas.add(new fabric.Triangle({left:0,top:600,width:500,height:750,fill:'#d90479',angle:90}));
-  canvas.add(new fabric.Rect({left:0,top:1250,width:1080,height:100,fill:'#2dd4bf'}));
-  addPhotoSection(); addAboutSection(); addServicesSection();
+  canvas.backgroundColor = '#0B0D14';
+  canvas.add(new fabric.Rect({left:0,top:0,width:1080,height:300,fill:'#6366F1'}));
+  addText();
+  addPhotoSection();
+  addAboutSection();
+  addServicesSection();
   saveState();
 }
 
 function loadRealEstateTemplate() {
-  canvas.clear(); canvas.backgroundColor = '#2dd4bf';
-  canvas.add(new fabric.Text('DREAM HOME', {left:540,top:200,fontSize:80,fill:'#fff',originX:'center',fontFamily:'Arial Black'}));
+  canvas.clear(); canvas.backgroundColor = '#0B0D14';
+  canvas.add(new fabric.Text('LUXURY PROPERTY', {left:540,top:300,fontSize:64,fill:'#fff',originX:'center',fontWeight:900}));
   saveState();
 }
 
 function loadMegaSaleTemplate() {
-  canvas.clear(); canvas.backgroundColor = '#ff0000';
-  canvas.add(new fabric.Text('MEGA SALE!', {left:540,top:200,fontSize:120,fill:'#ffff00',originX:'center',fontFamily:'Arial Black'}));
-  canvas.add(new fabric.Text('UP TO 70% OFF', {left:540,top:350,fontSize:70,fill:'#fff',originX:'center'}));
+  canvas.clear(); canvas.backgroundColor = '#EF4444';
+  canvas.add(new fabric.Text('MEGA SALE', {left:540,top:300,fontSize:100,fill:'#fff',originX:'center',fontWeight:900}));
   saveState();
 }
 
-function loadBlackFridayTemplate() {
-  canvas.clear(); canvas.backgroundColor = '#000';
-  canvas.add(new fabric.Text('BLACK FRIDAY', {left:540,top:300,fontSize:90,fill:'#ff4d00',originX:'center',fontFamily:'Arial Black'}));
+function loadEventTemplate() {
+  canvas.clear(); canvas.backgroundColor = '#1E2433';
+  canvas.add(new fabric.Text('CORPORATE EVENT', {left:540,top:400,fontSize:70,fill:'#22D3EE',originX:'center',fontWeight:900}));
   saveState();
 }
 
 function exportPNG(){
   const a = document.createElement('a');
   a.href = canvas.toDataURL({format:'png', multiplier:4});
-  a.download = 'WORLDCLASS_4K.png'; a.click();
+  a.download = 'TwinsStudio_4K.png'; a.click();
 }
 
 function exportPDF(){
   const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
   pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
-  pdf.save('poster.pdf');
+  pdf.save('TwinsStudio.pdf');
 }
 
-function clearCanvas(){ canvas.clear(); canvas.backgroundColor = '#fff'; saveState(); }
+function clearCanvas(){ canvas.clear(); canvas.backgroundColor = '#0B0D14'; saveState(); }
 
 loadCorporateTemplate();
 saveState();
