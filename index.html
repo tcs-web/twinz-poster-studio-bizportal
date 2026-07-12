@@ -3,31 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TITAN V3 - 60FPS Engine</title>
+<title>Twins Poster Studio TITAN V4 - 60FPS Engine</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-:root{--bg:#050508; --panel:#0F1117; --accent:#00D26A; --border:#1F2937}
+:root{--bg:#050508; --panel:#0F1117; --accent:#00D26A; --border:#1F2937; --magenta:#d90479; --navy:#001f4d; --mint:#2dd4bf}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui}
 body{display:flex;height:100vh;background:var(--bg);color:#E5E7EB;overflow:hidden}
-.toolbar{width:64px;background:var(--panel);border-right:1px solid var(--border);padding:8px;display:flex;flex-direction:column;gap:8px;align-items:center}
-.tool-btn{width:48px;height:48px;background:#1F2937;border:none;border-radius:10px;color:var(--accent);font-size:18px;cursor:pointer}
+.toolbar{width:64px;background:var(--panel);border-right:1px solid var(--border);padding:8px;display:flex;flex-direction:column;gap:8px;align-items:center;position:relative;z-index:10}
+.tool-btn{width:48px;height:48px;background:#1F2937;border:none;border-radius:10px;color:var(--accent);font-size:18px;cursor:pointer;font-weight:bold}
 .tool-btn.active{background:var(--accent);color:#000}
+.tool-btn.magenta{background:var(--magenta)}
 #canvas-wrap{flex:1;position:relative;background:#1a1a1a}
 #canvas{background:#fff}
-.sidebar{width:280px;background:var(--panel);border-left:1px solid var(--border)}
-.topbar{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:var(--panel);padding:8px;border-radius:12px;border:1px solid var(--border)}
+.sidebar{width:280px;background:var(--panel);border-left:1px solid var(--border);overflow-y:auto}
+.topbar{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:var(--panel);padding:8px;border-radius:12px;border:1px solid var(--border);z-index:10}
 .topbar button{padding:8px 16px;background:#1F2937;border:1px solid var(--border);border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
 .topbar button.primary{background:var(--accent);color:#000;border:none}
 .fps{position:absolute;bottom:10px;right:10px;background:#000;padding:6px 12px;border-radius:6px;font-size:12px;color:var(--accent)}
+.sidebar-section{padding:16px;border-bottom:1px solid var(--border)}
+.sidebar-section h3{font-size:12px;color:#9CA3AF;margin-bottom:12px}
+.brand-colors{display:flex;gap:8px;flex-wrap:wrap}
+.color{width:35px;height:35px;border-radius:50%;border:3px solid #333;cursor:pointer}
+.color.active{border:3px solid var(--mint)}
 </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <button class="tool-btn active" onclick="setTool('select')">↖</button>
-  <button class="tool-btn" onclick="setTool('text')">T</button>
-  <button class="tool-btn" onclick="setTool('rect')">▭</button>
+  <button class="tool-btn active" onclick="setTool('select', this)">↖</button>
+  <button class="tool-btn" onclick="setTool('text', this)">T</button>
+  <button class="tool-btn" onclick="setTool('rect', this)">▭</button>
+  <button class="tool-btn magenta" onclick="addShape('tri1')">▲</button>
+  <button class="tool-btn magenta" onclick="addShape('tri2')">▼</button>
+  <button class="tool-btn magenta" onclick="addShape('tri3')">◀</button>
+  <button class="tool-btn magenta" onclick="addShape('tri4')">▶</button>
+  <button class="tool-btn magenta" onclick="addShape('tri5')">◆</button>
   <button class="tool-btn" onclick="add100()">100x</button>
+  <button class="tool-btn" onclick="addPhotoSection()">📸</button>
   <button class="tool-btn" onclick="document.getElementById('imgInput').click()">🖼</button>
   <input type="file" id="imgInput" style="display:none" onchange="addImage(event)">
 </div>
@@ -37,55 +50,70 @@ body{display:flex;height:100vh;background:var(--bg);color:#E5E7EB;overflow:hidde
   <div class="topbar">
     <button onclick="undo()">↶ Undo</button>
     <button onclick="redo()">↷ Redo</button>
+    <button onclick="addAboutSection()">🏢 About</button>
+    <button onclick="addServicesSection()">✅ Services</button>
     <button class="primary" onclick="exportPNG()">Export 4K</button>
   </div>
   <div class="fps" id="fps">FPS: 60</div>
 </div>
 
 <div class="sidebar">
-  <div style="padding:16px">
-    <h3 style="font-size:12px;color:#9CA3AF;margin-bottom:12px">PERFORMANCE</h3>
+  <div class="sidebar-section">
+    <h3>PERFORMANCE</h3>
     <div>Objects: <span id="objCount">0</span></div>
+  </div>
+  <div class="sidebar-section">
+    <h3>BRAND COLORS</h3>
+    <div class="brand-colors">
+      <div class="color active" style="background:#d90479" onclick="setBrand('#d90479', this)"></div>
+      <div class="color" style="background:#001f4d" onclick="setBrand('#001f4d', this)"></div>
+      <div class="color" style="background:#2dd4bf" onclick="setBrand('#2dd4bf', this)"></div>
+      <div class="color" style="background:#ff4d00" onclick="setBrand('#ff4d00', this)"></div>
+      <div class="color" style="background:#000" onclick="setBrand('#000', this)"></div>
+      <div class="color" style="background:#fff" onclick="setBrand('#fff', this)"></div>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <h3>TEMPLATES</h3>
+    <button class="tool-btn" style="width:100%;margin:4px 0" onclick="loadDiagonalTemplate()">Diagonal Layout</button>
+    <button class="tool-btn" style="width:100%;margin:4px 0" onclick="loadCorporateTemplate()">Corporate Pro</button>
   </div>
 </div>
 
 <script>
-// === GOD TIER PERFORMANCE SETTINGS ===
-fabric.Object.prototype.objectCaching = true; // Cache to bitmap
+// === GOD TIER PERFORMANCE SETTINGS FROM TITAN V3 ===
+fabric.Object.prototype.objectCaching = true;
 fabric.Object.prototype.statefullCache = true;
-fabric.perfLimitSizeInPx = 4096; // Allow 4K
+fabric.perfLimitSizeInPx = 4096;
 
 const canvas = new fabric.Canvas('canvas', {
   width: window.innerWidth - 344,
   height: window.innerHeight,
   backgroundColor: '#ffffff',
-  renderOnAddRemove: false, // Manual render
-  enableRetinaScaling: false, // Disable for speed on big canvas
+  renderOnAddRemove: false,
+  enableRetinaScaling: false,
   imageSmoothingEnabled: true
 });
 
 let history = [], historyIndex = -1, saveTimeout;
 let lastRender = 0, frameCount = 0;
+let brandColor = '#d90479';
+let currentTool = 'select';
 
-// === DEBOUNCED HISTORY ===
+// === DEBOUNCED HISTORY - NO LAG ===
 function queueSave(){
   clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(saveState, 500); // Only save 500ms after you stop
+  saveTimeout = setTimeout(saveState, 500);
 }
 function saveState(){
   history = history.slice(0, historyIndex + 1);
-  history.push(canvas.toDatalessJSON(['globalCompositeOperation'])); // dataless = smaller
+  history.push(canvas.toDatalessJSON(['globalCompositeOperation']));
   historyIndex++;
 }
 function undo(){ if(historyIndex > 0){ historyIndex--; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateUI();}); }}
 function redo(){ if(historyIndex < history.length - 1){ historyIndex++; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateUI();}); }}
 
-// === OPTIMIZED EVENTS ===
-canvas.on('object:added', ()=>{queueSave(); updateUI();});
-canvas.on('object:removed', ()=>{queueSave(); updateUI();});
-canvas.on('object:modified', ()=>{queueSave();}); // Don't update layers on every move
-
-// === MANUAL RENDER LOOP 60FPS ===
+// === 60FPS RENDER LOOP ===
 function renderLoop(timestamp){
   frameCount++;
   if(timestamp - lastRender > 1000){
@@ -97,30 +125,80 @@ function renderLoop(timestamp){
 }
 requestAnimationFrame(renderLoop);
 
-// === TOOLS ===
-function setTool(tool){
+canvas.on('object:added', ()=>{queueSave(); updateUI();});
+canvas.on('object:removed', ()=>{queueSave(); updateUI();});
+canvas.on('object:modified', ()=>{queueSave();});
+
+function updateUI(){
+  document.getElementById('objCount').innerText = canvas.getObjects().length;
+}
+
+function setTool(tool, btn){
+  currentTool = tool;
   document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
+  canvas.isDrawingMode = false;
+  
+  if(tool === 'text'){
+    const text = new fabric.Textbox('Edit Me', {
+      left: 200, top: 200, fontSize: 48, fill: brandColor, width: 400, fontFamily: 'Arial Black'
+    });
+    canvas.add(text);
+  }
+  if(tool === 'rect'){
+    const rect = new fabric.Rect({
+      left: 200, top: 200, width: 300, height: 150,
+      fill: brandColor, rx: 12, ry: 12
+    });
+    canvas.add(rect);
+  }
 }
 
-function addText(){
-  const text = new fabric.Textbox('Edit Me', {
-    left: 200, top: 200, fontSize: 48, fill: '#111', width: 400
+function setBrand(color, el) {
+  brandColor = color;
+  document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// === 5 TRIANGLES FROM YOUR CODE ===
+function addShape(type) {
+  let shape;
+  const size = 200;
+  if(type === 'tri1') shape = new fabric.Triangle({left:100,top:100,width:size,height:size,fill:brandColor});
+  if(type === 'tri2') shape = new fabric.Triangle({left:400,top:100,width:size,height:size,fill:brandColor,angle:180});
+  if(type === 'tri3') shape = new fabric.Triangle({left:100,top:400,width:size,height:size,fill:brandColor,angle:90});
+  if(type === 'tri4') shape = new fabric.Triangle({left:400,top:400,width:size,height:size,fill:brandColor,angle:270});
+  if(type === 'tri5') shape = new fabric.Polygon([{x:0,y:100},{x:100,y:0},{x:200,y:100},{x:100,y:200}],{left:300,top:300,fill:brandColor});
+  canvas.add(shape);
+}
+
+// === CORPORATE SECTIONS ===
+function addPhotoSection() {
+  const rect = new fabric.Rect({left:50,top:180,width:450,height:600,fill:'#001f4d',rx:8});
+  const text = new fabric.Text('UPLOAD PHOTO', {left:275,top:480,fontSize:30,fill:'#fff',originX:'center'});
+  canvas.add(rect, text);
+}
+
+function addAboutSection() {
+  const bg = new fabric.Rect({left:40,top:900,width:500,height:350,fill:'#d90479',rx:8});
+  const t1 = new fabric.Text('ABOUT', {left:60,top:950,fontSize:50,fill:'#fff',fontFamily:'Arial Black'});
+  const t2 = new fabric.Text('COMPANY', {left:60,top:1000,fontSize:50,fill:'#fff',fontFamily:'Arial Black'});
+  const t3 = new fabric.Textbox('Your company description here', {left:60,top:1050,fontSize:20,fill:'#fff',width:460});
+  canvas.add(bg, t1, t2, t3);
+}
+
+function addServicesSection() {
+  const t1 = new fabric.Text('BEST', {left:600,top:750,fontSize:45,fill:'#fff'});
+  const t2 = new fabric.Text('SERVICES', {left:600,top:800,fontSize:45,fill:'#d90479'});
+  const services = ['• Service 1','• Service 2','• Service 3','• Service 4'];
+  services.forEach((s,i)=>{
+    canvas.add(new fabric.Text(s, {left:600,top:860+i*40,fontSize:30,fill:'#fff'}));
   });
-  text.set({dirty: true});
-  canvas.add(text);
+  const web = new fabric.Text('WWW.YOURWEB.COM', {left:1000,top:1290,fontSize:35,fill:'#001f4d',originX:'right'});
+  canvas.add(t1,t2,web);
 }
 
-function addRect(){
-  const rect = new fabric.Rect({
-    left: Math.random()*500, top: Math.random()*500, width: 200, height: 120,
-    fill: '#00D26A', rx: 12, ry: 12
-  });
-  rect.set({dirty: true});
-  canvas.add(rect);
-}
-
-// STRESS TEST: Add 100 objects to prove it's fast
+// STRESS TEST
 function add100(){
   for(let i=0; i<100; i++){
     canvas.add(new fabric.Rect({
@@ -128,29 +206,39 @@ function add100(){
       width: 50, height: 50, fill: `hsl(${Math.random()*360},70%,50%)`
     }));
   }
-  canvas.requestRenderAll();
 }
 
 function addImage(e){
   const file = e.target.files[0];
   fabric.Image.fromURL(URL.createObjectURL(file), img=>{
-    img.set({scaleX: 0.5, scaleY: 0.5, objectCaching: true});
+    img.set({scaleX: 0.5, scaleY: 0.5, left:300, top:300});
     canvas.add(img);
-    canvas.requestRenderAll();
   });
 }
 
-function updateUI(){
-  document.getElementById('objCount').innerText = canvas.getObjects().length;
+function loadDiagonalTemplate() {
+  canvas.clear();
+  canvas.backgroundColor = '#001f4d';
+  addShape('tri2');
+  addShape('tri3');
+  canvas.add(new fabric.Rect({left:0,top:1250,width:1080,height:100,fill:'#2dd4bf'}));
+  saveState();
+}
+
+function loadCorporateTemplate() {
+  loadDiagonalTemplate();
+  addPhotoSection();
+  addAboutSection();
+  addServicesSection();
 }
 
 function exportPNG(){
-  // Use lower quality during work, 4x only on export
   const dataURL = canvas.toDataURL({format:'png', multiplier:4});
   const a = document.createElement('a');
-  a.href = dataURL; a.download = 'TITAN_4K.png'; a.click();
+  a.href = dataURL; a.download = 'TITAN_POSTER_4K.png'; a.click();
 }
 
+loadDiagonalTemplate();
 saveState();
 updateUI();
 </script>
