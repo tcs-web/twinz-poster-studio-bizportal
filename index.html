@@ -17,71 +17,39 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);overflow-x:hidden}
 
-/* HEADER */
-.header{
-  background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);
-  padding:14px 16px;text-align:center;font-size:15px;font-weight:900;
-  letter-spacing:-0.2px;position:sticky;top:0;z-index:100
-}
+.header{background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);padding:14px 16px;text-align:center;font-size:15px;font-weight:900;letter-spacing:-0.2px;position:sticky;top:0;z-index:100}
 .header span{font-weight:500;opacity:0.9}
 
-/* TOOLBAR - HORIZONTAL SCROLL FOR MOBILE */
-.toolbar{
-  display:flex;gap:8px;padding:12px;
-  background:var(--panel);border-bottom:1px solid var(--border);
-  overflow-x:auto;overflow-y:hidden;
-  -webkit-overflow-scrolling: touch;scrollbar-width:none
-}
+.toolbar{display:flex;gap:8px;padding:12px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling: touch;scrollbar-width:none}
 .toolbar::-webkit-scrollbar{display:none}
-.btn{
-  padding:11px 14px;background:#171C2A;border:1px solid var(--border);
-  color:var(--text);font-weight:700;border-radius:10px;cursor:pointer;
-  font-size:13px;white-space:nowrap;flex-shrink:0;transition:0.2s
-}
+.btn{padding:11px 14px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;flex-shrink:0;transition:0.2s}
 .btn:active{transform:scale(0.95);background:#1E2433}
 .btn.primary{background:var(--primary);border-color:var(--primary)}
 .btn.accent{background:var(--accent);border-color:var(--accent);color:#000}
 .btn.danger{background:var(--danger);border-color:var(--danger)}
 
-/* COLORS */
 .colors{display:flex;gap:10px;padding:12px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
 .colors::-webkit-scrollbar{display:none}
 .color{width:38px;height:38px;border-radius:10px;border:2px solid var(--border);cursor:pointer;flex-shrink:0}
 .color.active{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,0.25)}
 
-/* MAIN LAYOUT */
 .container{display:flex;flex-direction:column}
-.layers{
-  background:var(--panel);padding:10px;border-bottom:1px solid var(--border);
-  display:flex;gap:8px;overflow-x:auto
-}
+.layers{background:var(--panel);padding:10px;border-bottom:1px solid var(--border);display:flex;gap:8px;overflow-x:auto}
 .layers-title{color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;min-width:50px;padding-top:8px}
-.layer-item{
-  background:#171C2A;padding:8px 12px;border-radius:8px;font-size:11px;
-  font-weight:600;cursor:pointer;border:1px solid var(--border);white-space:nowrap;min-width:90px
-}
+.layer-item{background:#171C2A;padding:8px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);white-space:nowrap;min-width:90px}
 .layer-item.active{background:rgba(99,102,241,0.25);border-color:var(--primary)}
 
-/* CANVAS - FITS SCREEN */
-.canvas-wrap{
-  flex:1;display:flex;justify-content:center;align-items:flex-start;
-  padding:12px;background:#05070B;min-height:50vh
-}
+.canvas-wrap{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:12px;background:#05070B;min-height:50vh}
 #canvas{background:#fff;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%}
 
-/* TEMPLATES */
 .templates{padding:16px;background:var(--panel)}
 .templates h3{color:var(--muted);font-size:11px;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
 .template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.template-btn{
-  padding:14px;background:#171C2A;border:1px solid var(--border);
-  border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;font-size:13px;text-align:left
-}
+.template-btn{padding:14px;background:#171C2A;border:1px solid var(--border);border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;font-size:13px;text-align:left}
 .template-btn:active{border-color:var(--primary);background:#1E2433}
 
 .fps{position:fixed;bottom:12px;right:12px;background:rgba(0,0,0,0.7);padding:4px 8px;border-radius:6px;font-size:10px;color:var(--accent);font-weight:700}
 
-/* DESKTOP */
 @media(min-width:768px){
 .container{flex-direction:row;height:calc(100vh - 240px)}
 .layers{width:240px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border);border-bottom:none}
@@ -99,7 +67,7 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
   <button class="btn" onclick="redo()">↷ Redo</button>
   <button class="btn" onclick="addText()">Text</button>
   <button class="btn" onclick="uploadImage()">Image</button>
-  <button class="btn" onclick="addLogo()">Logo</button>
+  <button class="btn" onclick="uploadLogo()">Logo Upload</button>
   <button class="btn" onclick="addQR()">QR</button>
   <button class="btn accent" onclick="aiBackground()">AI BG</button>
   <button class="btn" onclick="addShape('triangle')">Triangle</button>
@@ -147,14 +115,13 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 
 <div class="fps" id="fps">FPS: 60</div>
 <input type="file" id="imgInput" style="display:none" accept="image/*" onchange="addImage(event)">
+<input type="file" id="logoInput" style="display:none" accept="image/*" onchange="addLogoImage(event)">
 
 <script>
-// === AUTO RESIZE CANVAS FOR MOBILE ===
 function resizeCanvas(){
   const wrap = document.querySelector('.canvas-wrap');
   const maxWidth = wrap.clientWidth - 24;
   const scale = Math.min(maxWidth / 1080, 1);
-  
   canvas.setWidth(1080 * scale);
   canvas.setHeight(1350 * scale);
   canvas.setZoom(scale);
@@ -211,9 +178,10 @@ function updateLayers() {
 }
 
 function addText(){
-  canvas.add(new fabric.Textbox('Your Headline', {
-    left:540,top:180,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center'
-  }));
+  const text = new fabric.Textbox('Your Headline', {
+    left:540,top:180,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center',editable:true
+  });
+  canvas.add(text);
 }
 
 function addShape(type) {
@@ -238,15 +206,20 @@ function addPhotoSection() {
   canvas.add(group);
 }
 
+// EDITABLE ABOUT SECTION
 function addAboutSection() {
-  canvas.add(new fabric.Text('ABOUT', {left:600,top:450,fontSize:48,fill:'#FFFFFF',fontWeight:900,fontFamily:'Inter'}));
-  canvas.add(new fabric.Textbox('Professional company description goes here.', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500}));
+  const title = new fabric.Textbox('ABOUT', {left:600,top:450,fontSize:48,fill:'#FFFFFF',fontWeight:900,fontFamily:'Inter',width:400,editable:true});
+  const desc = new fabric.Textbox('Professional company description goes here. Double tap to edit this text.', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500,editable:true});
+  canvas.add(title, desc);
 }
 
+// EDITABLE SERVICES SECTION
 function addServicesSection() {
-  canvas.add(new fabric.Text('SERVICES', {left:600,top:650,fontSize:36,fill:brandColor,fontWeight:700,fontFamily:'Inter'}));
+  const title = new fabric.Textbox('SERVICES', {left:600,top:650,fontSize:36,fill:brandColor,fontWeight:700,fontFamily:'Inter',width:400,editable:true});
+  canvas.add(title);
   ['Strategy','Design','Development','Marketing'].forEach((s,i)=>{
-    canvas.add(new fabric.Text('✓ ' + s, {left:600,top:710+i*35,fontSize:20,fill:'#F1F5F9',fontFamily:'Inter',fontWeight:500}));
+    const service = new fabric.Textbox('✓ ' + s, {left:600,top:710+i*35,fontSize:20,fill:'#F1F5F9',fontFamily:'Inter',fontWeight:500,width:350,editable:true});
+    canvas.add(service);
   });
 }
 
@@ -261,12 +234,14 @@ function aiBackground() {
   saveState();
 }
 
-function addLogo(){
-  const logo = new fabric.Group([
-    new fabric.Rect({width:80,height:80,fill:brandColor,rx:12}),
-    new fabric.Text('T', {fontSize:40,fill:'#fff',originX:'center',originY:'center',fontFamily:'Inter',fontWeight:900})
-  ], {left:60,top:60});
-  canvas.add(logo);
+// LOGO UPLOAD PICTURE
+function uploadLogo(){ document.getElementById('logoInput').click(); }
+function addLogoImage(e){
+  const file = e.target.files[0];
+  fabric.Image.fromURL(URL.createObjectURL(file), img=>{
+    img.set({left:60,top:60,scaleX:0.3,scaleY:0.3});
+    canvas.add(img);
+  });
 }
 
 function addQR(){
