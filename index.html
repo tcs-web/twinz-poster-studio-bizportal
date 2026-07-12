@@ -4,93 +4,111 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>TWINS STUDIO PRO</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
-  --bg:#0B0D14; --panel:#11141C; --border:#1E2433; 
-  --primary:#6366F1; --accent:#22D3EE; --magenta:#d90479; --navy:#001f4d;
-  --text:#E5E7EB; --muted:#9CA3AF; --danger:#EF4444;
+  --bg:#07090F; --panel:#0F131E; --border:#1E2433; 
+  --primary:#6366F1; --accent:#22D3EE; --text:#F1F5F9; --muted:#94A3B8;
+  --danger:#EF4444;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);overflow-x:hidden}
 
-.header{background:linear-gradient(90deg,#6366F1,#22D3EE);padding:12px 16px;text-align:center;font-size:14px;font-weight:900;letter-spacing:-0.3px}
-.header span{opacity:0.8;font-weight:600}
+/* HEADER */
+.header{
+  background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);
+  padding:14px 16px;text-align:center;font-size:15px;font-weight:900;
+  letter-spacing:-0.2px;position:sticky;top:0;z-index:100
+}
+.header span{font-weight:500;opacity:0.9}
 
+/* TOOLBAR - HORIZONTAL SCROLL FOR MOBILE */
 .toolbar{
-  display:flex;flex-wrap:wrap;gap:6px;padding:12px 8px;
+  display:flex;gap:8px;padding:12px;
   background:var(--panel);border-bottom:1px solid var(--border);
-  overflow-x:auto; -webkit-overflow-scrolling: touch;
+  overflow-x:auto;overflow-y:hidden;
+  -webkit-overflow-scrolling: touch;scrollbar-width:none
 }
+.toolbar::-webkit-scrollbar{display:none}
 .btn{
-  padding:10px 12px;background:#1A1F2E;border:1px solid var(--border);
-  color:var(--text);font-weight:600;border-radius:8px;cursor:pointer;
-  font-size:12px;white-space:nowrap;flex-shrink:0;transition:all 0.2s
+  padding:11px 14px;background:#171C2A;border:1px solid var(--border);
+  color:var(--text);font-weight:700;border-radius:10px;cursor:pointer;
+  font-size:13px;white-space:nowrap;flex-shrink:0;transition:0.2s
 }
-.btn:active{background:#232A3D}
+.btn:active{transform:scale(0.95);background:#1E2433}
 .btn.primary{background:var(--primary);border-color:var(--primary)}
 .btn.accent{background:var(--accent);border-color:var(--accent);color:#000}
 .btn.danger{background:var(--danger);border-color:var(--danger)}
 
-.colors{display:flex;gap:8px;padding:12px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
-.color{width:36px;height:36px;border-radius:8px;border:2px solid var(--border);cursor:pointer;flex-shrink:0}
-.color.active{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,0.3)}
+/* COLORS */
+.colors{display:flex;gap:10px;padding:12px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
+.colors::-webkit-scrollbar{display:none}
+.color{width:38px;height:38px;border-radius:10px;border:2px solid var(--border);cursor:pointer;flex-shrink:0}
+.color.active{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,0.25)}
 
-.main{display:flex;flex-direction:column}
+/* MAIN LAYOUT */
+.container{display:flex;flex-direction:column}
 .layers{
-  width:100%;background:var(--panel);padding:10px;border-bottom:1px solid var(--border);
-  max-height:120px;overflow-x:auto;overflow-y:hidden;display:flex;gap:6px
+  background:var(--panel);padding:10px;border-bottom:1px solid var(--border);
+  display:flex;gap:8px;overflow-x:auto
 }
-.layers h3{color:var(--muted);font-size:10px;text-transform:uppercase;min-width:60px}
+.layers-title{color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;min-width:50px;padding-top:8px}
 .layer-item{
-  background:#1A1F2E;padding:8px 10px;border-radius:6px;font-size:11px;
-  cursor:pointer;border:1px solid var(--border);white-space:nowrap;min-width:100px
+  background:#171C2A;padding:8px 12px;border-radius:8px;font-size:11px;
+  font-weight:600;cursor:pointer;border:1px solid var(--border);white-space:nowrap;min-width:90px
 }
-.layer-item.active{background:rgba(99,102,241,0.3);border-color:var(--primary)}
+.layer-item.active{background:rgba(99,102,241,0.25);border-color:var(--primary)}
 
-.canvas-wrap{flex:1;display:flex;justify-content:center;align-items:center;padding:12px;background:#0A0C11}
-#canvas{background:#fff;border-radius:4px;max-width:100%;height:auto}
+/* CANVAS - FITS SCREEN */
+.canvas-wrap{
+  flex:1;display:flex;justify-content:center;align-items:flex-start;
+  padding:12px;background:#05070B;min-height:50vh
+}
+#canvas{background:#fff;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%}
 
+/* TEMPLATES */
 .templates{padding:16px;background:var(--panel)}
-.templates h3{color:var(--muted);font-size:12px;margin-bottom:10px;text-transform:uppercase}
-.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.templates h3{color:var(--muted);font-size:11px;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .template-btn{
-  padding:14px;background:#1A1F2E;border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-weight:600;cursor:pointer;font-size:12px
+  padding:14px;background:#171C2A;border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;font-size:13px;text-align:left
 }
-.template-btn:active{border-color:var(--primary)}
+.template-btn:active{border-color:var(--primary);background:#1E2433}
 
-.fps{position:fixed;bottom:10px;right:10px;background:#000;padding:4px 8px;border-radius:4px;font-size:10px;color:var(--accent)}
+.fps{position:fixed;bottom:12px;right:12px;background:rgba(0,0,0,0.7);padding:4px 8px;border-radius:6px;font-size:10px;color:var(--accent);font-weight:700}
 
+/* DESKTOP */
 @media(min-width:768px){
- .main{flex-direction:row;height:calc(100vh - 280px)}
- .layers{width:240px;flex-direction:column;max-height:none;border-right:1px solid var(--border);border-bottom:none}
- .template-grid{grid-template-columns:repeat(4,1fr)}
+.container{flex-direction:row;height:calc(100vh - 240px)}
+.layers{width:240px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border);border-bottom:none}
+.template-grid{grid-template-columns:repeat(4,1fr)}
+.canvas-wrap{min-height:auto}
 }
 </style>
 </head>
 <body>
 
-<div class="header">TWINS<span>STUDIO</span> PRO <span>• CORPORATE EDITION</span></div>
+<div class="header">TWINS<span>STUDIO</span> PRO <span>• CORPORATE</span></div>
 
 <div class="toolbar">
   <button class="btn" onclick="undo()">↶ Undo</button>
   <button class="btn" onclick="redo()">↷ Redo</button>
-  <button class="btn" onclick="addText()">T Text</button>
+  <button class="btn" onclick="addText()">Text</button>
   <button class="btn" onclick="uploadImage()">Image</button>
   <button class="btn" onclick="addLogo()">Logo</button>
   <button class="btn" onclick="addQR()">QR</button>
   <button class="btn accent" onclick="aiBackground()">AI BG</button>
-  <button class="btn" onclick="addShape('triangle')">▲ Triangle</button>
-  <button class="btn" onclick="addShape('rect')">▭ Rectangle</button>
-  <button class="btn" onclick="addPhotoSection()">Photo</button>
+  <button class="btn" onclick="addShape('triangle')">Triangle</button>
+  <button class="btn" onclick="addShape('rect')">Rectangle</button>
+  <button class="btn" onclick="addPhotoSection()">Photo Block</button>
   <button class="btn" onclick="addAboutSection()">About</button>
   <button class="btn" onclick="addServicesSection()">Services</button>
   <button class="btn" onclick="add100()">100x</button>
-  <button class="btn primary" onclick="exportPNG()">4K PNG</button>
+  <button class="btn primary" onclick="exportPNG()">4K Export</button>
   <button class="btn" onclick="exportPDF()">PDF</button>
   <button class="btn danger" onclick="clearCanvas()">Clear</button>
 </div>
@@ -103,13 +121,13 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
   <div class="color" style="background:#10B981" onclick="setBrand('#10B981', this)"></div>
   <div class="color" style="background:#F59E0B" onclick="setBrand('#F59E0B', this)"></div>
   <div class="color" style="background:#EF4444" onclick="setBrand('#EF4444', this)"></div>
-  <div class="color" style="background:#111827" onclick="setBrand('#111827', this)"></div>
+  <div class="color" style="background:#0F131E" onclick="setBrand('#0F131E', this)"></div>
   <div class="color" style="background:#FFFFFF" onclick="setBrand('#FFFFFF', this)"></div>
 </div>
 
-<div class="main">
+<div class="container">
   <div class="layers">
-    <h3>LAYERS</h3>
+    <div class="layers-title">LAYERS</div>
     <div id="layerList"></div>
   </div>
   <div class="canvas-wrap">
@@ -120,10 +138,10 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 <div class="templates">
   <h3>Professional Templates</h3>
   <div class="template-grid">
-    <button class="template-btn" onclick="loadCorporateTemplate()">Corporate Pro</button>
-    <button class="template-btn" onclick="loadRealEstateTemplate()">Real Estate</button>
-    <button class="template-btn" onclick="loadMegaSaleTemplate()">Mega Sale 70%</button>
-    <button class="template-btn" onclick="loadEventTemplate()">Event</button>
+    <div class="template-btn" onclick="loadCorporateTemplate()"><b>Corporate Pro</b><br><small style="color:var(--muted)">Business & Services</small></div>
+    <div class="template-btn" onclick="loadRealEstateTemplate()"><b>Real Estate</b><br><small style="color:var(--muted)">Property Listings</small></div>
+    <div class="template-btn" onclick="loadMegaSaleTemplate()"><b>Mega Sale</b><br><small style="color:var(--muted)">70% Off Promo</small></div>
+    <div class="template-btn" onclick="loadEventTemplate()"><b>Event</b><br><small style="color:var(--muted)">Conference Launch</small></div>
   </div>
 </div>
 
@@ -131,28 +149,35 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 <input type="file" id="imgInput" style="display:none" accept="image/*" onchange="addImage(event)">
 
 <script>
-// === MOBILE RESPONSIVE CANVAS ===
-const canvasEl = document.getElementById('canvas');
-const canvasWidth = Math.min(window.innerWidth - 24, 1080);
-const canvasHeight = canvasWidth * 1.25; // 4:5 ratio for Instagram
-canvasEl.width = 1080;
-canvasEl.height = 1350;
+// === AUTO RESIZE CANVAS FOR MOBILE ===
+function resizeCanvas(){
+  const wrap = document.querySelector('.canvas-wrap');
+  const maxWidth = wrap.clientWidth - 24;
+  const scale = Math.min(maxWidth / 1080, 1);
+  
+  canvas.setWidth(1080 * scale);
+  canvas.setHeight(1350 * scale);
+  canvas.setZoom(scale);
+  canvas.requestRenderAll();
+}
 
 fabric.Object.prototype.objectCaching = true;
 fabric.perfLimitSizeInPx = 4096;
 
 const canvas = new fabric.Canvas('canvas', {
   width: 1080, height: 1350,
-  backgroundColor: '#0B0D14',
+  backgroundColor: '#0F131E',
   renderOnAddRemove: false,
-  enableRetinaScaling: true
+  enableRetinaScaling: true,
+  preserveObjectStacking: true
 });
 
 let history = [], historyIndex = -1, saveTimeout;
 let brandColor = '#6366F1';
 let lastRender = 0, frameCount = 0;
 
-// === 60FPS + DEBOUNCED HISTORY ===
+window.addEventListener('resize', resizeCanvas);
+
 function queueSave(){ clearTimeout(saveTimeout); saveTimeout = setTimeout(saveState, 500); }
 function saveState(){ history = history.slice(0, historyIndex + 1); history.push(canvas.toDatalessJSON()); historyIndex++; updateLayers(); }
 function undo(){ if(historyIndex > 0){ historyIndex--; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateLayers();}); }}
@@ -180,14 +205,14 @@ function updateLayers() {
   const list = document.getElementById('layerList');
   list.innerHTML = '';
   canvas.getObjects().forEach((obj, i)=>{
-    const name = obj.type === 'textbox'? obj.text.substring(0,15) : obj.type;
-    list.innerHTML += `<div class="layer-item ${i===canvas.getActiveObject()? 'active':''}" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}. ${name}</div>`;
+    const name = obj.type === 'textbox'? obj.text.substring(0,12) : obj.type;
+    list.innerHTML += `<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}. ${name}</div>`;
   });
 }
 
 function addText(){
   canvas.add(new fabric.Textbox('Your Headline', {
-    left:540,top:200,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center'
+    left:540,top:180,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center'
   }));
 }
 
@@ -208,20 +233,20 @@ function add100(){
 function addPhotoSection() {
   const group = new fabric.Group([
     new fabric.Rect({width:400,height:500,fill:'#1E2433',rx:12}),
-    new fabric.Text('Upload Photo', {top:200,fontSize:24,fill:'#9CA3AF',originX:'center'})
+    new fabric.Text('Upload Photo', {top:200,fontSize:24,fill:'#94A3B8',originX:'center',fontFamily:'Inter',fontWeight:600})
   ], {left:80,top:400});
   canvas.add(group);
 }
 
 function addAboutSection() {
   canvas.add(new fabric.Text('ABOUT', {left:600,top:450,fontSize:48,fill:'#FFFFFF',fontWeight:900,fontFamily:'Inter'}));
-  canvas.add(new fabric.Textbox('Professional company description goes here.', {left:600,top:510,fontSize:18,fill:'#9CA3AF',width:400,fontFamily:'Inter'}));
+  canvas.add(new fabric.Textbox('Professional company description goes here.', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500}));
 }
 
 function addServicesSection() {
   canvas.add(new fabric.Text('SERVICES', {left:600,top:650,fontSize:36,fill:brandColor,fontWeight:700,fontFamily:'Inter'}));
   ['Strategy','Design','Development','Marketing'].forEach((s,i)=>{
-    canvas.add(new fabric.Text('✓ ' + s, {left:600,top:710+i*35,fontSize:20,fill:'#E5E7EB',fontFamily:'Inter'}));
+    canvas.add(new fabric.Text('✓ ' + s, {left:600,top:710+i*35,fontSize:20,fill:'#F1F5F9',fontFamily:'Inter',fontWeight:500}));
   });
 }
 
@@ -229,7 +254,7 @@ function aiBackground() {
   const gradient = new fabric.Gradient({
     type: 'linear',
     coords: {x1:0,y1:0,x2:1080,y2:1350},
-    colorStops: [{offset:0,color:brandColor},{offset:1,color:'#0B0D14'}]
+    colorStops: [{offset:0,color:brandColor},{offset:1,color:'#07090F'}]
   });
   canvas.backgroundColor = gradient;
   canvas.requestRenderAll();
@@ -266,7 +291,7 @@ function addImage(e){
 
 function loadCorporateTemplate() {
   canvas.clear();
-  canvas.backgroundColor = '#0B0D14';
+  canvas.backgroundColor = '#0F131E';
   canvas.add(new fabric.Rect({left:0,top:0,width:1080,height:300,fill:brandColor}));
   addText();
   addPhotoSection();
@@ -276,7 +301,7 @@ function loadCorporateTemplate() {
 }
 
 function loadRealEstateTemplate() {
-  canvas.clear(); canvas.backgroundColor = '#0B0D14';
+  canvas.clear(); canvas.backgroundColor = '#0F131E';
   canvas.add(new fabric.Text('LUXURY PROPERTY', {left:540,top:300,fontSize:64,fill:'#fff',originX:'center',fontWeight:900,fontFamily:'Inter'}));
   saveState();
 }
@@ -305,17 +330,11 @@ function exportPDF(){
   pdf.save('TwinsStudio.pdf');
 }
 
-function clearCanvas(){ canvas.clear(); canvas.backgroundColor = '#0B0D14'; saveState(); }
-
-// Mobile touch fix
-canvas.on('mouse:down', function(options) {
-  if (options.target) {
-    canvas.setActiveObject(options.target);
-  }
-});
+function clearCanvas(){ canvas.clear(); canvas.backgroundColor = '#0F131E'; saveState(); }
 
 loadCorporateTemplate();
 saveState();
+setTimeout(resizeCanvas, 100);
 </script>
 </body>
 </html>
