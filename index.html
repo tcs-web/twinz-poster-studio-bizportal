@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TWINS STUDIO PRO ULTIMATE</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Playfair+Display:wght@700;900&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+<title>TWINS STUDIO PRO ULTIMATE V11</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -12,57 +12,63 @@
 :root{--bg:#07090F;--panel:#0F131E;--border:#1E2433;--primary:#6366F1;--accent:#22D3EE;--text:#F1F5F9;--muted:#94A3B8;--danger:#EF4444;--success:#10B981}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);overflow-x:hidden}
-.header{background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);padding:12px 16px;text-align:center;font-size:14px;font-weight:900;position:sticky;top:0;z-index:1000}
-.toolbar{display:flex;gap:6px;padding:10px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling: touch}
+.header{background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);padding:10px 16px;text-align:center;font-size:13px;font-weight:900;position:sticky;top:0;z-index:1000}
+.toolbar{display:flex;gap:5px;padding:8px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling: touch}
 .toolbar::-webkit-scrollbar{display:none}
-.btn{padding:9px 12px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap}
-.btn:active{transform:scale(0.95)}
+.btn{padding:8px 10px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:6px;cursor:pointer;font-size:11px;white-space:nowrap;touch-action:manipulation}
+.btn:active{transform:scale(0.93)}
 .btn.primary{background:var(--primary)}.btn.accent{background:var(--accent);color:#000}.btn.success{background:var(--success)}.btn.danger{background:var(--danger)}
-.panel{display:flex;gap:10px;padding:10px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto}
-.prop{font-size:11px;color:var(--muted)}
-.prop input{width:60px;background:#171C2A;border:1px solid var(--border);color:var(--text);padding:4px;border-radius:4px}
-.colors{display:flex;gap:8px;padding:10px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
-.color{width:32px;height:32px;border-radius:8px;border:2px solid var(--border);cursor:pointer}
+.panel{display:flex;gap:8px;padding:8px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto}
+.prop{font-size:10px;color:var(--muted)}
+.prop input,.prop select{width:55px;background:#171C2A;border:1px solid var(--border);color:var(--text);padding:3px;border-radius:4px;font-size:10px}
+.colors{display:flex;gap:6px;padding:8px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
+.color{width:28px;height:28px;border-radius:6px;border:2px solid var(--border);cursor:pointer}
 .color.active{border:2px solid var(--accent)}
 .container{display:flex;flex-direction:column}
-.layers{background:var(--panel);padding:8px;border-bottom:1px solid var(--border);display:flex;gap:6px;overflow-x:auto}
-.layers-title{color:var(--muted);font-size:9px;font-weight:700;min-width:45px;padding-top:6px}
-.layer-item{background:#171C2A;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;border:1px solid var(--border);white-space:nowrap}
+.layers{background:var(--panel);padding:6px;border-bottom:1px solid var(--border);display:flex;gap:5px;overflow-x:auto}
+.layers-title{color:var(--muted);font-size:9px;font-weight:700;min-width:40px;padding-top:5px}
+.layer-item{background:#171C2A;padding:5px 8px;border-radius:5px;font-size:9px;cursor:pointer;border:1px solid var(--border);white-space:nowrap}
 .layer-item.active{background:rgba(99,102,241,0.3);border-color:var(--primary)}
-.canvas-wrap{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:10px;background:#05070B;min-height:45vh}
-#canvas{background:#fff;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%}
-.templates{padding:14px;background:var(--panel)}
-.templates h3{color:var(--muted);font-size:10px;margin-bottom:10px;font-weight:700;text-transform:uppercase}
-.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.template-btn{padding:12px;background:#171C2A;border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:700;cursor:pointer;font-size:12px}
-@media(min-width:768px){.container{flex-direction:row;height:calc(100vh - 220px)}.layers{width:220px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border)}.template-grid{grid-template-columns:repeat(4,1fr)}}
+.canvas-wrap{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:8px;background:#05070B;min-height:40vh}
+#canvas{background:#fff;border-radius:6px;box-shadow:0 6px 24px rgba(0,0,0,0.4);max-width:100%;touch-action:none}
+.templates{padding:12px;background:var(--panel)}
+.templates h3{color:var(--muted);font-size:10px;margin-bottom:8px;font-weight:700}
+.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.template-btn{padding:10px;background:#171C2A;border:1px solid var(--border);border-radius:6px;color:var(--text);font-weight:700;cursor:pointer;font-size:11px}
+@media(min-width:768px){.container{flex-direction:row;height:calc(100vh - 200px)}.layers{width:200px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border)}.template-grid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 
-<div class="header">TWINS<span>STUDIO</span> PRO ULTIMATE <span>• GOD TIER</span></div>
+<div class="header">TWINS<span>STUDIO</span> PRO ULTIMATE V11 <span>• GOD TIER P200</span></div>
 
 <div class="toolbar">
   <button class="btn" onclick="undo()">↶</button><button class="btn" onclick="redo()">↷</button>
-  <button class="btn" onclick="addText()">T</button><button class="btn" onclick="addCurveText()">Curve</button>
-  <button class="btn" onclick="uploadImage()">Img</button><button class="btn" onclick="uploadLogo()">Logo</button>
+  <button class="btn" onclick="addText()">T</button><button class="btn" onclick="setDrawing(true)">✏️</button>
+  <button class="btn" onclick="setDrawing(false)">↖</button><button class="btn" onclick="uploadImage()">Img</button>
+  <button class="btn" onclick="uploadLogo()">Logo</button><button class="btn" onclick="uploadSVG()">SVG</button>
   <button class="btn" onclick="addShape('rect')">▭</button><button class="btn" onclick="addShape('circle')">○</button>
   <button class="btn" onclick="addShape('triangle')">▲</button><button class="btn" onclick="addShape('star')">★</button>
-  <button class="btn" onclick="setDrawing(true)">✏️</button><button class="btn" onclick="setDrawing(false)">↖</button>
-  <button class="btn" onclick="duplicate()">Dup</button><button class="btn" onclick="bringForward()">↑</button>
-  <button class="btn" onclick="sendBackward()">↓</button><button class="btn" onclick="deleteObj()">Del</button>
-  <button class="btn" onclick="group()">Group</button><button class="btn" onclick="ungroup()">UnGroup</button>
-  <button class="btn" onclick="addQR()">QR</button><button class="btn accent" onclick="aiBackground()">AI BG</button>
-  <button class="btn" onclick="applyFilter('grayscale')">B&W</button><button class="btn" onclick="applyFilter('sepia')">Sepia</button>
-  <button class="btn" onclick="toggleGrid()">Grid</button><button class="btn" onclick="saveProject()">Save</button>
-  <button class="btn" onclick="loadProject()">Load</button><button class="btn primary" onclick="exportPNG()">4K</button>
-  <button class="btn" onclick="exportPDF()">PDF</button><button class="btn danger" onclick="clearCanvas()">Clear</button>
+  <button class="btn" onclick="duplicate()">Dup</button><button class="btn" onclick="deleteObj()">Del</button>
+  <button class="btn" onclick="group()">Grp</button><button class="btn" onclick="ungroup()">UnG</button>
+  <button class="btn" onclick="lock()">Lock</button><button class="btn" onclick="hide()">Hide</button>
+  <button class="btn" onclick="align('left')">L</button><button class="btn" onclick="align('center')">C</button>
+  <button class="btn" onclick="align('right')">R</button><button class="btn" onclick="addQR()">QR</button>
+  <button class="btn accent" onclick="aiBackground()">AI BG</button><button class="btn" onclick="removeBG()">Rem BG</button>
+  <button class="btn" onclick="applyFilter('grayscale')">B&W</button><button class="btn" onclick="applyFilter('blur')">Blur</button>
+  <button class="btn" onclick="toggleShadow()">Shadow</button><button class="btn" onclick="toggleStroke()">Stroke</button>
+  <button class="btn" onclick="setBlend('multiply')">Blend</button><button class="btn" onclick="toggleGrid()">Grid</button>
+  <button class="btn" onclick="copy()">Copy</button><button class="btn" onclick="paste()">Paste</button>
+  <button class="btn" onclick="saveProject()">Save</button><button class="btn" onclick="loadProject()">Load</button>
+  <button class="btn primary" onclick="exportPNG()">4K</button><button class="btn" onclick="exportPDF()">PDF</button>
+  <button class="btn danger" onclick="clearCanvas()">Clear</button>
 </div>
 
 <div class="panel">
-  <span class="prop">Opacity: <input type="range" min="0" max="100" value="100" oninput="setOpacity(this.value)"></span>
-  <span class="prop">Font: <select onchange="setFont(this.value)" style="background:#171C2A;color:#fff;border:1px solid #333;border-radius:4px;padding:2px"><option>Inter</option><option>Playfair Display</option><option>Poppins</option></select></span>
+  <span class="prop">Op: <input type="range" min="0" max="100" value="100" oninput="setOpacity(this.value)"></span>
+  <span class="prop">Font: <select onchange="setFont(this.value)"><option>Inter</option><option>Arial</option></select></span>
   <span class="prop">Size: <input type="number" value="72" oninput="setFontSize(this.value)"></span>
+  <span class="prop">Stroke: <input type="color" value="#000" onchange="setStroke(this.value)"></span>
 </div>
 
 <div class="colors">
@@ -84,7 +90,7 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 <div class="templates">
   <h3>Pro Templates</h3>
   <div class="template-grid">
-    <div class="template-btn" onclick="loadCorporateTemplate()"><b>Corporate</b><br><small style="color:var(--muted)">Business</small></div>
+    <div class="template-btn" onclick="loadCorporateTemplate()"><b>Corporate</b></div>
     <div class="template-btn" onclick="loadRealEstateTemplate()"><b>Real Estate</b></div>
     <div class="template-btn" onclick="loadMegaSaleTemplate()"><b>Mega Sale</b></div>
     <div class="template-btn" onclick="loadEventTemplate()"><b>Event</b></div>
@@ -93,44 +99,52 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 
 <input type="file" id="imgInput" style="display:none" accept="image/*" onchange="addImage(event)">
 <input type="file" id="logoInput" style="display:none" accept="image/*" onchange="addLogoImage(event)">
+<input type="file" id="svgInput" style="display:none" accept=".svg" onchange="addSVG(event)">
 
 <script>
-function resizeCanvas(){const wrap=document.querySelector('.canvas-wrap');const maxWidth=wrap.clientWidth-20;const scale=Math.min(maxWidth/1080,1);canvas.setWidth(1080*scale);canvas.setHeight(1350*scale);canvas.setZoom(scale);canvas.requestRenderAll()}
-fabric.Object.prototype.objectCaching=true;fabric.perfLimitSizeInPx=4096;
+// === OPTIMIZED FOR TOUCH + SPEED ===
+function resizeCanvas(){const wrap=document.querySelector('.canvas-wrap');const maxWidth=wrap.clientWidth-16;const scale=Math.min(maxWidth/1080,1);canvas.setWidth(1080*scale);canvas.setHeight(1350*scale);canvas.setZoom(scale);canvas.requestRenderAll()}
+fabric.Object.prototype.objectCaching=true;fabric.Object.prototype.transparentCorners=false;fabric.Object.prototype.cornerSize=12;
 const canvas=new fabric.Canvas('canvas',{width:1080,height:1350,backgroundColor:'#0F131E',renderOnAddRemove:false,enableRetinaScaling:true,preserveObjectStacking:true});
-let history=[],historyIndex=-1,saveTimeout;let brandColor='#6366F1';let lastRender=0,frameCount=0;let showGrid=false;
+let history=[],historyIndex=-1,saveTimeout,brandColor='#6366F1',showGrid=false,clipboard=null;
 window.addEventListener('resize',resizeCanvas);
-function queueSave(){clearTimeout(saveTimeout);saveTimeout=setTimeout(saveState,500)}
+function queueSave(){clearTimeout(saveTimeout);saveTimeout=setTimeout(saveState,400)}
 function saveState(){history=history.slice(0,historyIndex+1);history.push(canvas.toDatalessJSON());historyIndex++;updateLayers()}
 function undo(){if(historyIndex>0){historyIndex--;canvas.loadFromJSON(history[historyIndex],()=>{canvas.requestRenderAll();updateLayers()})}}
 function redo(){if(historyIndex<history.length-1){historyIndex++;canvas.loadFromJSON(history[historyIndex],()=>{canvas.requestRenderAll();updateLayers()})}}
-function renderLoop(timestamp){frameCount++;if(timestamp-lastRender>1000){frameCount=0;lastRender=timestamp}canvas.requestRenderAll();requestAnimationFrame(renderLoop)}
-requestAnimationFrame(renderLoop);
 canvas.on('object:added',()=>{queueSave()});canvas.on('object:removed',()=>{queueSave()});canvas.on('object:modified',()=>{queueSave()});
 function setBrand(color,el){brandColor=color;document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
-function updateLayers(){const list=document.getElementById('layerList');list.innerHTML='';canvas.getObjects().forEach((obj,i)=>{const name=obj.type==='textbox'?obj.text.substring(0,10):obj.type;list.innerHTML+=`<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}.${name}</div>`})}
+function updateLayers(){const list=document.getElementById('layerList');list.innerHTML='';canvas.getObjects().forEach((obj,i)=>{const name=obj.type==='textbox'?obj.text.substring(0,8):obj.type;list.innerHTML+=`<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}.${name}</div>`})}
 function addText(){canvas.add(new fabric.Textbox('Edit Me',{left:540,top:200,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center',editable:true}))}
-function addCurveText(){alert('Tap text > Edit > Use Path in next update. For now use normal text')}
-function addShape(type){if(type==='rect')canvas.add(new fabric.Rect({left:340,top:500,width:400,height:200,fill:brandColor,rx:12}));if(type==='circle')canvas.add(new fabric.Circle({left:500,top:500,radius:100,fill:brandColor}));if(type==='triangle')canvas.add(new fabric.Triangle({left:400,top:500,width:280,height:280,fill:brandColor}));if(type==='star'){const points=[];for(let i=0;i<10;i++){const r=i%2===0?100:50;const a=Math.PI/5*i;points.push({x:r*Math.cos(a),y:r*Math.sin(a)}})canvas.add(new fabric.Polygon(points,{left:500,top:500,fill:brandColor}))}}
-function setDrawing(val){canvas.isDrawingMode=val;if(val){canvas.freeDrawingBrush.color=brandColor;canvas.freeDrawingBrush.width=5}}
+function addShape(type){if(type==='rect')canvas.add(new fabric.Rect({left:340,top:500,width:400,height:200,fill:brandColor,rx:12}));if(type==='circle')canvas.add(new fabric.Circle({left:500,top:500,radius:100,fill:brandColor}));if(type==='triangle')canvas.add(new fabric.Triangle({left:400,top:500,width:280,height:280,fill:brandColor}));if(type==='star'){const points=[];for(let i=0;i<10;i++){const r=i%2===0?100:50;const a=Math.PI/5*i;points.push({x:r*Math.cos(a),y:r*Math.sin(a)})}canvas.add(new fabric.Polygon(points,{left:500,top:500,fill:brandColor}))}}
+function setDrawing(val){canvas.isDrawingMode=val;if(val){canvas.freeDrawingBrush.color=brandColor;canvas.freeDrawingBrush.width=6}}
 function duplicate(){const obj=canvas.getActiveObject();if(obj){obj.clone((cloned)=>{cloned.set({left:cloned.left+20,top:cloned.top+20});canvas.add(cloned)})}}
-function bringForward(){const obj=canvas.getActiveObject();if(obj)canvas.bringObjectToFront(obj)}
-function sendBackward(){const obj=canvas.getActiveObject();if(obj)canvas.sendObjectToBack(obj)}
 function deleteObj(){const obj=canvas.getActiveObject();if(obj)canvas.remove(obj)}
-function group(){const active=canvas.getActiveObjects();if(active.length>1){const group=new fabric.Group(active);canvas.clear();canvas.add(group)}}
-function ungroup(){const group=canvas.getActiveObject();if(group && group.type==='group'){group.destroy();const items=group.getObjects();group._restoreObjectsState();canvas.remove(group);items.forEach(i=>canvas.add(i))}}
+function group(){const active=canvas.getActiveObjects();if(active.length>1){const group=new fabric.Group(active);canvas.discardActiveObject();canvas.add(group);canvas.setActiveObject(group)}}
+function ungroup(){const group=canvas.getActiveObject();if(group && group.type==='group'){const items=group.getObjects();group._restoreObjectsState();canvas.remove(group);items.forEach(i=>canvas.add(i));canvas.setActiveObject(new fabric.ActiveSelection(items,{canvas:canvas}))}}
+function lock(){const obj=canvas.getActiveObject();if(obj)obj.set({selectable:!obj.selectable,evented:!obj.evented});canvas.requestRenderAll()}
+function hide(){const obj=canvas.getActiveObject();if(obj)obj.set('visible',!obj.visible);canvas.requestRenderAll()}
+function align(pos){const obj=canvas.getActiveObject();if(!obj)return;if(pos==='left')obj.set('left',50);if(pos==='center')obj.set('left',540);if(pos==='right')obj.set('left',1030);canvas.requestRenderAll()}
 function setOpacity(val){const obj=canvas.getActiveObject();if(obj)obj.set('opacity',val/100);canvas.requestRenderAll()}
 function setFont(font){const obj=canvas.getActiveObject();if(obj && obj.type==='textbox')obj.set('fontFamily',font);canvas.requestRenderAll()}
 function setFontSize(size){const obj=canvas.getActiveObject();if(obj && obj.type==='textbox')obj.set('fontSize',parseInt(size));canvas.requestRenderAll()}
-function applyFilter(filter){const obj=canvas.getActiveObject();if(obj && obj.type==='image'){obj.filters=[];if(filter==='grayscale')obj.filters.push(new fabric.Image.filters.Grayscale());if(filter==='sepia')obj.filters.push(new fabric.Image.filters.Sepia());obj.applyFilters();canvas.requestRenderAll()}}
-function toggleGrid(){showGrid=!showGrid;if(showGrid){for(let i=0;i<1080;i+=100)canvas.add(new fabric.Line([i,0,i,1350],{stroke:'#333',selectable:false}));for(let i=0;i<1350;i+=100)canvas.add(new fabric.Line([0,i,1080,i],{stroke:'#333',selectable:false}))}else{canvas.getObjects().filter(o=>o.type==='line').forEach(l=>canvas.remove(l))}}
+function setStroke(color){const obj=canvas.getActiveObject();if(obj)obj.set({stroke:color,strokeWidth:4});canvas.requestRenderAll()}
+function toggleShadow(){const obj=canvas.getActiveObject();if(obj)obj.set('shadow',obj.shadow?null:new fabric.Shadow({color:'rgba(0,0,0,0.5)',blur:20,offsetX:5,offsetY:5}));canvas.requestRenderAll()}
+function setBlend(mode){const obj=canvas.getActiveObject();if(obj)obj.set('globalCompositeOperation',mode);canvas.requestRenderAll()}
+function applyFilter(filter){const obj=canvas.getActiveObject();if(obj && obj.type==='image'){obj.filters=[];if(filter==='grayscale')obj.filters.push(new fabric.Image.filters.Grayscale());if(filter==='blur')obj.filters.push(new fabric.Image.filters.Blur({blur:0.3}));obj.applyFilters();canvas.requestRenderAll()}}
+function toggleGrid(){showGrid=!showGrid;canvas.getObjects().filter(o=>o.name==='grid').forEach(l=>canvas.remove(l));if(showGrid){for(let i=0;i<=1080;i+=100)canvas.add(new fabric.Line([i,0,i,1350],{stroke:'#222',selectable:false,name:'grid'}));for(let i=0;i<=1350;i+=100)canvas.add(new fabric.Line([0,i,1080,i],{stroke:'#222',selectable:false,name:'grid'}))}}
+function copy(){clipboard=canvas.getActiveObject()}
+function paste(){if(clipboard){clipboard.clone((cloned)=>{cloned.set({left:cloned.left+30,top:cloned.top+30});canvas.add(cloned)})}}
 function aiBackground(){const gradient=new fabric.Gradient({type:'linear',coords:{x1:0,y1:0,x2:1080,y2:1350},colorStops:[{offset:0,color:brandColor},{offset:1,color:'#07090F'}]});canvas.backgroundColor=gradient;canvas.requestRenderAll();saveState()}
+function removeBG(){alert('P52: Connect remove.bg API key here. For now use: Select image > applyFilter > "eraser" brush')}
 function uploadLogo(){document.getElementById('logoInput').click()}
 function addLogoImage(e){const file=e.target.files[0];fabric.Image.fromURL(URL.createObjectURL(file),img=>{img.set({left:60,top:60,scaleX:0.3,scaleY:0.3});canvas.add(img)})}
+function uploadSVG(){document.getElementById('svgInput').click()}
+function addSVG(e){const file=e.target.files[0];const reader=new FileReader();reader.onload=()=>{fabric.loadSVGFromString(reader.result,(objects,options)=>{const svg=fabric.util.groupSVGElements(objects,options);svg.set({left:540,top:600,scaleX:0.5,scaleY:0.5,originX:'center'});canvas.add(svg)})};reader.readAsText(file)}
 function addQR(){const qrDiv=document.createElement('div');new QRCode(qrDiv,{text:"https://twinstudio.pro",width:120,height:120});setTimeout(()=>{fabric.Image.fromURL(qrDiv.querySelector('img').src,img=>{img.set({left:900,top:1200});canvas.add(img)})},100)}
 function uploadImage(){document.getElementById('imgInput').click()}
 function addImage(e){const file=e.target.files[0];fabric.Image.fromURL(URL.createObjectURL(file),img=>{img.set({left:540,top:600,scaleX:0.4,scaleY:0.4,originX:'center'});canvas.add(img)})}
-function saveProject(){localStorage.setItem('twinsProject',JSON.stringify(canvas.toJSON()));alert('Project Saved')}
+function saveProject(){localStorage.setItem('twinsProject',JSON.stringify(canvas.toJSON()));alert('Saved')}
 function loadProject(){const data=localStorage.getItem('twinsProject');if(data)canvas.loadFromJSON(data,()=>{canvas.requestRenderAll();updateLayers()})}
 function loadCorporateTemplate(){canvas.clear();canvas.backgroundColor='#0F131E';canvas.add(new fabric.Rect({left:0,top:0,width:1080,height:300,fill:brandColor}));addText();saveState()}
 function loadRealEstateTemplate(){canvas.clear();canvas.backgroundColor='#0F131E';canvas.add(new fabric.Text('LUXURY PROPERTY',{left:540,top:300,fontSize:64,fill:'#fff',originX:'center',fontWeight:900,fontFamily:'Inter'}));saveState()}
