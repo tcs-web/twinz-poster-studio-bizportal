@@ -1,514 +1,158 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twins Poster Studio AI PRO - CORPORATE EDITION</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>TITAN V3 - 60FPS Engine</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <style>
-  body { font-family: 'Arial Black', Arial; background: #0a0a0a; color: white; margin:0; }
-  header { background: linear-gradient(90deg, #d90479, #001f4d, #2dd4bf); padding: 12px; text-align: center; font-size: 16px; font-weight: bold; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; background: #111; justify-content: center; position: sticky; top:0; z-index:50; }
-  button { padding: 10px 12px; border: none; background: #d90479; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 11px; }
-.shape-btn { background: #7c3aed; }
-.ai-btn { background: linear-gradient(90deg, #a855f7, #00d4ff); }
-.danger-btn { background: #ff0000; }
-.brand-colors { display: flex; gap: 8px; justify-content: center; padding: 10px; background: #111; }
-.color { width: 35px; height: 35px; border-radius: 50%; border: 3px solid white; cursor: pointer; }
-.color.active { border: 3px solid #2dd4bf; }
-.controls { background: #1a1a1a; padding: 10px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.controls input[type=range] { width: 100px; }
-.side-panel { display: flex; }
-.layers { width: 130px; background: #1a1a1a; padding: 8px; max-height: 500px; overflow-y: auto; font-size: 10px; }
-.layer-item { background: #2a2a2a; padding: 6px; margin: 3px 0; border-radius: 4px; cursor: pointer; display: flex; justify-content: space-between; }
-.layer-item.active { background: #2dd4bf; color: #000; }
-.layer-item button { padding: 2px 6px; font-size: 10px; background: #ff0000; border:none; color:white; }
-.templates-section { background: #1a1a1a; padding: 15px; }
-.templates-title { text-align: center; font-size: 16px; margin-bottom: 12px; color: #2dd4bf; font-weight: bold; }
-.templates { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.template-btn { background: #2a2a2a; border: 2px solid #2dd4bf; padding: 14px 8px; text-align: center; border-radius: 8px; color: white; font-weight: bold; font-size: 12px; width: 100%; }
-.canvas-wrap { display: flex; justify-content: center; padding: 15px; flex: 1; }
-  canvas { background: white; max-width: 100%; border: 3px solid #d90479; touch-action: none; }
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; }
-.modal-content { background: #222; padding: 20px; border-radius: 10px; text-align: center; width: 90%; }
-input, textarea { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+:root{--bg:#050508; --panel:#0F1117; --accent:#00D26A; --border:#1F2937}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui}
+body{display:flex;height:100vh;background:var(--bg);color:#E5E7EB;overflow:hidden}
+.toolbar{width:64px;background:var(--panel);border-right:1px solid var(--border);padding:8px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.tool-btn{width:48px;height:48px;background:#1F2937;border:none;border-radius:10px;color:var(--accent);font-size:18px;cursor:pointer}
+.tool-btn.active{background:var(--accent);color:#000}
+#canvas-wrap{flex:1;position:relative;background:#1a1a1a}
+#canvas{background:#fff}
+.sidebar{width:280px;background:var(--panel);border-left:1px solid var(--border)}
+.topbar{position:absolute;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;background:var(--panel);padding:8px;border-radius:12px;border:1px solid var(--border)}
+.topbar button{padding:8px 16px;background:#1F2937;border:1px solid var(--border);border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
+.topbar button.primary{background:var(--accent);color:#000;border:none}
+.fps{position:absolute;bottom:10px;right:10px;background:#000;padding:6px 12px;border-radius:6px;font-size:12px;color:var(--accent)}
 </style>
 </head>
 <body>
 
-<header>🔥 TWINS POSTER STUDIO AI PRO - CORPORATE EDITION</header>
-
 <div class="toolbar">
-  <button onclick="undo()">↩️ Undo</button>
-  <button onclick="redo()">↪️ Redo</button>
-  <button onclick="addText()">T Text</button>
-  <button onclick="uploadImage()">🖼️ Photo</button>
-  <button class="shape-btn" onclick="addShape('tri1')">▲ Tri1</button>
-  <button class="shape-btn" onclick="addShape('tri2')">▼ Tri2</button>
-  <button class="shape-btn" onclick="addShape('tri3')">◀ Tri3</button>
-  <button class="shape-btn" onclick="addShape('tri4')">▶ Tri4</button>
-  <button class="shape-btn" onclick="addShape('tri5')">◆ Tri5</button>
-  <button class="shape-btn" onclick="addShape('rect')">▭ Rect</button>
-  <button class="shape-btn" onclick="addShape('square')">⬜ Square</button>
-  <button onclick="addPhotoSection()">📸 Photo Box</button>
-  <button onclick="addAboutSection()">🏢 About</button>
-  <button onclick="addServicesSection()">✅ Services</button>
-  <button onclick="duplicateLayer()">📋 Dup</button>
-  <button onclick="exportPNG()">HD PNG</button>
-  <button class="danger-btn" onclick="clearCanvas()">Clear</button>
+  <button class="tool-btn active" onclick="setTool('select')">↖</button>
+  <button class="tool-btn" onclick="setTool('text')">T</button>
+  <button class="tool-btn" onclick="setTool('rect')">▭</button>
+  <button class="tool-btn" onclick="add100()">100x</button>
+  <button class="tool-btn" onclick="document.getElementById('imgInput').click()">🖼</button>
+  <input type="file" id="imgInput" style="display:none" onchange="addImage(event)">
 </div>
 
-<div class="controls" id="textControls" style="display:none;">
-  <label>Size: <input type="range" id="sizeSlider" min="20" max="200" value="60" oninput="changeSize(this.value)"></label>
-  <label>Rotate: <input type="range" id="rotateSlider" min="-180" max="180" value="0" oninput="changeRotate(this.value)"></label>
-  <button onclick="toggleStroke()">Stroke</button>
-  <button onclick="toggleShadow()">Shadow</button>
-</div>
-
-<div class="brand-colors">
-  <div class="color active" style="background:#d90479" onclick="setBrand('#d90479', this)"></div>
-  <div class="color" style="background:#001f4d" onclick="setBrand('#001f4d', this)"></div>
-  <div class="color" style="background:#2dd4bf" onclick="setBrand('#2dd4bf', this)"></div>
-  <div class="color" style="background:#ff4d00" onclick="setBrand('#ff4d00', this)"></div>
-  <div class="color" style="background:#000" onclick="setBrand('#000', this)"></div>
-  <div class="color" style="background:#fff" onclick="setBrand('#fff', this)"></div>
-</div>
-
-<div class="side-panel">
-  <div class="layers" id="layers">
-    <b style="color:#2dd4bf">LAYERS - TAP TO EDIT</b>
+<div id="canvas-wrap">
+  <canvas id="canvas"></canvas>
+  <div class="topbar">
+    <button onclick="undo()">↶ Undo</button>
+    <button onclick="redo()">↷ Redo</button>
+    <button class="primary" onclick="exportPNG()">Export 4K</button>
   </div>
-  <div class="canvas-wrap">
-    <canvas id="canvas" width="1080" height="1350"></canvas>
-  </div>
+  <div class="fps" id="fps">FPS: 60</div>
 </div>
 
-<div class="templates-section">
-  <div class="templates-title">📋 CORPORATE TEMPLATES</div>
-  <div class="templates">
-    <button class="template-btn" onclick="loadDiagonalTemplate()">Diagonal Layout</button>
-    <button class="template-btn" onclick="loadCorporateTemplate()">Corporate Pro</button>
-  </div>
-</div>
-
-<div class="modal" id="textModal">
-  <div class="modal-content">
-    <h3 id="textModalTitle">Add/Edit Text</h3>
-    <input type="text" id="textInput" placeholder="Type your text here">
-    <textarea id="multiInput" placeholder="For lists: put each item on new line" style="display:none;"></textarea>
-    <button onclick="confirmText()">Save</button>
-    <button onclick="closeText()">Cancel</button>
+<div class="sidebar">
+  <div style="padding:16px">
+    <h3 style="font-size:12px;color:#9CA3AF;margin-bottom:12px">PERFORMANCE</h3>
+    <div>Objects: <span id="objCount">0</span></div>
   </div>
 </div>
 
 <script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-let brandColor = '#d90479';
-let history = [];
-let historyStep = -1;
-let elements = [];
-let selectedIndex = -1;
-let isDragging = false;
+// === GOD TIER PERFORMANCE SETTINGS ===
+fabric.Object.prototype.objectCaching = true; // Cache to bitmap
+fabric.Object.prototype.statefullCache = true;
+fabric.perfLimitSizeInPx = 4096; // Allow 4K
 
-// CORPORATE COLORS
-const MAGENTA = '#d90479';
-const NAVY = '#001f4d';
-const MINT = '#2dd4bf';
-const WHITE = '#ffffff';
+const canvas = new fabric.Canvas('canvas', {
+  width: window.innerWidth - 344,
+  height: window.innerHeight,
+  backgroundColor: '#ffffff',
+  renderOnAddRemove: false, // Manual render
+  enableRetinaScaling: false, // Disable for speed on big canvas
+  imageSmoothingEnabled: true
+});
 
-function saveState() {
-  history = history.slice(0, historyStep + 1);
-  history.push(JSON.stringify(elements));
-  historyStep++;
-  updateLayers();
+let history = [], historyIndex = -1, saveTimeout;
+let lastRender = 0, frameCount = 0;
+
+// === DEBOUNCED HISTORY ===
+function queueSave(){
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(saveState, 500); // Only save 500ms after you stop
 }
+function saveState(){
+  history = history.slice(0, historyIndex + 1);
+  history.push(canvas.toDatalessJSON(['globalCompositeOperation'])); // dataless = smaller
+  historyIndex++;
+}
+function undo(){ if(historyIndex > 0){ historyIndex--; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateUI();}); }}
+function redo(){ if(historyIndex < history.length - 1){ historyIndex++; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateUI();}); }}
 
-function undo() {
-  if(historyStep > 0) {
-    historyStep--;
-    elements = JSON.parse(history[historyStep]);
-    redraw();
+// === OPTIMIZED EVENTS ===
+canvas.on('object:added', ()=>{queueSave(); updateUI();});
+canvas.on('object:removed', ()=>{queueSave(); updateUI();});
+canvas.on('object:modified', ()=>{queueSave();}); // Don't update layers on every move
+
+// === MANUAL RENDER LOOP 60FPS ===
+function renderLoop(timestamp){
+  frameCount++;
+  if(timestamp - lastRender > 1000){
+    document.getElementById('fps').innerText = 'FPS: ' + frameCount;
+    frameCount = 0; lastRender = timestamp;
   }
+  canvas.requestRenderAll();
+  requestAnimationFrame(renderLoop);
+}
+requestAnimationFrame(renderLoop);
+
+// === TOOLS ===
+function setTool(tool){
+  document.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
 }
 
-function redo() {
-  if(historyStep < history.length - 1) {
-    historyStep++;
-    elements = JSON.parse(history[historyStep]);
-    redraw();
+function addText(){
+  const text = new fabric.Textbox('Edit Me', {
+    left: 200, top: 200, fontSize: 48, fill: '#111', width: 400
+  });
+  text.set({dirty: true});
+  canvas.add(text);
+}
+
+function addRect(){
+  const rect = new fabric.Rect({
+    left: Math.random()*500, top: Math.random()*500, width: 200, height: 120,
+    fill: '#00D26A', rx: 12, ry: 12
+  });
+  rect.set({dirty: true});
+  canvas.add(rect);
+}
+
+// STRESS TEST: Add 100 objects to prove it's fast
+function add100(){
+  for(let i=0; i<100; i++){
+    canvas.add(new fabric.Rect({
+      left: Math.random()*800, top: Math.random()*600,
+      width: 50, height: 50, fill: `hsl(${Math.random()*360},70%,50%)`
+    }));
   }
+  canvas.requestRenderAll();
 }
 
-function setBrand(color, el) {
-  brandColor = color;
-  document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  if(selectedIndex >= 0) {
-    elements[selectedIndex].color = color;
-    saveState();
-    redraw();
-  }
-}
-
-function updateLayers() {
-  const layersDiv = document.getElementById('layers');
-  layersDiv.innerHTML = '<b style="color:#2dd4bf">LAYERS - TAP TO EDIT</b>';
-  elements.forEach((el, i) => {
-    if(el.type === 'bg') return;
-    const name = el.type === 'text'? el.text.substring(0,8) : el.type;
-    layersDiv.innerHTML += `
-      <div class="layer-item ${i===selectedIndex?'active':''}" onclick="selectLayer(${i})">
-        <span>${el.type} ${i+1}: ${name}</span>
-        <button onclick="deleteLayer(${i});event.stopPropagation()">X</button>
-      </div>
-    `;
+function addImage(e){
+  const file = e.target.files[0];
+  fabric.Image.fromURL(URL.createObjectURL(file), img=>{
+    img.set({scaleX: 0.5, scaleY: 0.5, objectCaching: true});
+    canvas.add(img);
+    canvas.requestRenderAll();
   });
 }
 
-function selectLayer(i) {
-  selectedIndex = i;
-  updateLayers();
-  if(elements[i].type === 'text' || elements[i].type === 'list') {
-    document.getElementById('textControls').style.display = 'flex';
-    document.getElementById('sizeSlider').value = elements[i].size;
-    document.getElementById('rotateSlider').value = elements[i].rotate || 0;
-    document.getElementById('textModalTitle').innerText = 'Edit Text';
-    document.getElementById('textInput').value = elements[i].text || '';
-    if(elements[i].type === 'list') {
-      document.getElementById('multiInput').style.display = 'block';
-      document.getElementById('multiInput').value = elements[i].items.join('\n');
-    } else {
-      document.getElementById('multiInput').style.display = 'none';
-    }
-    document.getElementById('textModal').style.display = 'flex';
-  } else {
-    document.getElementById('textControls').style.display = 'none';
-  }
+function updateUI(){
+  document.getElementById('objCount').innerText = canvas.getObjects().length;
 }
 
-function deleteLayer(i) {
-  elements.splice(i, 1);
-  selectedIndex = -1;
-  saveState();
-  redraw();
+function exportPNG(){
+  // Use lower quality during work, 4x only on export
+  const dataURL = canvas.toDataURL({format:'png', multiplier:4});
+  const a = document.createElement('a');
+  a.href = dataURL; a.download = 'TITAN_4K.png'; a.click();
 }
 
-function duplicateLayer() {
-  if(selectedIndex >= 0) {
-    const dup = JSON.parse(JSON.stringify(elements[selectedIndex]));
-    dup.y += 30; dup.x += 30;
-    elements.push(dup);
-    selectedIndex = elements.length - 1;
-    saveState();
-    redraw();
-  }
-}
-
-function changeSize(val) {
-  if(selectedIndex >= 0) {
-    elements[selectedIndex].size = parseInt(val);
-    redraw();
-  }
-}
-
-function changeRotate(val) {
-  if(selectedIndex >= 0) {
-    elements[selectedIndex].rotate = parseInt(val);
-    redraw();
-  }
-}
-
-function toggleStroke() {
-  if(selectedIndex >= 0) elements[selectedIndex].stroke =!elements[selectedIndex].stroke;
-  redraw();
-}
-
-function toggleShadow() {
-  if(selectedIndex >= 0) elements[selectedIndex].shadow =!elements[selectedIndex].shadow;
-  redraw();
-}
-
-// 5 TYPES OF TRIANGLES + RECT + SQUARE
-function addShape(type) {
-  if(type === 'tri1') elements.push({type:'shape', shape:'tri1', x:0, y:0, w:540, h:675, color:brandColor}); // Top Left
-  if(type === 'tri2') elements.push({type:'shape', shape:'tri2', x:540, y:0, w:540, h:675, color:brandColor}); // Top Right
-  if(type === 'tri3') elements.push({type:'shape', shape:'tri3', x:0, y:675, w:540, h:675, color:brandColor}); // Bottom Left
-  if(type === 'tri4') elements.push({type:'shape', shape:'tri4', x:540, y:675, w:540, h:675, color:brandColor}); // Bottom Right
-  if(type === 'tri5') elements.push({type:'shape', shape:'tri5', x:270, y:337, w:540, h:675, color:brandColor}); // Center Diamond
-  if(type === 'rect') elements.push({type:'shape', shape:'rect', x:100, y:100, w:400, h:200, color:brandColor});
-  if(type === 'square') elements.push({type:'shape', shape:'square', x:300, y:300, w:200, h:200, color:brandColor});
-  selectedIndex = elements.length - 1;
-  saveState();
-  redraw();
-}
-
-function addPhotoSection() {
-  elements.push({type:'photo', x:50, y:180, w:450, h:600, color:NAVY, src:null});
-  elements.push({type:'text', text:'UPLOAD PHOTO', x:275, y:480, size:30, color:WHITE, align:'center'});
-  selectedIndex = elements.length - 1;
-  saveState();
-  redraw();
-}
-
-function addAboutSection() {
-  elements.push({type:'shape', shape:'rect', x:40, y:900, w:500, h:350, color:MAGENTA});
-  elements.push({type:'text', text:'ABOUT', x:60, y:950, size:50, color:WHITE, align:'left', font:'Arial Black'});
-  elements.push({type:'text', text:'COMPANY', x:60, y:1000, size:50, color:WHITE, align:'left', font:'Arial Black'});
-  elements.push({type:'text', text:'Your company description here\nLine 2\nLine 3', x:60, y:1050, size:20, color:WHITE, align:'left'});
-  saveState();
-  redraw();
-}
-
-function addServicesSection() {
-  elements.push({type:'text', text:'BEST', x:600, y:750, size:45, color:WHITE, align:'left'});
-  elements.push({type:'text', text:'SERVICES', x:600, y:800, size:45, color:MAGENTA, align:'left'});
-  elements.push({type:'list', listType:'bullet', items:['Service 1', 'Service 2', 'Service 3', 'Service 4'], x:600, y:860, size:30, color:WHITE});
-  elements.push({type:'text', text:'WWW.YOURWEB.COM', x:1000, y:1290, size:35, color:NAVY, align:'right'});
-  saveState();
-  redraw();
-}
-
-function loadDiagonalTemplate() {
-  elements = [
-    {type:'bg', color:NAVY},
-    {type:'shape', shape:'tri2', x:400, y:0, w:680, h:500, color:MAGENTA},
-    {type:'shape', shape:'tri3', x:0, y:600, w:500, h:750, color:MAGENTA},
-    {type:'shape', shape:'rect', x:0, y:1250, w:1080, h:100, color:MINT},
-  ];
-  saveState();
-  redraw();
-}
-
-function loadCorporateTemplate() {
-  loadDiagonalTemplate();
-  addPhotoSection();
-  addAboutSection();
-  addServicesSection();
-}
-
-function redraw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if(elements.length > 0 && elements[0].type === 'bg') {
-    ctx.fillStyle = elements[0].color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  } else {
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-
-  elements.forEach((el, i) => {
-    if(el.type === 'bg') return;
-
-    ctx.save();
-    ctx.translate(el.x, el.y);
-    ctx.rotate((el.rotate || 0) * Math.PI / 180);
-
-    if(el.type === 'text') {
-      ctx.fillStyle = el.color;
-      ctx.font = `bold ${el.size}px ${el.font || 'Arial Black'}`;
-      ctx.textAlign = el.align || 'center';
-      if(el.shadow) {
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 10;
-      }
-      if(el.stroke) {
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 4;
-        ctx.strokeText(el.text, 0, 0);
-      }
-      ctx.fillText(el.text, 0, 0);
-    }
-
-    if(el.type === 'list') {
-      ctx.fillStyle = el.color;
-      ctx.font = `bold ${el.size}px Arial`;
-      ctx.textAlign = 'left';
-      el.items.forEach((item, j) => {
-        if(el.listType === 'bullet') {
-          ctx.beginPath();
-          ctx.arc(-20, j*40, 6, 0, Math.PI*2);
-          ctx.fill();
-        } else {
-          ctx.fillText('•', -20, j*40);
-        }
-        ctx.fillText(item, 0, j*40);
-      });
-    }
-
-    if(el.type === 'photo') {
-      ctx.fillStyle = el.color;
-      ctx.fillRect(0, 0, el.w, el.h);
-      if(el.src) {
-        const img = new Image();
-        img.src = el.src;
-        ctx.drawImage(img, 0, 0, el.w, el.h);
-      }
-    }
-
-    if(el.type === 'shape') {
-      ctx.fillStyle = el.color;
-      if(el.shape === 'tri1') { // Top Left
-        ctx.beginPath();
-        ctx.moveTo(0,0);
-        ctx.lineTo(el.w,0);
-        ctx.lineTo(0,el.h);
-        ctx.closePath();
-        ctx.fill();
-      }
-      if(el.shape === 'tri2') { // Top Right
-        ctx.beginPath();
-        ctx.moveTo(el.w,0);
-        ctx.lineTo(el.w,el.h);
-        ctx.lineTo(0,0);
-        ctx.closePath();
-        ctx.fill();
-      }
-      if(el.shape === 'tri3') { // Bottom Left
-        ctx.beginPath();
-        ctx.moveTo(0,el.h);
-        ctx.lineTo(el.w,el.h);
-        ctx.lineTo(0,0);
-        ctx.closePath();
-        ctx.fill();
-      }
-      if(el.shape === 'tri4') { // Bottom Right
-        ctx.beginPath();
-        ctx.moveTo(el.w,el.h);
-        ctx.lineTo(0,el.h);
-        ctx.lineTo(el.w,0);
-        ctx.closePath();
-        ctx.fill();
-      }
-      if(el.shape === 'tri5') { // Diamond
-        ctx.beginPath();
-        ctx.moveTo(el.w/2,0);
-        ctx.lineTo(el.w,el.h/2);
-        ctx.lineTo(el.w/2,el.h);
-        ctx.lineTo(0,el.h/2);
-        ctx.closePath();
-        ctx.fill();
-      }
-      if(el.shape === 'rect') {
-        ctx.fillRect(0, 0, el.w, el.h);
-      }
-      if(el.shape === 'square') {
-        ctx.fillRect(0, 0, el.w, el.h);
-      }
-    }
-    ctx.restore();
-  });
-}
-
-// DRAG TO MOVE + RESIZE
-canvas.addEventListener('touchstart', handleStart);
-canvas.addEventListener('mousedown', handleStart);
-canvas.addEventListener('touchmove', handleMove);
-canvas.addEventListener('mousemove', handleMove);
-canvas.addEventListener('touchend', ()=>isDragging=false);
-canvas.addEventListener('mouseup', ()=>isDragging=false);
-
-function getPos(e) {
-  const rect = canvas.getBoundingClientRect();
-  const x = (e.touches?e.touches[0].clientX:e.clientX) - rect.left;
-  const y = (e.touches?e.touches[0].clientY:e.clientY) - rect.top;
-  return {x: x * (canvas.width/rect.width), y: y * (canvas.height/rect.height)};
-}
-
-function handleStart(e) {
-  const pos = getPos(e);
-  for(let i=elements.length-1; i>=0; i--) {
-    if(elements[i].type === 'bg') continue;
-    const dist = Math.abs(pos.x - elements[i].x) + Math.abs(pos.y - elements[i].y);
-    if(dist < 150) {
-      selectedIndex = i;
-      isDragging = true;
-      selectLayer(i);
-      return;
-    }
-  }
-}
-
-function handleMove(e) {
-  if(!isDragging || selectedIndex < 0) return;
-  const pos = getPos(e);
-  elements[selectedIndex].x = pos.x;
-  elements[selectedIndex].y = pos.y;
-  redraw();
-}
-
-function addText() {
-  document.getElementById('textModalTitle').innerText = 'Add Text';
-  document.getElementById('textInput').value = '';
-  document.getElementById('multiInput').style.display = 'none';
-  document.getElementById('textModal').style.display = 'flex';
-}
-
-function confirmText() {
-  const text = document.getElementById('textInput').value;
-  const multi = document.getElementById('multiInput').value;
-  if(selectedIndex >= 0) {
-    if(elements[selectedIndex].type === 'list') {
-      elements[selectedIndex].items = multi.split('\n');
-    } else {
-      elements[selectedIndex].text = text;
-    }
-  } else {
-    if(multi) {
-      elements.push({type:'list', listType:'bullet', items:multi.split('\n'), x:540, y:400, size:30, color:brandColor});
-    } else {
-      elements.push({type:'text', text:text, x:540, y:400, size:60, color:brandColor, rotate:0, shadow:true});
-    }
-    selectedIndex = elements.length - 1;
-  }
-  saveState();
-  redraw();
-  closeText();
-}
-
-function closeText() {
-  document.getElementById('textModal').style.display = 'none';
-  document.getElementById('textInput').value = '';
-  document.getElementById('multiInput').value = '';
-}
-
-function uploadImage() {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = e => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      if(selectedIndex >= 0 && elements[selectedIndex].type === 'photo') {
-        elements[selectedIndex].src = reader.result;
-      } else {
-        elements.push({type:'image', src:reader.result, x:540, y:600, w:500, h:300});
-        selectedIndex = elements.length - 1;
-      }
-      saveState();
-      redraw();
-    }
-    reader.readAsDataURL(e.target.files[0]);
-  }
-  input.click();
-}
-
-function exportPNG() {
-  const link = document.createElement('a');
-  link.download = 'CORPORATE-poster.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-}
-
-function clearCanvas() {
-  elements = [];
-  selectedIndex = -1;
-  saveState();
-  redraw();
-}
-
-loadDiagonalTemplate();
+saveState();
+updateUI();
 </script>
-
 </body>
 </html>
