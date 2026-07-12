@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TWINS STUDIO PRO V13.1</title>
+<title>TWINS STUDIO PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
-  --bg:#07090F; --panel:#0F131E; --border:#1E2433;
+  --bg:#07090F; --panel:#0F131E; --border:#1E2433; 
   --primary:#6366F1; --accent:#22D3EE; --text:#F1F5F9; --muted:#94A3B8;
   --danger:#EF4444;
 }
@@ -22,7 +22,7 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 
 .toolbar{display:flex;gap:8px;padding:12px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling: touch;scrollbar-width:none}
 .toolbar::-webkit-scrollbar{display:none}
-.btn{min-height:44px;padding:11px 14px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;flex-shrink:0;transition:0.2s;touch-action:manipulation}
+.btn{padding:11px 14px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;flex-shrink:0;transition:0.2s}
 .btn:active{transform:scale(0.95);background:#1E2433}
 .btn.primary{background:var(--primary);border-color:var(--primary)}
 .btn.accent{background:var(--accent);border-color:var(--accent);color:#000}
@@ -45,7 +45,7 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 .templates{padding:16px;background:var(--panel)}
 .templates h3{color:var(--muted);font-size:11px;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
 .template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.template-btn{min-height:44px;padding:14px;background:#171C2A;border:1px solid var(--border);border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;font-size:13px;text-align:left}
+.template-btn{padding:14px;background:#171C2A;border:1px solid var(--border);border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;font-size:13px;text-align:left}
 .template-btn:active{border-color:var(--primary);background:#1E2433}
 
 .fps{position:fixed;bottom:12px;right:12px;background:rgba(0,0,0,0.7);padding:4px 8px;border-radius:6px;font-size:10px;color:var(--accent);font-weight:700}
@@ -60,21 +60,18 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 </head>
 <body>
 
-<div class="header">TWINS<span>STUDIO</span> PRO <span>• V13.1 TOUCH FIXED</span></div>
+<div class="header">TWINS<span>STUDIO</span> PRO <span>• CORPORATE</span></div>
 
 <div class="toolbar">
   <button class="btn" onclick="undo()">↶ Undo</button>
   <button class="btn" onclick="redo()">↷ Redo</button>
   <button class="btn" onclick="addText()">Text</button>
   <button class="btn" onclick="uploadImage()">Image</button>
-  <button class="btn" onclick="uploadLogo()">Logo</button>
+  <button class="btn" onclick="uploadLogo()">Logo Upload</button>
   <button class="btn" onclick="addQR()">QR</button>
   <button class="btn accent" onclick="aiBackground()">AI BG</button>
   <button class="btn" onclick="addShape('triangle')">Triangle</button>
   <button class="btn" onclick="addShape('rect')">Rectangle</button>
-  <button class="btn" onclick="addShape('circle')">Circle</button>
-  <button class="btn" onclick="duplicate()">Duplicate</button>
-  <button class="btn" onclick="deleteObj()">Delete</button>
   <button class="btn" onclick="addPhotoSection()">Photo Block</button>
   <button class="btn" onclick="addAboutSection()">About</button>
   <button class="btn" onclick="addServicesSection()">Services</button>
@@ -88,9 +85,11 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
   <div class="color active" style="background:#6366F1" onclick="setBrand('#6366F1', this)"></div>
   <div class="color" style="background:#22D3EE" onclick="setBrand('#22D3EE', this)"></div>
   <div class="color" style="background:#d90479" onclick="setBrand('#d90479', this)"></div>
+  <div class="color" style="background:#001f4d" onclick="setBrand('#001f4d', this)"></div>
   <div class="color" style="background:#10B981" onclick="setBrand('#10B981', this)"></div>
   <div class="color" style="background:#F59E0B" onclick="setBrand('#F59E0B', this)"></div>
   <div class="color" style="background:#EF4444" onclick="setBrand('#EF4444', this)"></div>
+  <div class="color" style="background:#0F131E" onclick="setBrand('#0F131E', this)"></div>
   <div class="color" style="background:#FFFFFF" onclick="setBrand('#FFFFFF', this)"></div>
 </div>
 
@@ -119,33 +118,7 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 <input type="file" id="logoInput" style="display:none" accept="image/*" onchange="addLogoImage(event)">
 
 <script>
-let canvas;
-function initCanvas(){
-  fabric.Object.prototype.objectCaching = true;
-  fabric.Object.prototype.cornerSize = 20; // BIGGER FOR FINGERS
-  fabric.Object.prototype.transparentCorners = false;
-  fabric.perfLimitSizeInPx = 4096;
-
-  canvas = new fabric.Canvas('canvas', {
-    width: 1080, height: 1350,
-    backgroundColor: '#0F131E',
-    renderOnAddRemove: false,
-    enableRetinaScaling: true,
-    preserveObjectStacking: true,
-    allowTouchScrolling: true // KEY FIX FOR MOBILE
-  });
-
-  fabric.Object.prototype.setControlsVisibility({
-    mt:true,mb:true,ml:true,mr:true,mtr:true,tl:true,tr:true,bl:true,br:true
-  });
-
-  resizeCanvas();
-  loadCorporateTemplate();
-  saveState();
-}
-
 function resizeCanvas(){
-  if(!canvas) return;
   const wrap = document.querySelector('.canvas-wrap');
   const maxWidth = wrap.clientWidth - 24;
   const scale = Math.min(maxWidth / 1080, 1);
@@ -154,6 +127,17 @@ function resizeCanvas(){
   canvas.setZoom(scale);
   canvas.requestRenderAll();
 }
+
+fabric.Object.prototype.objectCaching = true;
+fabric.perfLimitSizeInPx = 4096;
+
+const canvas = new fabric.Canvas('canvas', {
+  width: 1080, height: 1350,
+  backgroundColor: '#0F131E',
+  renderOnAddRemove: false,
+  enableRetinaScaling: true,
+  preserveObjectStacking: true
+});
 
 let history = [], historyIndex = -1, saveTimeout;
 let brandColor = '#6366F1';
@@ -203,11 +187,7 @@ function addText(){
 function addShape(type) {
   if(type === 'rect') canvas.add(new fabric.Rect({left:340,top:500,width:400,height:200,fill:brandColor,rx:12}));
   if(type === 'triangle') canvas.add(new fabric.Triangle({left:400,top:500,width:280,height:280,fill:brandColor}));
-  if(type === 'circle') canvas.add(new fabric.Circle({left:500,top:500,radius:120,fill:brandColor}));
 }
-
-function duplicate(){const obj=canvas.getActiveObject();if(obj){obj.clone((cloned)=>{cloned.set({left:cloned.left+20,top:cloned.top+20});canvas.add(cloned)})}}
-function deleteObj(){const obj=canvas.getActiveObject();if(obj)canvas.remove(obj)}
 
 function add100(){
   for(let i=0; i<100; i++){
@@ -226,12 +206,14 @@ function addPhotoSection() {
   canvas.add(group);
 }
 
+// EDITABLE ABOUT SECTION
 function addAboutSection() {
   const title = new fabric.Textbox('ABOUT', {left:600,top:450,fontSize:48,fill:'#FFFFFF',fontWeight:900,fontFamily:'Inter',width:400,editable:true});
-  const desc = new fabric.Textbox('Double tap to edit this text.', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500,editable:true});
+  const desc = new fabric.Textbox('Professional company description goes here. Double tap to edit this text.', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500,editable:true});
   canvas.add(title, desc);
 }
 
+// EDITABLE SERVICES SECTION
 function addServicesSection() {
   const title = new fabric.Textbox('SERVICES', {left:600,top:650,fontSize:36,fill:brandColor,fontWeight:700,fontFamily:'Inter',width:400,editable:true});
   canvas.add(title);
@@ -252,6 +234,7 @@ function aiBackground() {
   saveState();
 }
 
+// LOGO UPLOAD PICTURE
 function uploadLogo(){ document.getElementById('logoInput').click(); }
 function addLogoImage(e){
   const file = e.target.files[0];
@@ -324,7 +307,9 @@ function exportPDF(){
 
 function clearCanvas(){ canvas.clear(); canvas.backgroundColor = '#0F131E'; saveState(); }
 
-window.addEventListener('load', initCanvas);
+loadCorporateTemplate();
+saveState();
+setTimeout(resizeCanvas, 100);
 </script>
 </body>
 </html>
