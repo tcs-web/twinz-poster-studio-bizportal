@@ -3,67 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TWINS STUDIO PRO ULTIMATE V12.3</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<title>TWINS STUDIO PRO V13.1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-:root{--bg:#07090F;--panel:#0F131E;--border:#1E2433;--primary:#6366F1;--accent:#22D3EE;--text:#F1F5F9;--muted:#94A3B8;--danger:#EF4444;--success:#10B981}
+:root{
+  --bg:#07090F; --panel:#0F131E; --border:#1E2433;
+  --primary:#6366F1; --accent:#22D3EE; --text:#F1F5F9; --muted:#94A3B8;
+  --danger:#EF4444;
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', system-ui;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--text);overflow-x:hidden}
-.header{background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);padding:12px 16px;text-align:center;font-size:14px;font-weight:900;position:sticky;top:0;z-index:1000}
-.toolbar{display:flex;gap:6px;padding:10px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling: touch}
+
+.header{background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);padding:14px 16px;text-align:center;font-size:15px;font-weight:900;letter-spacing:-0.2px;position:sticky;top:0;z-index:100}
+.header span{font-weight:500;opacity:0.9}
+
+.toolbar{display:flex;gap:8px;padding:12px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling: touch;scrollbar-width:none}
 .toolbar::-webkit-scrollbar{display:none}
-.btn{min-height:44px;min-width:44px;padding:10px 12px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap;touch-action:manipulation}
-.btn:active{transform:scale(0.94);background:#232A3D}
-.btn.primary{background:var(--primary)}.btn.accent{background:var(--accent);color:#000}.btn.success{background:var(--success)}.btn.danger{background:var(--danger)}.btn.gold{background:linear-gradient(90deg,#F59E0B,#FBBF24)}
-.panel{display:flex;gap:8px;padding:10px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto}
-.prop{font-size:11px;color:var(--muted)}
-.prop input,.prop select{width:60px;background:#171C2A;border:1px solid var(--border);color:var(--text);padding:4px;border-radius:4px}
-.colors{display:flex;gap:8px;padding:10px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
-.color{width:36px;height:36px;border-radius:8px;border:2px solid var(--border);cursor:pointer}
-.color.active{border:2px solid var(--accent)}
+.btn{min-height:44px;padding:11px 14px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:10px;cursor:pointer;font-size:13px;white-space:nowrap;flex-shrink:0;transition:0.2s;touch-action:manipulation}
+.btn:active{transform:scale(0.95);background:#1E2433}
+.btn.primary{background:var(--primary);border-color:var(--primary)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:#000}
+.btn.danger{background:var(--danger);border-color:var(--danger)}
+
+.colors{display:flex;gap:10px;padding:12px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
+.colors::-webkit-scrollbar{display:none}
+.color{width:38px;height:38px;border-radius:10px;border:2px solid var(--border);cursor:pointer;flex-shrink:0}
+.color.active{border:2px solid var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,0.25)}
+
 .container{display:flex;flex-direction:column}
-.layers{background:var(--panel);padding:8px;border-bottom:1px solid var(--border);display:flex;gap:6px;overflow-x:auto}
-.layers-title{color:var(--muted);font-size:10px;font-weight:700;min-width:45px;padding-top:6px}
-.layer-item{background:#171C2A;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;border:1px solid var(--border);white-space:nowrap}
-.layer-item.active{background:rgba(99,102,241,0.3);border-color:var(--primary)}
-.canvas-wrap{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:10px;background:#05070B;min-height:45vh}
-#canvas{background:#fff;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%}
-.templates{padding:14px;background:var(--panel)}
-.templates h3{color:var(--muted);font-size:11px;margin-bottom:10px;font-weight:700}
-.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.template-btn{min-height:44px;padding:12px;background:#171C2A;border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:700;cursor:pointer;font-size:12px}
-@media(min-width:768px){.container{flex-direction:row;height:calc(100vh - 220px)}.layers{width:220px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border)}.template-grid{grid-template-columns:repeat(4,1fr)}}
+.layers{background:var(--panel);padding:10px;border-bottom:1px solid var(--border);display:flex;gap:8px;overflow-x:auto}
+.layers-title{color:var(--muted);font-size:10px;font-weight:700;text-transform:uppercase;min-width:50px;padding-top:8px}
+.layer-item{background:#171C2A;padding:8px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);white-space:nowrap;min-width:90px}
+.layer-item.active{background:rgba(99,102,241,0.25);border-color:var(--primary)}
+
+.canvas-wrap{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:12px;background:#05070B;min-height:50vh}
+#canvas{background:#fff;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%}
+
+.templates{padding:16px;background:var(--panel)}
+.templates h3{color:var(--muted);font-size:11px;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.template-btn{min-height:44px;padding:14px;background:#171C2A;border:1px solid var(--border);border-radius:10px;color:var(--text);font-weight:700;cursor:pointer;font-size:13px;text-align:left}
+.template-btn:active{border-color:var(--primary);background:#1E2433}
+
+.fps{position:fixed;bottom:12px;right:12px;background:rgba(0,0,0,0.7);padding:4px 8px;border-radius:6px;font-size:10px;color:var(--accent);font-weight:700}
+
+@media(min-width:768px){
+.container{flex-direction:row;height:calc(100vh - 240px)}
+.layers{width:240px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border);border-bottom:none}
+.template-grid{grid-template-columns:repeat(4,1fr)}
+.canvas-wrap{min-height:auto}
+}
 </style>
 </head>
 <body>
 
-<div class="header">TWINS<span>STUDIO</span> PRO ULTIMATE V12.3 <span>• TOUCH 100%</span></div>
+<div class="header">TWINS<span>STUDIO</span> PRO <span>• V13.1 TOUCH FIXED</span></div>
 
 <div class="toolbar">
-  <button class="btn" onclick="undo()">↶</button><button class="btn" onclick="redo()">↷</button>
-  <button class="btn" onclick="addText()">T</button><button class="btn" onclick="setDrawing(true)">✏️</button>
-  <button class="btn" onclick="setDrawing(false)">↖</button><button class="btn" onclick="uploadImage()">Img</button>
-  <button class="btn" onclick="uploadLogo()">Logo</button><button class="btn" onclick="uploadSVG()">SVG</button>
-  <button class="btn" onclick="addShape('rect')">▭</button><button class="btn" onclick="addShape('circle')">○</button>
-  <button class="btn" onclick="addPhotoSection()">Photo</button><button class="btn" onclick="addAboutSection()">About</button>
-  <button class="btn" onclick="addServicesSection()">Services</button><button class="btn" onclick="duplicate()">Dup</button>
-  <button class="btn" onclick="deleteObj()">Del</button><button class="btn" onclick="group()">Grp</button>
-  <button class="btn" onclick="lock()">Lock</button><button class="btn" onclick="align('center')">Center</button>
-  <button class="btn" onclick="addQR()">QR</button><button class="btn accent" onclick="aiBackground()">AI BG</button>
-  <button class="btn gold" onclick="aiGenerate()">AI Gen</button><button class="btn" onclick="magicResize()">Resize</button>
-  <button class="btn" onclick="animate()">Animate</button><button class="btn" onclick="exportVideo()">MP4</button>
-  <button class="btn" onclick="share()">Share</button><button class="btn" onclick="saveCloud()">Cloud</button>
-  <button class="btn" onclick="brandKit()">Brand</button><button class="btn primary" onclick="exportPNG()">4K</button>
-  <button class="btn" onclick="exportPDF()">PDF</button><button class="btn danger" onclick="clearCanvas()">Clear</button>
-</div>
-
-<div class="panel">
-  <span class="prop">Op: <input type="range" min="0" max="100" value="100" oninput="setOpacity(this.value)"></span>
-  <span class="prop">Font: <select onchange="setFont(this.value)"><option>Inter</option><option>Arial</option></select></span>
-  <span class="prop">Size: <input type="number" value="72" oninput="setFontSize(this.value)"></span>
+  <button class="btn" onclick="undo()">↶ Undo</button>
+  <button class="btn" onclick="redo()">↷ Redo</button>
+  <button class="btn" onclick="addText()">Text</button>
+  <button class="btn" onclick="uploadImage()">Image</button>
+  <button class="btn" onclick="uploadLogo()">Logo</button>
+  <button class="btn" onclick="addQR()">QR</button>
+  <button class="btn accent" onclick="aiBackground()">AI BG</button>
+  <button class="btn" onclick="addShape('triangle')">Triangle</button>
+  <button class="btn" onclick="addShape('rect')">Rectangle</button>
+  <button class="btn" onclick="addShape('circle')">Circle</button>
+  <button class="btn" onclick="duplicate()">Duplicate</button>
+  <button class="btn" onclick="deleteObj()">Delete</button>
+  <button class="btn" onclick="addPhotoSection()">Photo Block</button>
+  <button class="btn" onclick="addAboutSection()">About</button>
+  <button class="btn" onclick="addServicesSection()">Services</button>
+  <button class="btn" onclick="add100()">100x</button>
+  <button class="btn primary" onclick="exportPNG()">4K Export</button>
+  <button class="btn" onclick="exportPDF()">PDF</button>
+  <button class="btn danger" onclick="clearCanvas()">Clear</button>
 </div>
 
 <div class="colors">
@@ -73,81 +91,132 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
   <div class="color" style="background:#10B981" onclick="setBrand('#10B981', this)"></div>
   <div class="color" style="background:#F59E0B" onclick="setBrand('#F59E0B', this)"></div>
   <div class="color" style="background:#EF4444" onclick="setBrand('#EF4444', this)"></div>
+  <div class="color" style="background:#FFFFFF" onclick="setBrand('#FFFFFF', this)"></div>
 </div>
 
 <div class="container">
-  <div class="layers"><div class="layers-title">LAYERS</div><div id="layerList"></div></div>
-  <div class="canvas-wrap"><canvas id="canvas"></canvas></div>
-</div>
-
-<div class="templates">
-  <h3>AI Templates + Brand Kit</h3>
-  <div class="template-grid">
-    <div class="template-btn" onclick="loadCorporateTemplate()"><b>Corporate Pro</b></div>
-    <div class="template-btn" onclick="loadRealEstateTemplate()"><b>Real Estate</b></div>
-    <div class="template-btn" onclick="loadMegaSaleTemplate()"><b>Mega Sale</b></div>
-    <div class="template-btn" onclick="loadEventTemplate()"><b>Event</b></div>
+  <div class="layers">
+    <div class="layers-title">LAYERS</div>
+    <div id="layerList"></div>
+  </div>
+  <div class="canvas-wrap">
+    <canvas id="canvas"></canvas>
   </div>
 </div>
 
+<div class="templates">
+  <h3>Professional Templates</h3>
+  <div class="template-grid">
+    <div class="template-btn" onclick="loadCorporateTemplate()"><b>Corporate Pro</b><br><small style="color:var(--muted)">Business & Services</small></div>
+    <div class="template-btn" onclick="loadRealEstateTemplate()"><b>Real Estate</b><br><small style="color:var(--muted)">Property Listings</small></div>
+    <div class="template-btn" onclick="loadMegaSaleTemplate()"><b>Mega Sale</b><br><small style="color:var(--muted)">70% Off Promo</small></div>
+    <div class="template-btn" onclick="loadEventTemplate()"><b>Event</b><br><small style="color:var(--muted)">Conference Launch</small></div>
+  </div>
+</div>
+
+<div class="fps" id="fps">FPS: 60</div>
 <input type="file" id="imgInput" style="display:none" accept="image/*" onchange="addImage(event)">
 <input type="file" id="logoInput" style="display:none" accept="image/*" onchange="addLogoImage(event)">
-<input type="file" id="svgInput" style="display:none" accept=".svg" onchange="addSVG(event)">
 
 <script>
 let canvas;
 function initCanvas(){
-  // MOBILE TOUCH FIX FOR FABRIC
-  fabric.Object.prototype.objectCaching=true;
-  fabric.Object.prototype.cornerSize=20;
-  fabric.Object.prototype.transparentCorners=false;
-  fabric.Object.prototype.padding=5;
+  fabric.Object.prototype.objectCaching = true;
+  fabric.Object.prototype.cornerSize = 20; // BIGGER FOR FINGERS
+  fabric.Object.prototype.transparentCorners = false;
+  fabric.perfLimitSizeInPx = 4096;
 
-  canvas=new fabric.Canvas('canvas',{
-    width:1080,height:1350,backgroundColor:'#0F131E',
-    renderOnAddRemove:false,enableRetinaScaling:true,
-    allowTouchScrolling:true, // KEY FOR MOBILE
-    selection:true
+  canvas = new fabric.Canvas('canvas', {
+    width: 1080, height: 1350,
+    backgroundColor: '#0F131E',
+    renderOnAddRemove: false,
+    enableRetinaScaling: true,
+    preserveObjectStacking: true,
+    allowTouchScrolling: true // KEY FIX FOR MOBILE
   });
 
-  // ENABLE ROTATION + SCALE ON TOUCH
   fabric.Object.prototype.setControlsVisibility({
-    mt: true, mb: true, ml: true, mr: true,
-    mtr: true, // rotation
-    tl: true, tr: true, bl: true, br: true
+    mt:true,mb:true,ml:true,mr:true,mtr:true,tl:true,tr:true,bl:true,br:true
   });
 
   resizeCanvas();
-  loadCorporateTemplate();saveState();
+  loadCorporateTemplate();
+  saveState();
 }
 
 function resizeCanvas(){
   if(!canvas) return;
-  const wrap=document.querySelector('.canvas-wrap');const maxWidth=wrap.clientWidth-20;const scale=Math.min(maxWidth/1080,1);
-  canvas.setWidth(1080*scale);canvas.setHeight(1350*scale);canvas.setZoom(scale);canvas.requestRenderAll()
+  const wrap = document.querySelector('.canvas-wrap');
+  const maxWidth = wrap.clientWidth - 24;
+  const scale = Math.min(maxWidth / 1080, 1);
+  canvas.setWidth(1080 * scale);
+  canvas.setHeight(1350 * scale);
+  canvas.setZoom(scale);
+  canvas.requestRenderAll();
 }
 
-let history=[],historyIndex=-1,saveTimeout,brandColor='#6366F1',brandKit={colors:['#6366F1','#22D3EE'],logo:null,fonts:['Inter']};
+let history = [], historyIndex = -1, saveTimeout;
+let brandColor = '#6366F1';
+let lastRender = 0, frameCount = 0;
 
-window.addEventListener('resize',resizeCanvas);
-function queueSave(){clearTimeout(saveTimeout);saveTimeout=setTimeout(saveState,300)}
-function saveState(){history=history.slice(0,historyIndex+1);history.push(canvas.toDatalessJSON());historyIndex++;updateLayers()}
-function undo(){if(historyIndex>0){historyIndex--;canvas.loadFromJSON(history[historyIndex],()=>{canvas.requestRenderAll();updateLayers()})}}
-function redo(){if(historyIndex<history.length-1){historyIndex++;canvas.loadFromJSON(history[historyIndex],()=>{canvas.requestRenderAll();updateLayers()})}}
-function setBrand(color,el){brandColor=color;document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
-function updateLayers(){const list=document.getElementById('layerList');list.innerHTML='';canvas.getObjects().forEach((obj,i)=>{const name=obj.type==='textbox'?obj.text.substring(0,10):obj.type;list.innerHTML+=`<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}.${name}</div>`})}
+window.addEventListener('resize', resizeCanvas);
 
-function addText(){canvas.add(new fabric.Textbox('Edit Me',{left:540,top:200,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center',editable:true}))}
-function addShape(type){if(type==='rect')canvas.add(new fabric.Rect({left:340,top:500,width:400,height:200,fill:brandColor,rx:12}));if(type==='circle')canvas.add(new fabric.Circle({left:500,top:500,radius:100,fill:brandColor}))}
-function setDrawing(val){canvas.isDrawingMode=val;if(val){canvas.freeDrawingBrush.color=brandColor;canvas.freeDrawingBrush.width=8}}
+function queueSave(){ clearTimeout(saveTimeout); saveTimeout = setTimeout(saveState, 500); }
+function saveState(){ history = history.slice(0, historyIndex + 1); history.push(canvas.toDatalessJSON()); historyIndex++; updateLayers(); }
+function undo(){ if(historyIndex > 0){ historyIndex--; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateLayers();}); }}
+function redo(){ if(historyIndex < history.length - 1){ historyIndex++; canvas.loadFromJSON(history[historyIndex], ()=>{canvas.requestRenderAll(); updateLayers();}); }}
+
+function renderLoop(timestamp){
+  frameCount++;
+  if(timestamp - lastRender > 1000){ document.getElementById('fps').innerText = 'FPS: ' + frameCount; frameCount = 0; lastRender = timestamp; }
+  canvas.requestRenderAll();
+  requestAnimationFrame(renderLoop);
+}
+requestAnimationFrame(renderLoop);
+
+canvas.on('object:added', ()=>{queueSave();});
+canvas.on('object:removed', ()=>{queueSave();});
+canvas.on('object:modified', ()=>{queueSave();});
+
+function setBrand(color, el) {
+  brandColor = color;
+  document.querySelectorAll('.color').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function updateLayers() {
+  const list = document.getElementById('layerList');
+  list.innerHTML = '';
+  canvas.getObjects().forEach((obj, i)=>{
+    const name = obj.type === 'textbox'? obj.text.substring(0,12) : obj.type;
+    list.innerHTML += `<div class="layer-item" onclick="canvas.setActiveObject(canvas.getObjects()[${i}])">${i+1}. ${name}</div>`;
+  });
+}
+
+function addText(){
+  const text = new fabric.Textbox('Your Headline', {
+    left:540,top:180,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center',editable:true
+  });
+  canvas.add(text);
+}
+
+function addShape(type) {
+  if(type === 'rect') canvas.add(new fabric.Rect({left:340,top:500,width:400,height:200,fill:brandColor,rx:12}));
+  if(type === 'triangle') canvas.add(new fabric.Triangle({left:400,top:500,width:280,height:280,fill:brandColor}));
+  if(type === 'circle') canvas.add(new fabric.Circle({left:500,top:500,radius:120,fill:brandColor}));
+}
+
 function duplicate(){const obj=canvas.getActiveObject();if(obj){obj.clone((cloned)=>{cloned.set({left:cloned.left+20,top:cloned.top+20});canvas.add(cloned)})}}
 function deleteObj(){const obj=canvas.getActiveObject();if(obj)canvas.remove(obj)}
-function group(){const active=canvas.getActiveObjects();if(active.length>1){const group=new fabric.Group(active);canvas.discardActiveObject();canvas.add(group);canvas.setActiveObject(group)}}
-function lock(){const obj=canvas.getActiveObject();if(obj)obj.set({selectable:!obj.selectable});canvas.requestRenderAll()}
-function align(pos){const obj=canvas.getActiveObject();if(!obj)return;if(pos==='center')obj.center();canvas.requestRenderAll()}
-function setOpacity(val){const obj=canvas.getActiveObject();if(obj)obj.set('opacity',val/100);canvas.requestRenderAll()}
-function setFont(font){const obj=canvas.getActiveObject();if(obj && obj.type==='textbox')obj.set('fontFamily',font);canvas.requestRenderAll()}
-function setFontSize(size){const obj=canvas.getActiveObject();if(obj && obj.type==='textbox')obj.set('fontSize',parseInt(size));canvas.requestRenderAll()}
+
+function add100(){
+  for(let i=0; i<100; i++){
+    canvas.add(new fabric.Rect({
+      left: Math.random()*900, top: Math.random()*1200,
+      width: 30, height: 30, fill: `hsl(${Math.random()*360},70%,50%)`
+    }));
+  }
+}
 
 function addPhotoSection() {
   const group = new fabric.Group([
@@ -156,11 +225,13 @@ function addPhotoSection() {
   ], {left:80,top:400});
   canvas.add(group);
 }
+
 function addAboutSection() {
   const title = new fabric.Textbox('ABOUT', {left:600,top:450,fontSize:48,fill:'#FFFFFF',fontWeight:900,fontFamily:'Inter',width:400,editable:true});
-  const desc = new fabric.Textbox('Double tap to edit this text', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500,editable:true});
+  const desc = new fabric.Textbox('Double tap to edit this text.', {left:600,top:510,fontSize:18,fill:'#94A3B8',width:400,fontFamily:'Inter',fontWeight:500,editable:true});
   canvas.add(title, desc);
 }
+
 function addServicesSection() {
   const title = new fabric.Textbox('SERVICES', {left:600,top:650,fontSize:36,fill:brandColor,fontWeight:700,fontFamily:'Inter',width:400,editable:true});
   canvas.add(title);
@@ -170,44 +241,90 @@ function addServicesSection() {
   });
 }
 
-function aiGenerate(){
-  const userPrompt=window.prompt('Describe image to generate:');
-  if(userPrompt)alert('Connect OpenAI API here. Prompt: '+userPrompt);
+function aiBackground() {
+  const gradient = new fabric.Gradient({
+    type: 'linear',
+    coords: {x1:0,y1:0,x2:1080,y2:1350},
+    colorStops: [{offset:0,color:brandColor},{offset:1,color:'#07090F'}]
+  });
+  canvas.backgroundColor = gradient;
+  canvas.requestRenderAll();
+  saveState();
 }
-function magicResize(){
-  const sizes=[{w:1080,h:1080,name:'Instagram'},{w:1200,h:628,name:'Facebook'},{w:1920,h:1080,name:'YouTube'}];
-  const choice=window.prompt('Choose: 1=IG 2=FB 3=YT');
-  const s=sizes[parseInt(choice)-1];
-  if(s){canvas.setWidth(s.w);canvas.setHeight(s.h);resizeCanvas();alert('Resized to '+s.name)}
+
+function uploadLogo(){ document.getElementById('logoInput').click(); }
+function addLogoImage(e){
+  const file = e.target.files[0];
+  fabric.Image.fromURL(URL.createObjectURL(file), img=>{
+    img.set({left:60,top:60,scaleX:0.3,scaleY:0.3});
+    canvas.add(img);
+  });
 }
-function animate(){
-  const obj=canvas.getActiveObject();
-  if(obj){obj.animate('left',obj.left+200,{duration:800,onChange:canvas.requestRenderAll.bind(canvas)})}
+
+function addQR(){
+  const qrDiv = document.createElement('div');
+  new QRCode(qrDiv, {text: "https://twinstudio.pro", width: 120, height: 120});
+  setTimeout(()=>{
+    fabric.Image.fromURL(qrDiv.querySelector('img').src, img=>{
+      img.set({left:900,top:1200});
+      canvas.add(img);
+    });
+  },100);
 }
-function exportVideo(){alert('Add ffmpeg.wasm for real MP4 export')}
 
-function share(){const url=canvas.toDataURL();navigator.clipboard.writeText(url);alert('Link copied')}
-function saveCloud(){localStorage.setItem('twinsCloud',JSON.stringify(canvas.toJSON()));alert('Saved to Cloud')}
-function brandKit(){brandKit.colors.push(brandColor);alert('Brand Kit: '+brandKit.colors.length+' colors')}
+function uploadImage(){ document.getElementById('imgInput').click(); }
+function addImage(e){
+  const file = e.target.files[0];
+  fabric.Image.fromURL(URL.createObjectURL(file), img=>{
+    img.set({left:540,top:600,scaleX:0.4,scaleY:0.4,originX:'center'});
+    canvas.add(img);
+  });
+}
 
-function aiBackground(){const gradient=new fabric.Gradient({type:'linear',coords:{x1:0,y1:0,x2:1080,y2:1350},colorStops:[{offset:0,color:brandColor},{offset:1,color:'#07090F'}]});canvas.backgroundColor=gradient;canvas.requestRenderAll();saveState()}
-function uploadLogo(){document.getElementById('logoInput').click()}
-function addLogoImage(e){const file=e.target.files[0];fabric.Image.fromURL(URL.createObjectURL(file),img=>{brandKit.logo=img;img.set({left:60,top:60,scaleX:0.3,scaleY:0.3});canvas.add(img)})}
-function uploadSVG(){document.getElementById('svgInput').click()}
-function addSVG(e){const file=e.target.files[0];const reader=new FileReader();reader.onload=()=>{fabric.loadSVGFromString(reader.result,(objects,options)=>{const svg=fabric.util.groupSVGElements(objects,options);svg.set({left:540,top:600,scaleX:0.5,scaleY:0.5,originX:'center'});canvas.add(svg)})};reader.readAsText(file)}
-function addQR(){const qrDiv=document.createElement('div');new QRCode(qrDiv,{text:"https://twinstudio.pro",width:120,height:120});setTimeout(()=>{fabric.Image.fromURL(qrDiv.querySelector('img').src,img=>{img.set({left:900,top:1200});canvas.add(img)})},100)}
-function uploadImage(){document.getElementById('imgInput').click()}
-function addImage(e){const file=e.target.files[0];fabric.Image.fromURL(URL.createObjectURL(file),img=>{img.set({left:540,top:600,scaleX:0.4,scaleY:0.4,originX:'center'});canvas.add(img)})}
-function loadCorporateTemplate(){canvas.clear();canvas.backgroundColor='#0F131E';canvas.add(new fabric.Rect({left:0,top:0,width:1080,height:300,fill:brandColor}));addText();saveState()}
-function loadRealEstateTemplate(){canvas.clear();canvas.backgroundColor='#0F131E';canvas.add(new fabric.Text('LUXURY PROPERTY',{left:540,top:300,fontSize:64,fill:'#fff',originX:'center',fontWeight:900,fontFamily:'Inter'}));saveState()}
-function loadMegaSaleTemplate(){canvas.clear();canvas.backgroundColor='#EF4444';canvas.add(new fabric.Text('MEGA SALE',{left:540,top:300,fontSize:100,fill:'#fff',originX:'center',fontWeight:900,fontFamily:'Inter'}));saveState()}
-function loadEventTemplate(){canvas.clear();canvas.backgroundColor='#1E2433';canvas.add(new fabric.Text('CORPORATE EVENT',{left:540,top:400,fontSize:70,fill:'#22D3EE',originX:'center',fontWeight:900,fontFamily:'Inter'}));saveState()}
-function exportPNG(){const a=document.createElement('a');a.href=canvas.toDataURL({format:'png',multiplier:4});a.download='TwinsStudio_4K.png';a.click()}
-function exportPDF(){const pdf=new jspdf.jsPDF('p','mm','a4');pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,0,210,297);pdf.save('TwinsStudio.pdf')}
-function clearCanvas(){canvas.clear();canvas.backgroundColor='#0F131E';saveState()}
+function loadCorporateTemplate() {
+  canvas.clear();
+  canvas.backgroundColor = '#0F131E';
+  canvas.add(new fabric.Rect({left:0,top:0,width:1080,height:300,fill:brandColor}));
+  addText();
+  addPhotoSection();
+  addAboutSection();
+  addServicesSection();
+  saveState();
+}
 
-canvas.on('object:added',()=>{queueSave()});canvas.on('object:removed',()=>{queueSave()});canvas.on('object:modified',()=>{queueSave()});
-window.addEventListener('load',initCanvas);
+function loadRealEstateTemplate() {
+  canvas.clear(); canvas.backgroundColor = '#0F131E';
+  canvas.add(new fabric.Text('LUXURY PROPERTY', {left:540,top:300,fontSize:64,fill:'#fff',originX:'center',fontWeight:900,fontFamily:'Inter'}));
+  saveState();
+}
+
+function loadMegaSaleTemplate() {
+  canvas.clear(); canvas.backgroundColor = '#EF4444';
+  canvas.add(new fabric.Text('MEGA SALE', {left:540,top:300,fontSize:100,fill:'#fff',originX:'center',fontWeight:900,fontFamily:'Inter'}));
+  saveState();
+}
+
+function loadEventTemplate() {
+  canvas.clear(); canvas.backgroundColor = '#1E2433';
+  canvas.add(new fabric.Text('CORPORATE EVENT', {left:540,top:400,fontSize:70,fill:'#22D3EE',originX:'center',fontWeight:900,fontFamily:'Inter'}));
+  saveState();
+}
+
+function exportPNG(){
+  const a = document.createElement('a');
+  a.href = canvas.toDataURL({format:'png', multiplier:4});
+  a.download = 'TwinsStudio_4K.png'; a.click();
+}
+
+function exportPDF(){
+  const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+  pdf.save('TwinsStudio.pdf');
+}
+
+function clearCanvas(){ canvas.clear(); canvas.backgroundColor = '#0F131E'; saveState(); }
+
+window.addEventListener('load', initCanvas);
 </script>
 </body>
 </html>
