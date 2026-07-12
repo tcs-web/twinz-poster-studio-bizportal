@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TWINS STUDIO PRO ULTIMATE V12.1</title>
+<title>TWINS STUDIO PRO ULTIMATE V12.3</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -15,14 +15,14 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 .header{background:linear-gradient(90deg,#6366F1 0%, #22D3EE 100%);padding:12px 16px;text-align:center;font-size:14px;font-weight:900;position:sticky;top:0;z-index:1000}
 .toolbar{display:flex;gap:6px;padding:10px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling: touch}
 .toolbar::-webkit-scrollbar{display:none}
-.btn{padding:10px 12px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap;touch-action:manipulation}
+.btn{min-height:44px;min-width:44px;padding:10px 12px;background:#171C2A;border:1px solid var(--border);color:var(--text);font-weight:700;border-radius:8px;cursor:pointer;font-size:12px;white-space:nowrap;touch-action:manipulation}
 .btn:active{transform:scale(0.94);background:#232A3D}
 .btn.primary{background:var(--primary)}.btn.accent{background:var(--accent);color:#000}.btn.success{background:var(--success)}.btn.danger{background:var(--danger)}.btn.gold{background:linear-gradient(90deg,#F59E0B,#FBBF24)}
 .panel{display:flex;gap:8px;padding:10px;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto}
 .prop{font-size:11px;color:var(--muted)}
 .prop input,.prop select{width:60px;background:#171C2A;border:1px solid var(--border);color:var(--text);padding:4px;border-radius:4px}
 .colors{display:flex;gap:8px;padding:10px;overflow-x:auto;background:var(--panel);border-bottom:1px solid var(--border)}
-.color{width:32px;height:32px;border-radius:8px;border:2px solid var(--border);cursor:pointer}
+.color{width:36px;height:36px;border-radius:8px;border:2px solid var(--border);cursor:pointer}
 .color.active{border:2px solid var(--accent)}
 .container{display:flex;flex-direction:column}
 .layers{background:var(--panel);padding:8px;border-bottom:1px solid var(--border);display:flex;gap:6px;overflow-x:auto}
@@ -30,17 +30,17 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 .layer-item{background:#171C2A;padding:6px 10px;border-radius:6px;font-size:10px;cursor:pointer;border:1px solid var(--border);white-space:nowrap}
 .layer-item.active{background:rgba(99,102,241,0.3);border-color:var(--primary)}
 .canvas-wrap{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:10px;background:#05070B;min-height:45vh}
-#canvas{background:#fff;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%;touch-action:none}
+#canvas{background:#fff;border-radius:6px;box-shadow:0 8px 32px rgba(0,0,0,0.4);max-width:100%}
 .templates{padding:14px;background:var(--panel)}
 .templates h3{color:var(--muted);font-size:11px;margin-bottom:10px;font-weight:700}
 .template-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.template-btn{padding:12px;background:#171C2A;border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:700;cursor:pointer;font-size:12px}
+.template-btn{min-height:44px;padding:12px;background:#171C2A;border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:700;cursor:pointer;font-size:12px}
 @media(min-width:768px){.container{flex-direction:row;height:calc(100vh - 220px)}.layers{width:220px;flex-direction:column;max-height:none;overflow-y:auto;border-right:1px solid var(--border)}.template-grid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 
-<div class="header">TWINS<span>STUDIO</span> PRO ULTIMATE V12.1 <span>• FIXED</span></div>
+<div class="header">TWINS<span>STUDIO</span> PRO ULTIMATE V12.3 <span>• TOUCH 100%</span></div>
 
 <div class="toolbar">
   <button class="btn" onclick="undo()">↶</button><button class="btn" onclick="redo()">↷</button>
@@ -95,11 +95,28 @@ body{background:var(--bg);color:var(--text);overflow-x:hidden}
 <input type="file" id="svgInput" style="display:none" accept=".svg" onchange="addSVG(event)">
 
 <script>
-// === FIXED ENGINE ===
 let canvas;
 function initCanvas(){
-  fabric.Object.prototype.objectCaching=true;fabric.Object.prototype.cornerSize=14;fabric.Object.prototype.transparentCorners=false;
-  canvas=new fabric.Canvas('canvas',{width:1080,height:1350,backgroundColor:'#0F131E',renderOnAddRemove:false,enableRetinaScaling:true});
+  // MOBILE TOUCH FIX FOR FABRIC
+  fabric.Object.prototype.objectCaching=true;
+  fabric.Object.prototype.cornerSize=20;
+  fabric.Object.prototype.transparentCorners=false;
+  fabric.Object.prototype.padding=5;
+
+  canvas=new fabric.Canvas('canvas',{
+    width:1080,height:1350,backgroundColor:'#0F131E',
+    renderOnAddRemove:false,enableRetinaScaling:true,
+    allowTouchScrolling:true, // KEY FOR MOBILE
+    selection:true
+  });
+
+  // ENABLE ROTATION + SCALE ON TOUCH
+  fabric.Object.prototype.setControlsVisibility({
+    mt: true, mb: true, ml: true, mr: true,
+    mtr: true, // rotation
+    tl: true, tr: true, bl: true, br: true
+  });
+
   resizeCanvas();
   loadCorporateTemplate();saveState();
 }
@@ -122,7 +139,7 @@ function updateLayers(){const list=document.getElementById('layerList');list.inn
 
 function addText(){canvas.add(new fabric.Textbox('Edit Me',{left:540,top:200,fontSize:72,fill:'#FFFFFF',width:900,fontFamily:'Inter',fontWeight:900,originX:'center',textAlign:'center',editable:true}))}
 function addShape(type){if(type==='rect')canvas.add(new fabric.Rect({left:340,top:500,width:400,height:200,fill:brandColor,rx:12}));if(type==='circle')canvas.add(new fabric.Circle({left:500,top:500,radius:100,fill:brandColor}))}
-function setDrawing(val){canvas.isDrawingMode=val;if(val){canvas.freeDrawingBrush.color=brandColor;canvas.freeDrawingBrush.width=6}}
+function setDrawing(val){canvas.isDrawingMode=val;if(val){canvas.freeDrawingBrush.color=brandColor;canvas.freeDrawingBrush.width=8}}
 function duplicate(){const obj=canvas.getActiveObject();if(obj){obj.clone((cloned)=>{cloned.set({left:cloned.left+20,top:cloned.top+20});canvas.add(cloned)})}}
 function deleteObj(){const obj=canvas.getActiveObject();if(obj)canvas.remove(obj)}
 function group(){const active=canvas.getActiveObjects();if(active.length>1){const group=new fabric.Group(active);canvas.discardActiveObject();canvas.add(group);canvas.setActiveObject(group)}}
@@ -132,7 +149,6 @@ function setOpacity(val){const obj=canvas.getActiveObject();if(obj)obj.set('opac
 function setFont(font){const obj=canvas.getActiveObject();if(obj && obj.type==='textbox')obj.set('fontFamily',font);canvas.requestRenderAll()}
 function setFontSize(size){const obj=canvas.getActiveObject();if(obj && obj.type==='textbox')obj.set('fontSize',parseInt(size));canvas.requestRenderAll()}
 
-// === RESTORED MISSING FUNCTIONS ===
 function addPhotoSection() {
   const group = new fabric.Group([
     new fabric.Rect({width:400,height:500,fill:'#1E2433',rx:12}),
@@ -154,28 +170,26 @@ function addServicesSection() {
   });
 }
 
-// === FIXED P201-P300 ===
 function aiGenerate(){
-  const userPrompt=window.prompt('Describe image to generate:'); // FIXED: renamed variable
+  const userPrompt=window.prompt('Describe image to generate:');
   if(userPrompt)alert('Connect OpenAI API here. Prompt: '+userPrompt);
 }
 function magicResize(){
   const sizes=[{w:1080,h:1080,name:'Instagram'},{w:1200,h:628,name:'Facebook'},{w:1920,h:1080,name:'YouTube'}];
-  const choice=window.prompt('Choose: 1=IG 2=FB 3=YT'); // FIXED
+  const choice=window.prompt('Choose: 1=IG 2=FB 3=YT');
   const s=sizes[parseInt(choice)-1];
   if(s){canvas.setWidth(s.w);canvas.setHeight(s.h);resizeCanvas();alert('Resized to '+s.name)}
 }
 function animate(){
   const obj=canvas.getActiveObject();
   if(obj){obj.animate('left',obj.left+200,{duration:800,onChange:canvas.requestRenderAll.bind(canvas)})}
+}
 function exportVideo(){alert('Add ffmpeg.wasm for real MP4 export')}
 
-// === P251-P300 ===
 function share(){const url=canvas.toDataURL();navigator.clipboard.writeText(url);alert('Link copied')}
 function saveCloud(){localStorage.setItem('twinsCloud',JSON.stringify(canvas.toJSON()));alert('Saved to Cloud')}
 function brandKit(){brandKit.colors.push(brandColor);alert('Brand Kit: '+brandKit.colors.length+' colors')}
 
-// === CORE ===
 function aiBackground(){const gradient=new fabric.Gradient({type:'linear',coords:{x1:0,y1:0,x2:1080,y2:1350},colorStops:[{offset:0,color:brandColor},{offset:1,color:'#07090F'}]});canvas.backgroundColor=gradient;canvas.requestRenderAll();saveState()}
 function uploadLogo(){document.getElementById('logoInput').click()}
 function addLogoImage(e){const file=e.target.files[0];fabric.Image.fromURL(URL.createObjectURL(file),img=>{brandKit.logo=img;img.set({left:60,top:60,scaleX:0.3,scaleY:0.3});canvas.add(img)})}
@@ -193,7 +207,7 @@ function exportPDF(){const pdf=new jspdf.jsPDF('p','mm','a4');pdf.addImage(canva
 function clearCanvas(){canvas.clear();canvas.backgroundColor='#0F131E';saveState()}
 
 canvas.on('object:added',()=>{queueSave()});canvas.on('object:removed',()=>{queueSave()});canvas.on('object:modified',()=>{queueSave()});
-window.addEventListener('load',initCanvas); // FIXED: wait for load
+window.addEventListener('load',initCanvas);
 </script>
 </body>
 </html>
